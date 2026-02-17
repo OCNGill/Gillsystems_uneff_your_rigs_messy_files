@@ -1,3 +1,34 @@
+//! # GUI Module — Windows 7 Aero Theme, Dual-Panel Interface
+//!
+//! Immediate-mode GUI using egui/eframe.
+//! Responsive, reactive layouts. Real-time duplicate visualization.
+//!
+//! ## Theme
+//! - **Windows 7 Aero**: Extrusion shadows, soft rounded corners, metallic accents
+//! - **Color Scheme**:
+//!   - Primary: Blue (#0066CC) — action buttons
+//!   - Success: Green (#00AA00) — remediation complete
+//!   - Warning: Orange (#FF9900) — user confirmation needed
+//!   - Error: Red (#CC0000) — failures, destruction warnings
+//! - **Fonts**: Segoe UI (11pt for body, 14pt for headers, monospace for paths)
+//!
+//! ## Layout
+//! - **Left Panel** (Duplicates): List of duplicate file groups, sorted by wasted space
+//! - **Right Panel** (Locations): Geographic view — drives, directories, file counts
+//! - **Toolbar**: Scan, Settings, About, Help buttons
+//! - **Status Bar**: Progress (% complete), elapsed time, files/sec, duplicates found
+//!
+//! ## Features
+//! - **Real-time progress**: Updates every 100ms from scanner channel
+//! - **Dual-panel sync**: Select duplicate → see all copies highlighted in right panel
+//! - **Remediation workflow**: Select duplicates → Choose strategy → Confirm → Execute
+//! - **Settings dialog**: Thread count, file size filter, port, quarantine location
+//! - **About dialog**: Version, platform, build time, license
+//!
+//! ## Message Passing
+//! - GUI → Agent: `GuiMessage` enum (ScanRequest, RemediateRequest, etc.)
+//! - Agent → GUI: `ScanProgress` structs via mpsc channel
+
 use anyhow::Result;
 use eframe::{egui, App, NativeOptions};
 use egui::{Color32, RichText, Stroke, Vec2, Rounding};
@@ -533,7 +564,7 @@ impl UneffGUI {
                 .show(ctx, |ui| {
                     ui.vertical_centered(|ui| {
                         ui.heading("Gillsystems_uneff_your_rigs_messy_files");
-                        ui.label("Version 0.3.0");
+                        ui.label("Version 0.4.0");
                         ui.label("Created by Stephen Gill");
                         ui.label("© 2026 GillSystems — 30+ Years of Technology Expertise");
                         ui.separator();

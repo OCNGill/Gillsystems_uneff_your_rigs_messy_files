@@ -1,9 +1,23 @@
-// Gillsystems_uneff_your_rigs_messy_files — Agent Core Module
-// Philosophy: Systems Should Serve Humans — Power to the People!
-//
-// This module contains the UneffAgent struct — the heart of the application.
-// It owns the scanning pipeline, database, network service, and remediation engine.
-// Single binary, single responsibility: un-eff your rigs.
+//! # Agent Core Module — Scan Orchestration
+//!
+//! Philosophy: Systems Should Serve Humans — Power to the People!
+//!
+//! This module contains the [`UneffAgent`] struct — the heart of the application.
+//! It owns the scanning pipeline, database, network service, and remediation engine.
+//! Single binary, single responsibility: un-eff your rigs.
+//!
+//! ## Key Types
+//! - [`UneffAgent`]: Main orchestrator
+//! - [`ScanState`]: Running scan session metadata
+//! - [`GuiMessage`]: Communication between agent and GUI
+//!
+//! ## Workflow
+//! 1. Agent initializes with config and database
+//! 2. Discovers storage devices per platform (ZFS, NTFS, ext4)
+//! 3. Scans files in parallel, hashing progressively
+//! 4. Detects duplicates in 3 stages: size → xxHash64 → SHA-256
+//! 5. Applies remediation strategy (ZFS clone, NTFS hard link, etc.)
+//! 6. Reports results to GUI and logs audit trail
 
 use anyhow::{Context, Result};
 use std::path::PathBuf;
@@ -22,18 +36,36 @@ use crate::remediation::RemediationEngine;
 use crate::service::GrpcService;
 
 /// Scan state visible to GUI and service layer.
+///
+/// Tracks the current state of an ongoing duplicate-file scan.
+/// Includes progress (files processed, bytes scanned) and discovery metrics.
 #[derive(Debug, Clone)]
 pub struct ScanState {
+    /// Unique scan session identifier
     pub scan_id: String,
+    /// Current status (Running, Completed, Failed, Cancelled)
     pub status: ScanStatus,
+    /// Number of files processed so far
     pub files_processed: u64,
+    /// Number of bytes scanned so far
     pub bytes_processed: u64,
+    /// Number of duplicate file groups discovered
     pub duplicates_found: u64,
+    /// Current filesystem path being scanned
     pub current_path: String,
 }
 
 /// The core agent that orchestrates all subsystems.
+///
 /// Single binary, single responsibility: un-eff your rigs.
+/// Owns the scanning pipeline, database, network service, and remediation engine.
+///
+/// # Features
+/// - **Cross-platform**: Detects and scans ZFS, NTFS, ext4, exFAT, etc.
+/// - **Threaded scanning**: Uses num_cpus for parallel file discovery
+/// - **Progressive hashing**: Streams xxHash64 and SHA-256 for efficiency
+/// - **Multi-strategy remediation**: ZFS clone → NTFS hard link → POSIX reflink
+/// - **Audited**: All operations logged to SQLite with SHA-256 verification
 pub struct UneffAgent {
     config: Arc<Config>,
     database: Arc<Database>,
@@ -48,7 +80,17 @@ pub struct UneffAgent {
 
 impl UneffAgent {
     /// Create a new agent instance.
+    ///
     /// Full admin assumed — no permission checks, no gatekeeping.
+    /// Initializes all subsystems: database, scanner, remediation, gRPC service.
+    ///
+    /// # Arguments
+    /// * `config` - Agent configuration (paths, settings, remediation strategy)
+    /// * `gui_tx` - Optional channel to send GUI update messages
+    /// * `_progress_tx` - Reserved for future progress reporting
+    ///
+    /// # Errors
+    /// Returns error if database initialization or platform detection fails.
     pub async fn new(
         config: Arc<Config>,
         gui_tx: Option<mpsc::UnboundedSender<GuiMessage>>,
@@ -91,7 +133,7 @@ impl UneffAgent {
             .unwrap_or_default()
             .as_secs() as i64;
 
-        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.3.0", now)?;
+        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.4.0", now)?;
 
         info!("UneffAgent initialized — node_id: {}, hostname: {}", node_id, hostname);
 

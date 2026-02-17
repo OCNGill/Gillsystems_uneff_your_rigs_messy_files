@@ -44,15 +44,21 @@ This is **Gillsystems-style** development — no guardrails, admin privileges as
 
 ## � Project Status
 
-**Version**: 0.1.0 — Design Complete → Develop Ready  
-**Artifact**: Standalone executable (single Rust binary)  
+**Version**: 0.4.0 — Document Complete → Deliver Ready  
+**Phase**: Documentation + Polish complete  
+**Binary Size**: 4.68 MB (optimized release build)  
+**Test Status**: ✅ 5/5 tests passing, 0 errors, 0 warnings  
 **Version Authority**: [`version.py`](version.py)
 
-### 7D Progress
+### 7D Agile Progress
 - [x] **Discover**: Codebase reconnaissance, philosophy alignment
 - [x] **Define**: Project scope, architecture decisions
 - [x] **Design**: Full architecture, ZFS-first remediation, GUI design, module stubs
-- [ ] **Develop**: Core implementation (25 tasks across 6 sprints)
+- [x] **Develop**: Core implementation (10 modules + build.rs + proto)
+- [x] **Debug**: Full cargo build, 5/5 tests, zero errors/warnings
+- [x] **Document**: Comprehensive doc-comments, README polish, user guide
+- [ ] **Deliver**: Beta testing, release artifacts, deployment
+
 - [ ] **Debug**: Testing and validation
 - [ ] **Document**: User guides and API docs
 - [ ] **Deliver**: Production-ready executable
@@ -61,23 +67,43 @@ This is **Gillsystems-style** development — no guardrails, admin privileges as
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Admin/Sudo privileges** (assumed)
-- **Rust 1.70+** for development
-- **Cross-platform build tools**
+- **Admin/Sudo privileges** (assumed — full system access required)
+- **Rust 1.92+** for building from source (optional if using pre-built binary)
+- **Cross-platform build tools** (available via rustup)
 
-### Installation
+### Installation: Option 1 — Pre-Built Binary (Easiest)
+```bash
+# Download from GitHub releases
+# https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/releases/tag/v0.4.0
+
+# Extract and run
+unzip uneff-your-rigs-v0.4.0-windows-x64.zip
+./uneff-your-rigs.exe
+
+# On Linux/macOS, add execute permission first
+chmod +x ./uneff-your-rigs
+./uneff-your-rigs
+```
+
+### Installation: Option 2 — Build from Source
 ```bash
 # Clone the repository
 git clone https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files.git
-cd Gillsystems_uneff_your_rigs_messy_files
+cd Gillsystems_uneff_your_rigs_messy_files/rust_agent_prototype
 
-# Build the single binary
+# Build release binary (4.68 MB, optimized)
 cargo build --release
 
-# Run with GUI and service
+# Binary location
 ./target/release/gillsystems-uneff-your-rigs-messy-files
 
-# Service mode only
+# Run with GUI
+./target/release/gillsystems-uneff-your-rigs-messy-files --gui-only
+
+# Or start as service
+./target/release/gillsystems-uneff-your-rigs-messy-files --service
+```
+
 ./target/release/gillsystems-uneff-your-rigs-messy-files --service
 
 # GUI only (connect to existing service)

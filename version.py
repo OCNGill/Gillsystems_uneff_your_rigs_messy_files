@@ -40,14 +40,14 @@ Repository: https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files
 # ──────────────────────────────────────────────
 
 VERSION_MAJOR = 0
-VERSION_MINOR = 3
+VERSION_MINOR = 4
 VERSION_PATCH = 0
 
 VERSION_TUPLE = (VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 VERSION = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
 
 # 7D Phase Tracking
-PHASE = "Debug Complete → Document Ready"
+PHASE = "Document Complete → Deliver Ready"
 PHASE_CODE = "DEBUG_COMPLETE"
 
 # Phase history (append-only log)

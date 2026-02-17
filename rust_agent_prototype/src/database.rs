@@ -1,8 +1,25 @@
-// Gillsystems_uneff_your_rigs_messy_files — Database Module
-// Philosophy: Radical Transparency — every hash, every path, every byte visible to you.
-//
-// Local SQLite database with WAL mode for maximum write performance.
-// No cloud. No phone-home. Your data stays on your machine.
+//! # Database Module — Sovereign Data Storage
+//!
+//! Radical Transparency: every hash, every path, every byte visible to you.
+//! 
+//! Local SQLite database with WAL mode for maximum write performance.
+//! No cloud. No phone-home. Your data stays on your machine.
+//!
+//! ## Tables
+//! - `nodes`: Agent instances (node_id, hostname, ip, platform, version)
+//! - `drives`: Storage devices per node (drive_letter, name, fs_type, total_size)
+//! - `files`: Scanned files (path, size, modified_time, hash_status)
+//! - `scans`: Scan session history (start_time, end_time, files_found, duplicates_found)
+//! - `duplicate_groups`: Groups of identical files (group_id, file_count, total_size)
+//! - `remediation_log`: Deduplication operations (method_used, freed_space, status)
+//! - `audit_log`: All mutations (timestamp, action, affected_item)
+//! - `settings`: Runtime configuration (key-value pairs)
+//!
+//! ## Features
+//! - **Thread-safe**: All operations protected by Mutex
+//! - **WAL mode**: Concurrent reads while writes complete
+//! - **Batch operations**: Efficient bulk inserts for large file lists
+//! - **Transaction support**: Atomic multi-table updates
 
 use anyhow::{Context, Result};
 use rusqlite::{Connection, params};
@@ -13,14 +30,31 @@ use tracing::info;
 use crate::config::DatabaseConfig;
 
 /// Local SQLite database — sovereign data storage.
-/// Thread-safe via Mutex. WAL mode for concurrent reads.
+///
+/// Thread-safe via Mutex. WAL mode for concurrent reads + writes.
+/// All data persisted locally — no network calls, no telemetry.
+///
+/// # Example
+/// ```ignore
+/// let db = Database::new(&config)?;
+/// let files = db.query_files_by_hash("abc123")?;
+/// db.upsert_node(&node_id, &hostname, "127.0.0.1", "Linux", "0.4.0", now)?;
+/// ```
 pub struct Database {
     conn: Mutex<Connection>,
 }
 
 impl Database {
-    /// Open or create the local database.
-    /// WAL mode enabled by default for concurrent read/write performance.
+    /// Create or open a local SQLite database.
+    ///
+    /// Initializes WAL mode for concurrent read+write performance.
+    /// Creates all tables and indexes if they don't exist.
+    ///
+    /// # Arguments
+    /// * `config` - Database configuration (path, cache size, WAL settings)
+    ///
+    /// # Errors
+    /// Returns error if database file cannot be opened or schema initialization fails.
     pub fn new(config: &DatabaseConfig) -> Result<Self> {
         // Ensure parent directory exists
         if let Some(parent) = Path::new(&config.path).parent() {
@@ -188,6 +222,17 @@ impl Database {
     // ── Node CRUD ──────────────────────────────────────────────────────
 
     /// Insert or update a node record.
+    ///
+    /// Registers an agent instance with its hostname, IP, platform, and version.
+    /// If the node already exists, updates its metadata and marks as 'online'.
+    ///
+    /// # Arguments
+    /// * `id` - Unique node identifier (typically UUID)
+    /// * `hostname` - Machine hostname
+    /// * `ip` - Primary IP address
+    /// * `platform` - OS platform ("Linux", "Windows", "macOS")
+    /// * `version` - Software version string (e.g., "0.4.0")
+    /// * `last_seen` - Unix timestamp of last activity
     pub fn upsert_node(
         &self, id: &str, hostname: &str, ip: &str, platform: &str, version: &str, last_seen: i64,
     ) -> Result<()> {
@@ -203,6 +248,9 @@ impl Database {
     }
 
     /// Get all known nodes.
+    ///
+    /// Returns a vector of all registered agent nodes with their metadata.
+    /// Useful for cluster awareness and multi-node scan coordination.
     pub fn get_nodes(&self) -> Result<Vec<NodeRow>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let mut stmt = conn.prepare(
@@ -263,6 +311,15 @@ impl Database {
     // ── Scan CRUD ──────────────────────────────────────────────────────
 
     /// Create a new scan record.
+    ///
+    /// Initiates a scan session and records its starting timestamp.
+    /// Returns an error if the scan ID already exists.
+    ///
+    /// # Arguments
+    /// * `id` - Unique scan identifier (typically UUID)
+    /// * `node_id` - Node performing the scan
+    /// * `initiated_by` - User or process that triggered the scan
+    /// * `started_at` - Unix timestamp of scan start
     pub fn create_scan(&self, id: &str, node_id: &str, initiated_by: &str, started_at: i64) -> Result<()> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         conn.execute(
@@ -273,6 +330,8 @@ impl Database {
     }
 
     /// Mark a scan as completed.
+    ///
+    /// Finalizes a scan session with results: files scanned, bytes processed, and completion time.
     pub fn complete_scan(&self, id: &str, completed_at: i64, files: i64, bytes: i64) -> Result<()> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         conn.execute(
@@ -284,7 +343,20 @@ impl Database {
 
     // ── File CRUD ──────────────────────────────────────────────────────
 
-    /// Insert a scanned file record. Returns the file row ID.
+    /// Insert a scanned file record.
+    ///
+    /// Records a single file discovered during scan with preliminary hash data.
+    /// Returns the database row ID assigned to this file.
+    ///
+    /// # Arguments
+    /// * `node_id` - Node that discovered the file
+    /// * `scan_id` - Associated scan session
+    /// * `path` - Full filesystem path
+    /// * `name` - Filename without path
+    /// * `size` - File size in bytes
+    /// * `modified` - Last-modified Unix timestamp
+    /// * `xxhash` - Optional xxHash64 hash (for fast duplicate detection)
+    /// * `sha256` - Optional SHA-256 hash (for security verification)
     pub fn insert_file(
         &self, node_id: &str, scan_id: &str, path: &str, name: &str,
         size: i64, modified: i64, xxhash: Option<&str>, sha256: Option<&str>,
@@ -299,6 +371,12 @@ impl Database {
     }
 
     /// Batch insert files (transactional for speed).
+    ///
+    /// Efficiently inserts thousands of file records in a single transaction.
+    /// Returns a vector of database row IDs in the same order as input.
+    ///
+    /// # Arguments
+    /// * `files` - Slice of FileRow records to insert
     pub fn insert_files_batch(&self, files: &[FileRow]) -> Result<Vec<i64>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let tx = conn.unchecked_transaction()?;
@@ -324,6 +402,13 @@ impl Database {
     }
 
     /// Find files with the same size (first stage of duplicate detection).
+    ///
+    /// Returns groups of files that share the same byte size.
+    /// Size matching is a fast preliminary filter before hash comparison.
+    /// Returns tuples of (size_in_bytes, file_count).
+    ///
+    /// # Arguments
+    /// * `min_count` - Minimum files per size group to include (usually 2)
     pub fn find_size_matches(&self, min_count: i64) -> Result<Vec<(i64, i64)>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let mut stmt = conn.prepare(
@@ -339,6 +424,13 @@ impl Database {
     }
 
     /// Find files with the same xxhash64 (second stage).
+    ///
+    /// Returns groups of files with matching xxHash64 values.
+    /// Much faster than SHA-256 (single-pass streaming hash).
+    /// Returns tuples of (xxhash_hex_string, file_count).
+    ///
+    /// # Arguments
+    /// * `min_count` - Minimum files per hash group (usually 2)
     pub fn find_xxhash_matches(&self, min_count: i64) -> Result<Vec<(String, i64)>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let mut stmt = conn.prepare(
@@ -353,6 +445,14 @@ impl Database {
     }
 
     /// Find files with the same SHA-256 (final confirmation).
+    ///
+    /// Returns definitive groups of identical files (same SHA-256 hash).
+    /// This is the final stage of duplicate detection — all files with the same
+    /// SHA-256 hash are guaranteed to have identical content.
+    /// Returns tuples of (sha256_hex_string, size_in_bytes, file_count).
+    ///
+    /// # Arguments
+    /// * `min_count` - Minimum files per hash group (usually 2)
     pub fn find_sha256_matches(&self, min_count: i64) -> Result<Vec<(String, i64, i64)>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let mut stmt = conn.prepare(
@@ -368,6 +468,12 @@ impl Database {
     }
 
     /// Get all files for a given SHA-256 hash.
+    ///
+    /// Retrieves the full FileRow struct for all files matching a specific SHA-256 hash.
+    /// Useful for displaying duplicates to the user or preparing for remediation.
+    ///
+    /// # Arguments
+    /// * `sha256` - SHA-256 hash in hexadecimal format
     pub fn get_files_by_hash(&self, sha256: &str) -> Result<Vec<FileRow>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let mut stmt = conn.prepare(
@@ -393,6 +499,15 @@ impl Database {
     // ── Duplicate Group CRUD ───────────────────────────────────────────
 
     /// Create or update a duplicate group.
+    ///
+    /// Groups identical files (same SHA-256) with their wasted space calculation.
+    /// Wasted space = file_size * (count - 1) — keeping one original, all others are waste.
+    /// Returns the group's database row ID.
+    ///
+    /// # Arguments
+    /// * `sha256` - SHA-256 hash of the duplicate files
+    /// * `size` - Individual file size in bytes
+    /// * `count` - Number of identical files in this group
     pub fn upsert_duplicate_group(&self, sha256: &str, size: i64, count: i64) -> Result<i64> {
         let wasted = size * (count - 1);
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
@@ -407,6 +522,9 @@ impl Database {
     }
 
     /// Get all duplicate groups, sorted by wasted space descending.
+    ///
+    /// Returns all duplicate groups in priority order (most wasted space first).
+    /// Useful for UI display and deciding which duplicates to remediate first.
     pub fn get_duplicate_groups(&self) -> Result<Vec<DuplicateGroupRow>> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let mut stmt = conn.prepare(
@@ -426,6 +544,9 @@ impl Database {
     }
 
     /// Get total wasted space across all duplicate groups.
+    ///
+    /// Sums up all potential space savings if all duplicates are cleaned.
+    /// Useful for dashboard display ("You have 50 GB of duplicates!").
     pub fn get_total_wasted_space(&self) -> Result<i64> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let total: i64 = conn.query_row(
@@ -439,6 +560,19 @@ impl Database {
     // ── Remediation Logging ────────────────────────────────────────────
 
     /// Log a remediation action to the audit trail.
+    ///
+    /// Records every duplicate deduplication operation (hard link, clone, copy, delete, etc.).
+    /// Maintains full history for auditing and undo capability.
+    ///
+    /// # Arguments
+    /// * `group_id` - Associated duplicate group (if applicable)
+    /// * `action` - Type of action ("hardlink", "clone", "copy", "delete", "quarantine")
+    /// * `file_path` - Path of the file affected
+    /// * `source_path` - Path of the source file (for link/copy operations)
+    /// * `node_id` - Node that performed the action
+    /// * `space_recovered` - Bytes freed by this action
+    /// * `fs_type` - Filesystem type (ZFS, NTFS, ext4, etc.)
+    /// * `strategy` - Remediation strategy used
     pub fn log_remediation(
         &self, group_id: Option<i64>, action: &str, file_path: &str,
         source_path: Option<&str>, node_id: &str, space_recovered: i64,
@@ -454,6 +588,16 @@ impl Database {
     }
 
     /// Log an audit event.
+    ///
+    /// General-purpose audit logging for any action or state change.
+    /// Maintains immutable audit trail of all operations for compliance and debugging.
+    ///
+    /// # Arguments
+    /// * `action` - Description of the action ("scan_started", "remediation_completed", etc.)
+    /// * `resource_type` - Type of resource affected ("file", "scan", "duplicate_group", etc.)
+    /// * `resource_id` - Identifier of the affected resource
+    /// * `details` - Additional details or context
+    /// * `node_id` - Node performing the action
     pub fn log_audit(&self, action: &str, resource_type: &str, resource_id: &str, details: &str, node_id: &str) -> Result<()> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         conn.execute(
@@ -464,6 +608,12 @@ impl Database {
     }
 
     /// Mark a file as deleted in the database.
+    ///
+    /// Soft-delete: marks a file as deleted without removing it from the database.
+    /// Preserves history while excluding it from future duplicate detection scans.
+    ///
+    /// # Arguments
+    /// * `file_id` - Database ID of the file to mark as deleted
     pub fn mark_file_deleted(&self, file_id: i64) -> Result<()> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         conn.execute("UPDATE files SET is_deleted = TRUE WHERE id = ?1", params![file_id])?;
@@ -471,6 +621,9 @@ impl Database {
     }
 
     /// Get database statistics for status display.
+    ///
+    /// Aggregates key metrics: total files, active scans, duplicate groups, wasted space.
+    /// Used for dashboard/status display in UI and CLI.
     pub fn get_stats(&self) -> Result<DbStats> {
         let conn = self.conn.lock().map_err(|e| anyhow::anyhow!("DB lock: {}", e))?;
         let total_files: i64 = conn.query_row(

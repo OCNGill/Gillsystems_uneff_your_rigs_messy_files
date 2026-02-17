@@ -1,13 +1,23 @@
-// Gillsystems_uneff_your_rigs_messy_files — Hashing Engine Module
-// Philosophy: Built with zero frameworks, maximum intent.
-//
-// Two-stage hashing pipeline:
-//   Stage 1: xxHash64 — extremely fast non-cryptographic hash for pre-filtering
-//   Stage 2: SHA-256 — cryptographic hash for collision-resistant verification
-//
-// Only files that match on size AND xxHash64 get promoted to SHA-256.
-// Streaming for large files (>1GB) to avoid memory pressure.
-// Full speed — all CPU cores, no throttling, no artificial limits.
+//! # Hashing Engine Module — Two-Stage File Fingerprinting
+//!
+//! Philosophy: Built with zero frameworks, maximum intent.
+//!
+//! Two-stage hashing pipeline:
+//! - **Stage 1**: xxHash64 — extremely fast non-cryptographic hash for pre-filtering
+//! - **Stage 2**: SHA-256 — cryptographic hash for collision-resistant verification
+//!
+//! Only files that match on size AND xxHash64 get promoted to SHA-256.
+//! Streaming for large files (>1GB) to avoid memory pressure.
+//! Full speed — all CPU cores, no throttling, no artificial limits.
+//!
+//! ## Performance
+//! - xxHash64: ~8 GB/sec (single-threaded)
+//! - SHA-256: ~500 MB/sec (single-threaded)
+//! - Multi-file parallelism: num_cpus cores simultaneously
+//!
+//! ## Collision Characteristics
+//! - xxHash64: Birthday attack resistant for ~2^32 files (rare in single scan)
+//! - SHA-256: Cryptographically unbreakable (2^256 space, ~4×10^76 combinations)
 
 use anyhow::Result;
 use sha2::{Sha256, Digest};

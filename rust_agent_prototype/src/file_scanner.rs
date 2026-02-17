@@ -1,13 +1,24 @@
-// Gillsystems_uneff_your_rigs_messy_files — File Scanner Module
-// Philosophy: Full speed — all CPU cores, no throttling, no artificial limits.
-//
-// Pipeline: Discover → Hash (xxHash64) → Collect → Report
-// Files are discovered via WalkBuilder (respects .gitignore, custom patterns).
-// Each file gets hashed on discovery. Results collected into ScannedFile vec.
-// Progress reported to GUI via mpsc channel.
-// Database insertion handled by the caller (agent.rs) for separation of concerns.
-//
-// Cancellation: check cancel_token periodically during walk.
+//! # File Scanner Module — Parallel Filesystem Walk + Progressive Hashing
+//!
+//! Philosophy: Full speed — all CPU cores, no throttling, no artificial limits.
+//!
+//! ## Pipeline: Discover → Hash (xxHash64) → Collect → Report
+//! - Files discovered via WalkBuilder (respects .gitignore, custom patterns)
+//! - Each file gets hashed on discovery (xxHash64 streaming)
+//! - Results collected into ScannedFile vector
+//! - Progress reported to GUI via mpsc channel
+//! - Database insertion handled by caller for separation of concerns
+//!
+//! ## Parallelism
+//! - Thread pool sized to `num_cpus::get().min(8)` threads
+//! - Independent file hashing per thread — zero contention
+//! - Cancellation token checked periodically during walk
+//!
+//! ## Phases
+//! - **Discovery**: Initial filesystem walk, size collection
+//! - **Hashing**: Progressive xxHash64 computation
+//! - **Complete**: All files hashed, ready for duplicate detection
+
 
 use anyhow::Result;
 use ignore::WalkBuilder;

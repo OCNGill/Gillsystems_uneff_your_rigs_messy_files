@@ -1,12 +1,29 @@
-// Gillsystems_uneff_your_rigs_messy_files — Remediation Module
-// Philosophy: User Empowerment — honest warnings, never silent deletions.
-//
-// Five remediation strategies (filesystem-aware):
-//   1. Quarantine — move to safe directory for review
-//   2. ZFS Block Cloning — zero-copy dedup via reflink/FICLONE (PRIMARY target)
-//   3. Hard Link — NTFS/ext4/XFS/APFS hard links for dedup
-//   4. Move — relocate files to a different path
-//   5. Delete — permanent removal (with verification option)
+//! # Remediation Module — Intelligent Duplicate Resolution
+//!
+//! Philosophy: User Empowerment — honest warnings, never silent deletions.
+//!
+//! Five remediation strategies (filesystem-aware):
+//! 1. **Quarantine** — move to safe directory for review
+//! 2. **ZFS Block Cloning** — zero-copy dedup via reflink/FICLONE (PRIMARY target)
+//! 3. **Hard Link** — NTFS/ext4/XFS/APFS hard links for dedup
+//! 4. **Move** — relocate files to a different path
+//! 5. **Delete** — permanent removal (with verification option)
+//!
+//! ## Safety Guarantees
+//! - All operations **fully reversible** (unless delete is selected)
+//! - SHA-256 verification after each operation
+//! - Atomic transactions — no partial state
+//! - Audit logging — every action recorded with timestamps and node IDs
+//! - Quarantine folder as safety net before any destructive operation
+//!
+//! ## Filesystem-Specific Optimizations
+//! - ZFS: Use `zfs send/receive` or `FICLONE` ioctl (instant, zero-copy)
+//! - NTFS: Hard links (ref-counted, live updates share data blocks)
+//! - ext4/XFS: reflinks via ioctl (instant, lazy-copy semantics)
+//! - APFS: clonefile syscall (macOS native block sharing)
+//! - FAT32: Warn and bail — no dedup available
+//!
+//! User empowerment — never silently delete without explicit consent.
 //
 // Filesystem priority: ZFS first → NTFS second → ext4/XFS → FAT32 fallback
 // Every action is logged to the audit trail. No silent operations.

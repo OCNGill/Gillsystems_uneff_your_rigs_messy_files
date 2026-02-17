@@ -1,3 +1,38 @@
+//! # Configuration Module — Immutable Runtime Settings
+//!
+//! Loads agent configuration from TOML files. Provides compile-time validation
+//! and sensible defaults. All settings are immutable after initialization.
+//!
+//! ## Configuration Priority (highest to lowest)
+//! 1. Environment variables (TODO: implement ENV override)
+//! 2. TOML file (config.toml in database directory)
+//! 3. Hardcoded defaults
+//!
+//! ## Key Settings
+//! - **grpc_port**: TCP port for gRPC service (default: 50051)
+//! - **database_path**: SQLite database file location
+//! - **cache_size_mb**: SQLite memory cache (default: 256 MB)
+//! - **thread_count**: File scanner threads (default: num_cpus)
+//! - **remediation_strategy**: Primary dedup method (ZFS, NTFS, etc.)
+//! - **quarantine_dir**: Safe backup location before destructive operations
+//! - **enable_wal**: SQLite write-ahead log (default: true for performance)
+//!
+//! ## TOML Format
+//! ```toml
+//! grpc_port = 50051
+//! thread_count = 16
+//! 
+//! [database]
+//! path = "/var/cache/uneff/uneff.db"
+//! cache_size_mb = 256
+//! wal_mode = true
+//! 
+//! [remediation]
+//! strategy = "zfs_clone"
+//! quarantine_dir = "/var/cache/uneff/quarantine"
+//! delete_after_verification = false
+//! ```
+
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 use std::fs;

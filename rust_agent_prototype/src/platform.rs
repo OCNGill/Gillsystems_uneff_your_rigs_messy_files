@@ -1,9 +1,23 @@
-// Gillsystems_uneff_your_rigs_messy_files — Platform Integration Module
-// Philosophy: Power to the People — full admin, full speed, every platform.
-//
-// Cross-platform service registration and drive enumeration.
-// ZFS detection is PRIMARY. Then NTFS, ext4, XFS, FAT32.
-// Admin/sudo REQUIRED — no permission gatekeeping.
+//! # Platform Integration Module — Cross-Platform Drive Detection
+//!
+//! Philosophy: Power to the People — full admin, full speed, every platform.
+//!
+//! Cross-platform service registration and drive enumeration.
+//! ZFS detection is PRIMARY. Then NTFS, ext4, XFS, FAT32.
+//! Admin/sudo REQUIRED — no permission gatekeeping.
+//!
+//! ## Supported Filesystems
+//! - **ZFS** (Linux, macOS): Clone (instant, reflink-like)
+//! - **NTFS** (Windows): Hard links + reflinks (Windows 10+)
+//! - **ext4/XFS** (Linux): reflinks (via ioctl)
+//! - **APFS** (macOS): clonefile syscall
+//! - **FAT32**: No deduplication support (warn user)
+//!
+//! ## Platform-Specific Modules
+//! - Unix (Linux/macOS): systemd/LaunchAgent registration, zpool detection
+//! - Windows: Win32 GetLogicalDriveStrings, NTFS detection
+//!
+//! All operations require administrator/sudo privileges.
 
 use anyhow::Result;
 use tracing::{info, warn};

@@ -1,4 +1,71 @@
 #![allow(dead_code)]
+//! # Gillsystems_uneff_your_rigs_messy_files — Un-eff your rigs!
+//!
+//! **Version**: 0.4.0 (Documentation Phase)
+//! **Philosophy**: Systems Should Serve Humans — Power to the People!
+//!
+//! A cross-platform agent for finding and eliminating duplicate files intelligently.
+//! 
+//! ## Entry Points
+//! - **GUI Mode** (default): `--gui-only` or no arguments
+//! - **Service Mode**: `--service` — start gRPC peer listening for cluster commands
+//! - **Headless**: Internally, the agent can be used programmatically
+//!
+//! ## Features
+//! - **Fast duplicate detection**: xxHash64 (pre-filter) → SHA-256 (verify)
+//! - **Platform-optimized remediation**: ZFS clone, NTFS hard link, ext4 reflink
+//! - **Full audit trail**: Every operation logged with SHA-256 verification
+//! - **Peer-to-peer**: No central authority, every node is sovereign
+//! - **Windows 7 Aero UI**: Responsive, real-time duplicate visualization
+//!
+//! ## Architecture (10 modules)
+//! - [`agent`]: Orchestration (scanning, remediation, dedup pipeline)
+//! - [`database`]: SQLite storage (nodes, drives, files, scans, duplicates, audit log)
+//! - [`file_scanner`]: Parallel filesystem walk + progressive hashing
+//! - [`hashing`]: Two-stage (xxHash64 + SHA-256) fingerprinting
+//! - [`remediation`]: Intelligent dedup (ZFS clone, hard link, quarantine, delete)
+//! - [`platform`]: Cross-platform (ZFS, NTFS, ext4, XFS, FAT32, APFS)
+//! - [`config`]: TOML-based runtime configuration
+//! - [`service`]: gRPC peer-to-peer API
+//! - [`gui`]: egui-based Windows 7 Aero theme UI
+//!
+//! ## Building
+//! ```bash
+//! cargo build --release  # 4.68 MB standalone binary
+//! cargo test             # Run 5 comprehensive test suites
+//! cargo clippy           # Check for lint warnings
+//! ```
+//!
+//! ## Usage
+//! ```bash
+//! # GUI mode (default)
+//! ./uneff-your-rigs
+//!
+//! # Service mode (cluster peer)
+//! ./uneff-your-rigs --service
+//!
+//! # GUI only (no service listening)
+//! ./uneff-your-rigs --gui-only
+//! ```
+//!
+//! ## Philosophy
+//! > Systems Should Serve Humans, Not The Reverse
+//! 
+//! - **Radical Transparency**: Every byte, every hash, every decision visible
+//! - **User Empowerment**: Honest warnings, never silent deletions
+//! - **Full Speed**: All CPU cores, no throttling, no artificial limits
+//! - **Peer-to-Peer**: No cloud, no phone-home, no central authority
+//!
+//! ## Safety
+//! - **Fully Reversible**: All operations reversible except explicit delete
+//! - **SHA-256 Verification**: Atomic verification after each operation
+//! - **Quarantine First**: Safe staging area before any destructive operation
+//! - **Audit Logging**: Every action recorded with timestamps and node IDs
+//!
+//! For detailed documentation of each module, see module doc-comments.
+//! For platform-specific details, see [`platform`] module.
+//! For remediation strategies, see [`remediation`] module.
+
 use anyhow::Result;
 use clap::{Arg, Command};
 use std::sync::Arc;
