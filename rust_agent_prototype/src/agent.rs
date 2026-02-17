@@ -16,9 +16,8 @@ use uuid::Uuid;
 
 use crate::config::Config;
 use crate::database::{Database, FileRow};
-use crate::file_scanner::{FileScanner, ScannedFile, ScanProgress, ScanStatus, ScanPhase};
+use crate::file_scanner::{FileScanner, ScanProgress, ScanStatus};
 use crate::gui::{GuiMessage, DriveInfo};
-use crate::hashing::HashEngine;
 use crate::remediation::RemediationEngine;
 use crate::service::GrpcService;
 
@@ -92,7 +91,7 @@ impl UneffAgent {
             .unwrap_or_default()
             .as_secs() as i64;
 
-        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.2.0", now)?;
+        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.3.0", now)?;
 
         info!("UneffAgent initialized — node_id: {}, hostname: {}", node_id, hostname);
 

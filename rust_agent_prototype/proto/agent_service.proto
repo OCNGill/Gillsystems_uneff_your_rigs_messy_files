@@ -56,10 +56,10 @@ message ScanProgress {
 }
 
 enum ScanStatus {
-  SCANNING = 0;
-  COMPLETED = 1;
-  FAILED = 2;
-  CANCELLED = 3;
+  SCAN_SCANNING = 0;
+  SCAN_COMPLETED = 1;
+  SCAN_FAILED = 2;
+  SCAN_CANCELLED = 3;
 }
 
 // File metadata
@@ -133,11 +133,11 @@ message RemediationResult {
 }
 
 enum RemediationStatus {
-  PENDING = 0;
-  IN_PROGRESS = 1;
-  COMPLETED = 2;
-  FAILED = 3;
-  PARTIAL = 4;
+  REMEDIATION_PENDING = 0;
+  REMEDIATION_IN_PROGRESS = 1;
+  REMEDIATION_COMPLETED = 2;
+  REMEDIATION_FAILED = 3;
+  REMEDIATION_PARTIAL = 4;
 }
 
 message RemediationFileResult {

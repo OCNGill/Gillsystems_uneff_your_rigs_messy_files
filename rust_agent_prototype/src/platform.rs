@@ -442,6 +442,3 @@ pub fn detect_fs_type(path: &str) -> String {
     #[cfg(windows)]
     { windows::detect_fs_type(path) }
 }
-        Ok(Vec::new())
-    }
-}

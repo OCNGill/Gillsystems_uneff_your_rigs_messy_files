@@ -10,9 +10,8 @@
 
 use anyhow::{Context, Result};
 use std::net::SocketAddr;
-use std::time::{Instant, SystemTime, UNIX_EPOCH};
-use tonic::{Request, Response, Status};
-use tracing::{info, warn, error};
+use std::time::Instant;
+use tracing::{info, warn};
 
 /// The gRPC service implementation for peer-to-peer communication.
 /// Handles: HealthCheck, SystemInfo, StartScan, StopScan, GetMounts, Remediation.

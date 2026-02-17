@@ -1,6 +1,6 @@
+#![allow(dead_code)]
 use anyhow::Result;
 use clap::{Arg, Command};
-use std::env;
 use std::sync::Arc;
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};

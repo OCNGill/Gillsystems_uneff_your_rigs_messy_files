@@ -1,6 +1,6 @@
 [package]
 name = "gillsystems-uneff-your-rigs-messy-files"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["GillSystems <gillsystems@gmail.com>"]
 description = "Cross-platform agent for duplicate file detection and un-effing your rigs"
@@ -42,21 +42,6 @@ xxhash-rust = { version = "0.8", features = ["xxh3"] }
 walkdir = "2.4"
 ignore = "0.4"
 
-# Platform-specific
-[target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3", features = ["winbase", "fileapi", "handleapi", "winnt", "securitybaseapi"] }
-windows-service = "0.6"
-windows = { version = "0.52", features = ["Win32_Storage_FileSystem", "Win32_System_Threading"] }
-winreg = "0.52"
-
-[target.'cfg(unix)'.dependencies]
-libc = "0.2"
-nix = "0.27"
-
-[target.'cfg(target_os = "macos")'.dependencies]
-core-foundation = "0.9"
-objc = "0.2"
-
 # Logging and tracing
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
@@ -82,8 +67,25 @@ thiserror = "1.0"
 # Database (local cache)
 rusqlite = { version = "0.29", features = ["bundled"] }
 
+# Platform-specific
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winbase", "fileapi", "handleapi", "winnt", "securitybaseapi", "winuser", "shellapi", "shtypes", "timezoneapi", "winerror"] }
+windows-service = "0.6"
+windows = { version = "0.52", features = ["Win32_Storage_FileSystem", "Win32_System_Threading"] }
+winreg = "0.52"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+nix = "0.27"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.9"
+objc = "0.2"
+
+
 [build-dependencies]
 tonic-build = "0.10"
+protoc-bin-vendored = "3"
 
 [dev-dependencies]
 tempfile = "3.8"

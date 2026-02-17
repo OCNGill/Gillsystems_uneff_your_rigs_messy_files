@@ -40,15 +40,15 @@ Repository: https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files
 # ──────────────────────────────────────────────
 
 VERSION_MAJOR = 0
-VERSION_MINOR = 2
+VERSION_MINOR = 3
 VERSION_PATCH = 0
 
 VERSION_TUPLE = (VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 VERSION = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
 
 # 7D Phase Tracking
-PHASE = "Develop Complete → Debug Ready"
-PHASE_CODE = "DEVELOP_COMPLETE"
+PHASE = "Debug Complete → Document Ready"
+PHASE_CODE = "DEBUG_COMPLETE"
 
 # Phase history (append-only log)
 PHASE_HISTORY = [
@@ -56,6 +56,7 @@ PHASE_HISTORY = [
     {"version": "0.0.2", "phase": "Define", "milestone": "Team structure (3×3), scope, agent assignments"},
     {"version": "0.1.0", "phase": "Design", "milestone": "Architecture complete, ZFS-first remediation, branding purge, 6 module stubs, user guide, 3 reflection loops passed"},
     {"version": "0.2.0", "phase": "Develop", "milestone": "Full implementation — 10 modules, 0 TODOs, all subsystems operational: scanner, hashing, database CRUD, remediation (ZFS/NTFS/POSIX/FAT32), GUI wired, gRPC service, duplicate detection pipeline"},
+    {"version": "0.3.0", "phase": "Debug", "milestone": "Full cargo build: 0 errors, 0 warnings. 5/5 tests pass. Release binary 4.68 MB. Fixed: protoc-vendored, Cargo.toml platform section trap, gui.rs borrow conflicts, Shadow API, egui Rounding fields, run_native closure signature, proto3 enum naming, orphan brace in platform.rs"},
 ]
 
 # Build metadata

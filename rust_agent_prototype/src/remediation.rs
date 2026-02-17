@@ -74,7 +74,7 @@ impl RemediationEngine {
         let dest = self.quarantine_path.join(format!("{}_{}", ts, file_name));
 
         // Get file size before moving
-        let size = std::fs::metadata(file_path)
+        let _size = std::fs::metadata(file_path)
             .map(|m| m.len())
             .unwrap_or(0);
 
@@ -347,7 +347,7 @@ impl RemediationEngine {
     pub fn move_file(&self, source: &Path, destination: &Path) -> Result<RemediationResult> {
         info!("Moving: {} → {}", source.display(), destination.display());
 
-        let size = std::fs::metadata(source)
+        let _size = std::fs::metadata(source)
             .map(|m| m.len())
             .unwrap_or(0);
 

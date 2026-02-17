@@ -9,14 +9,14 @@
 //
 // Cancellation: check cancel_token periodically during walk.
 
-use anyhow::{Context, Result};
+use anyhow::Result;
 use ignore::WalkBuilder;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::SystemTime;
 use tokio::sync::mpsc;
-use tracing::{debug, error, info, warn};
+use tracing::{debug, info, warn};
 
 use crate::config::ScanningConfig;
 use crate::hashing::HashEngine;

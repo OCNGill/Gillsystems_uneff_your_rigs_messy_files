@@ -1,14 +1,14 @@
 use anyhow::Result;
 use eframe::{egui, App, NativeOptions};
-use egui::{Color32, FontId, RichText, Stroke, Vec2, Rounding, Shadow};
+use egui::{Color32, RichText, Stroke, Vec2, Rounding};
 use std::sync::Arc;
 use tokio::sync::mpsc;
-use tracing::{error, info};
+use tracing::info;
 
 use crate::{
     agent::UneffAgent,
     config::Config,
-    file_scanner::{ScanProgress, ScanStatus, ScanPhase},
+    file_scanner::{ScanProgress, ScanStatus},
 };
 
 // Windows 7 Aero Theme Colors
@@ -135,10 +135,8 @@ impl UneffGUI {
         // Glass effect backgrounds
         style.visuals.panel_fill = AERO_GLASS;
         style.visuals.window_fill = AERO_GLASS;
-        style.visuals.window_shadow = Shadow {
-            offset: egui::vec2(2.0, 2.0),
-            blur_radius: 8.0,
-            spread: 1.0,
+        style.visuals.window_shadow = egui::epaint::Shadow {
+            extrusion: 8.0,
             color: Color32::from_rgba_premultiplied(0, 0, 0, 100),
         };
         
@@ -150,7 +148,10 @@ impl UneffGUI {
         
         // Rounded corners for Aero look
         style.visuals.window_rounding = Rounding::same(6.0);
-        style.visuals.button_rounding = Rounding::same(4.0);
+        style.visuals.widgets.noninteractive.rounding = Rounding::same(4.0);
+        style.visuals.widgets.inactive.rounding = Rounding::same(4.0);
+        style.visuals.widgets.hovered.rounding = Rounding::same(4.0);
+        style.visuals.widgets.active.rounding = Rounding::same(4.0);
         
         // Aero-style selection
         style.visuals.selection.bg_fill = AERO_BLUE;
@@ -307,7 +308,7 @@ impl UneffGUI {
     }
     
     fn draw_dual_panel(&mut self, ui: &mut egui::Ui) {
-        let panel_width = ui.available_width() / 2.0 - 5.0;
+        let _panel_width = ui.available_width() / 2.0 - 5.0;
         
         ui.horizontal(|ui| {
             // Left panel - Duplicate groups
@@ -319,7 +320,7 @@ impl UneffGUI {
                     .id_source("left_panel")
                     .show(ui, |ui| {
                         for (i, group) in self.duplicate_groups.iter().enumerate() {
-                            let is_selected = self.left_panel_selected == Some(i);
+                            let _is_selected = self.left_panel_selected == Some(i);
                             
                             let response = ui.horizontal(|ui| {
                                 ui.checkbox(&mut false, ""); // TODO: Implement selection
@@ -354,28 +355,33 @@ impl UneffGUI {
                 ui.separator();
                 
                 if let Some(selected_idx) = self.left_panel_selected {
-                    if let Some(group) = self.duplicate_groups.get(selected_idx) {
+                    if let Some(group) = self.duplicate_groups.get(selected_idx).cloned() {
+                        let right_sel = self.right_panel_selected;
+                        let mut delete_id: Option<String> = None;
+                        let mut open_path: Option<String> = None;
+                        let mut new_right_sel: Option<usize> = None;
+
                         egui::ScrollArea::vertical()
                             .id_source("right_panel")
                             .show(ui, |ui| {
                                 for (i, file) in group.files.iter().enumerate() {
-                                    let is_selected = self.right_panel_selected == Some(i);
+                                    let _is_selected = right_sel == Some(i);
                                     
                                     let response = ui.horizontal(|ui| {
                                         ui.checkbox(&mut false, ""); // TODO: Implement selection
                                         ui.label(&file.path);
                                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                                             if ui.button("🗑️").clicked() {
-                                                self.delete_file(&file.id);
+                                                delete_id = Some(file.id.clone());
                                             }
                                             if ui.button("📁").clicked() {
-                                                self.open_file_location(&file.path);
+                                                open_path = Some(file.path.clone());
                                             }
                                         });
                                     }).response;
                                     
                                     if response.clicked() {
-                                        self.right_panel_selected = Some(i);
+                                        new_right_sel = Some(i);
                                     }
                                     
                                     // Show metadata on hover
@@ -387,6 +393,17 @@ impl UneffGUI {
                                     });
                                 }
                             });
+
+                        // Apply deferred actions now that the closure is done
+                        if let Some(id) = delete_id {
+                            self.delete_file(&id);
+                        }
+                        if let Some(path) = open_path {
+                            self.open_file_location(&path);
+                        }
+                        if let Some(sel) = new_right_sel {
+                            self.right_panel_selected = Some(sel);
+                        }
                     }
                 } else {
                     ui.centered_and_justified(|ui| {
@@ -430,7 +447,8 @@ impl UneffGUI {
     }
     
     fn draw_warning_dialog(&mut self, ctx: &egui::Context) {
-        if let Some(ref warning) = self.current_warning {
+        if let Some(warning) = self.current_warning.clone() {
+            let mut close_warning = false;
             egui::Window::new("⚠️ Warning")
                 .collapsible(false)
                 .resizable(false)
@@ -439,26 +457,31 @@ impl UneffGUI {
                 .show(ctx, |ui| {
                     ui.vertical_centered(|ui| {
                         ui.add_space(20.0);
-                        ui.label(RichText::new(warning).size(16.0).color(Color32::RED));
+                        ui.label(RichText::new(&warning).size(16.0).color(Color32::RED));
                         ui.add_space(20.0);
                         
                         ui.horizontal(|ui| {
                             if ui.button("I Understand the Risk").clicked() {
-                                self.current_warning = None;
+                                close_warning = true;
                             }
                             if ui.button("Cancel").clicked() {
-                                self.current_warning = None;
+                                close_warning = true;
                             }
                         });
                     });
                 });
+            if close_warning {
+                self.current_warning = None;
+            }
         }
     }
     
     fn draw_settings_dialog(&mut self, ctx: &egui::Context) {
-        if self.show_settings {
+        let mut show = self.show_settings;
+        if show {
+            let mut trigger_reset_warning = false;
             egui::Window::new("Settings")
-                .open(&mut self.show_settings)
+                .open(&mut show)
                 .resizable(true)
                 .default_size(Vec2::new(600.0, 400.0))
                 .show(ctx, |ui| {
@@ -489,9 +512,13 @@ impl UneffGUI {
                     ui.colored_label(Color32::RED, "⚠️ These settings can cause data loss!");
                     
                     if ui.button("Reset All Data").clicked() {
-                        self.show_warning("🔥 RESET ALL DATA? This will delete all scan results and settings! Make sure you have backups of important files before proceeding.".to_string());
+                        trigger_reset_warning = true;
                     }
                 });
+            self.show_settings = show;
+            if trigger_reset_warning {
+                self.show_warning("🔥 RESET ALL DATA? This will delete all scan results and settings! Make sure you have backups of important files before proceeding.".to_string());
+            }
         }
     }
     
@@ -506,7 +533,7 @@ impl UneffGUI {
                 .show(ctx, |ui| {
                     ui.vertical_centered(|ui| {
                         ui.heading("Gillsystems_uneff_your_rigs_messy_files");
-                        ui.label("Version 0.2.0");
+                        ui.label("Version 0.3.0");
                         ui.label("Created by Stephen Gill");
                         ui.label("© 2026 GillSystems — 30+ Years of Technology Expertise");
                         ui.separator();
@@ -536,7 +563,7 @@ impl UneffGUI {
     // Action methods
     fn start_new_scan(&mut self) {
         info!("Starting new scan");
-        if let Some(ref agent) = self.agent {
+        if let Some(ref _agent) = self.agent {
             // TODO: Implement scan start
         }
     }
@@ -683,7 +710,7 @@ pub fn run_gui(config: Arc<Config>) -> Result<()> {
     eframe::run_native(
         "Gillsystems_uneff_your_rigs_messy_files",
         options,
-        Box::new(|_cc| Ok(Box::new(gui))),
+        Box::new(|_cc| Box::new(gui) as Box<dyn eframe::App>),
     ).map_err(|e| anyhow::anyhow!("GUI error: {}", e))?;
     
     Ok(())

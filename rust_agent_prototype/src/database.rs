@@ -8,7 +8,7 @@ use anyhow::{Context, Result};
 use rusqlite::{Connection, params};
 use std::path::Path;
 use std::sync::Mutex;
-use tracing::{info, warn, error};
+use tracing::info;
 
 use crate::config::DatabaseConfig;
 

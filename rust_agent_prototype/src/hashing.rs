@@ -14,7 +14,7 @@ use sha2::{Sha256, Digest};
 use std::io::Read;
 use std::path::Path;
 use std::sync::Arc;
-use tracing::{debug, warn, info};
+use tracing::debug;
 
 use crate::config::ScanningConfig;
 use crate::file_scanner::{FileInfo, ScannedFile};
