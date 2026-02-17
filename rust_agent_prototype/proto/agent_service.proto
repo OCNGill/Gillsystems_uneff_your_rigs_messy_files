@@ -1,0 +1,177 @@
+syntax = "proto3";
+
+package gillsystems_uneff;
+
+// Agent service for gRPC communication
+service UneffAgent {
+  // Start a scan operation
+  rpc StartScan(ScanRequest) returns (stream ScanProgress);
+  
+  // Get system information
+  rpc GetSystemInfo(SystemInfoRequest) returns (SystemInfo);
+  
+  // Execute remediation actions
+  rpc ExecuteRemediation(RemediationRequest) returns (RemediationResult);
+  
+  // Health check
+  rpc HealthCheck(HealthRequest) returns (HealthResponse);
+  
+  // Get available mounts/volumes
+  rpc GetMounts(MountRequest) returns (MountResponse);
+  
+  // Stop ongoing scan
+  rpc StopScan(StopScanRequest) returns (StopScanResponse);
+}
+
+// Scan request
+message ScanRequest {
+  string scan_id = 1;
+  repeated string paths = 2;
+  ScanConfig config = 3;
+}
+
+message ScanConfig {
+  int32 max_depth = 1;
+  repeated string exclude_patterns = 2;
+  repeated string include_patterns = 3;
+  bool follow_symlinks = 4;
+  int64 min_file_size = 5;
+  int64 max_file_size = 6;
+  bool compute_xxhash = 7;
+  bool compute_sha256 = 8;
+  bool skip_system_files = 9;
+}
+
+// Scan progress updates
+message ScanProgress {
+  string scan_id = 1;
+  ScanStatus status = 2;
+  int64 files_processed = 3;
+  int64 bytes_processed = 4;
+  int64 files_found = 5;
+  int64 duplicates_found = 6;
+  string current_path = 7;
+  string error_message = 8;
+  repeated FileMetadata files = 9;
+}
+
+enum ScanStatus {
+  SCANNING = 0;
+  COMPLETED = 1;
+  FAILED = 2;
+  CANCELLED = 3;
+}
+
+// File metadata
+message FileMetadata {
+  string path = 1;
+  string name = 2;
+  int64 size_bytes = 3;
+  int64 modified_time = 4;
+  string permissions = 5;
+  string xxhash64 = 6;
+  string sha256_hash = 7;
+  bool is_directory = 8;
+  bool is_symlink = 9;
+  string symlink_target = 10;
+}
+
+// System information
+message SystemInfoRequest {}
+
+message SystemInfo {
+  string hostname = 1;
+  string platform = 2;
+  string os_version = 3;
+  string architecture = 4;
+  int64 total_memory = 5;
+  int64 available_memory = 6;
+  int64 total_disk_space = 7;
+  int64 available_disk_space = 8;
+  repeated MountInfo mounts = 9;
+  string agent_version = 10;
+}
+
+message MountInfo {
+  string mount_point = 1;
+  string device = 2;
+  string filesystem_type = 3;
+  int64 total_space = 4;
+  int64 available_space = 5;
+  bool is_network_mount = 6;
+  bool is_removable = 7;
+}
+
+// Remediation operations
+message RemediationRequest {
+  string request_id = 1;
+  RemediationAction action = 2;
+  repeated string file_paths = 3;
+  RemediationOptions options = 4;
+}
+
+message RemediationOptions {
+  string quarantine_path = 1;
+  bool create_hard_links = 2;
+  int32 grace_period_hours = 3;
+  bool verify_before_delete = 4;
+}
+
+enum RemediationAction {
+  QUARANTINE = 0;
+  DELETE = 1;
+  HARD_LINK = 2;
+  MOVE = 3;
+}
+
+message RemediationResult {
+  string request_id = 1;
+  RemediationStatus status = 2;
+  repeated RemediationFileResult results = 3;
+  string error_message = 4;
+  int64 space_recovered = 5;
+}
+
+enum RemediationStatus {
+  PENDING = 0;
+  IN_PROGRESS = 1;
+  COMPLETED = 2;
+  FAILED = 3;
+  PARTIAL = 4;
+}
+
+message RemediationFileResult {
+  string file_path = 1;
+  RemediationStatus status = 2;
+  string error_message = 3;
+  string new_path = 4;
+  int64 size_bytes = 5;
+}
+
+// Health check
+message HealthRequest {}
+
+message HealthResponse {
+  bool healthy = 1;
+  string status = 2;
+  int64 uptime_seconds = 3;
+  map<string, string> metrics = 4;
+}
+
+// Mount operations
+message MountRequest {}
+
+message MountResponse {
+  repeated MountInfo mounts = 1;
+  string error_message = 2;
+}
+
+// Stop scan
+message StopScanRequest {
+  string scan_id = 1;
+}
+
+message StopScanResponse {
+  bool success = 1;
+  string message = 2;
+}

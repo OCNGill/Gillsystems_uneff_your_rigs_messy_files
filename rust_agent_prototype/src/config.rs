@@ -1,0 +1,210 @@
+use anyhow::{Context, Result};
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::path::Path;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Config {
+    pub grpc_port: u16,
+    pub orchestrator_url: Option<String>,
+    pub database: DatabaseConfig,
+    pub scanning: ScanningConfig,
+    pub security: SecurityConfig,
+    pub logging: LoggingConfig,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DatabaseConfig {
+    pub path: String,
+    pub cache_size_mb: u32,
+    pub wal_mode: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ScanningConfig {
+    pub max_file_size_gb: u64,
+    pub default_exclude_patterns: Vec<String>,
+    pub thread_pool_size: usize,
+    pub hash_batch_size: usize,
+    pub progress_report_interval_ms: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SecurityConfig {
+    pub tls_cert_path: Option<String>,
+    pub tls_key_path: Option<String>,
+    pub ca_cert_path: Option<String>,
+    pub client_auth_required: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LoggingConfig {
+    pub level: String,
+    pub file_path: Option<String>,
+    pub max_file_size_mb: u32,
+    pub max_files: u32,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            grpc_port: 50051,
+            orchestrator_url: None,
+            database: DatabaseConfig::default(),
+            scanning: ScanningConfig::default(),
+            security: SecurityConfig::default(),
+            logging: LoggingConfig::default(),
+        }
+    }
+}
+
+impl Default for DatabaseConfig {
+    fn default() -> Self {
+        Self {
+            path: "gillsystems_uneff_cache.db".to_string(),
+            cache_size_mb: 64,
+            wal_mode: true,
+        }
+    }
+}
+
+impl Default for ScanningConfig {
+    fn default() -> Self {
+        Self {
+            max_file_size_gb: 10,
+            default_exclude_patterns: vec![
+                "*.tmp".to_string(),
+                "*.temp".to_string(),
+                "*.swp".to_string(),
+                "*.swo".to_string(),
+                ".git/**".to_string(),
+                "node_modules/**".to_string(),
+                "target/**".to_string(),
+                "*.log".to_string(),
+                "$Recycle.Bin/**".to_string(),
+                "System Volume Information/**".to_string(),
+            ],
+            thread_pool_size: num_cpus::get(),
+            hash_batch_size: 1000,
+            progress_report_interval_ms: 5000,
+        }
+    }
+}
+
+impl Default for SecurityConfig {
+    fn default() -> Self {
+        Self {
+            tls_cert_path: None,
+            tls_key_path: None,
+            ca_cert_path: None,
+            client_auth_required: false,
+        }
+    }
+}
+
+impl Default for LoggingConfig {
+    fn default() -> Self {
+        Self {
+            level: "info".to_string(),
+            file_path: None,
+            max_file_size_mb: 100,
+            max_files: 5,
+        }
+    }
+}
+
+impl Config {
+    pub fn load<P: AsRef<Path>>(path: P) -> Result<Self> {
+        let path = path.as_ref();
+        
+        if !path.exists() {
+            // Create default config file
+            let default_config = Config::default();
+            let config_str = toml::to_string_pretty(&default_config)
+                .context("Failed to serialize default config")?;
+            
+            fs::write(path, config_str)
+                .context("Failed to write default config file")?;
+            
+            tracing::info!("Created default config file at: {}", path.display());
+            return Ok(default_config);
+        }
+        
+        let content = fs::read_to_string(path)
+            .context("Failed to read config file")?;
+        
+        let config: Config = toml::from_str(&content)
+            .context("Failed to parse config file")?;
+        
+        tracing::info!("Loaded configuration from: {}", path.display());
+        Ok(config)
+    }
+    
+    pub fn validate(&self) -> Result<()> {
+        // Validate database path
+        if self.database.path.is_empty() {
+            return Err(anyhow::anyhow!("Database path cannot be empty"));
+        }
+        
+        // Validate scanning config
+        if self.scanning.max_file_size_gb == 0 {
+            return Err(anyhow::anyhow!("Max file size must be greater than 0"));
+        }
+        
+        if self.scanning.thread_pool_size == 0 {
+            return Err(anyhow::anyhow!("Thread pool size must be greater than 0"));
+        }
+        
+        // Validate TLS config if provided
+        if let (Some(cert_path), Some(key_path)) = (&self.security.tls_cert_path, &self.security.tls_key_path) {
+            if !Path::new(cert_path).exists() {
+                return Err(anyhow::anyhow!("TLS certificate file not found: {}", cert_path));
+            }
+            if !Path::new(key_path).exists() {
+                return Err(anyhow::anyhow!("TLS key file not found: {}", key_path));
+            }
+        }
+        
+        Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::tempdir;
+    
+    #[test]
+    fn test_default_config() {
+        let config = Config::default();
+        assert_eq!(config.grpc_port, 50051);
+        assert_eq!(config.database.cache_size_mb, 64);
+        assert!(config.scanning.default_exclude_patterns.len() > 0);
+    }
+    
+    #[test]
+    fn test_config_load_create_default() -> Result<()> {
+        let dir = tempdir()?;
+        let config_path = dir.path().join("test_config.toml");
+        
+        let config = Config::load(&config_path)?;
+        assert!(config_path.exists());
+        assert_eq!(config.grpc_port, 50051);
+        
+        Ok(())
+    }
+    
+    #[test]
+    fn test_config_validation() -> Result<()> {
+        let mut config = Config::default();
+        
+        // Valid config should pass
+        assert!(config.validate().is_ok());
+        
+        // Invalid database path
+        config.database.path = "".to_string();
+        assert!(config.validate().is_err());
+        
+        Ok(())
+    }
+}

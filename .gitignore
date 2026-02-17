@@ -1,0 +1,51 @@
+# ─── Rust / Cargo ───
+target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ─── IDE / Editor ───
+.vs/
+.vscode/settings.json
+*.swp
+*.swo
+*~
+.idea/
+
+# ─── OS ───
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# ─── Build artifacts ───
+*.exe
+*.dll
+*.so
+*.dylib
+
+# ─── Database / Cache ───
+*.db
+*.db-shm
+*.db-wal
+gillsystems_uneff_cache.db
+
+# ─── Logs ───
+*.log
+logs/
+
+# ─── Secrets (never commit) ───
+*.pem
+*.key
+*.cert
+.env
+.env.local

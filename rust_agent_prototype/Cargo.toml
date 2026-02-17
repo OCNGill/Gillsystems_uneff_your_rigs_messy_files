@@ -1,0 +1,98 @@
+[package]
+name = "gillsystems-uneff-your-rigs-messy-files"
+version = "0.1.0"
+edition = "2021"
+authors = ["GillSystems <gillsystems@gmail.com>"]
+description = "Cross-platform agent for duplicate file detection and un-effing your rigs"
+license = "MIT"
+repository = "https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files"
+
+[[bin]]
+name = "gillsystems-uneff-your-rigs-messy-files"
+path = "src/main.rs"
+
+[dependencies]
+# GUI Framework
+eframe = "0.24"
+egui = "0.24"
+egui_extras = "0.24"
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+tokio-util = "0.7"
+
+# gRPC and networking
+tonic = "0.10"
+prost = "0.12"
+tower = "0.4"
+hyper = "1.0"
+rustls = "0.21"
+tokio-rustls = "0.24"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.6", features = ["v4", "serde"] }
+
+# Hashing
+sha2 = "0.10"
+xxhash-rust = { version = "0.8", features = ["xxh3"] }
+
+# File system operations
+walkdir = "2.4"
+ignore = "0.4"
+
+# Platform-specific
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winbase", "fileapi", "handleapi", "winnt", "securitybaseapi"] }
+windows-service = "0.6"
+windows = { version = "0.52", features = ["Win32_Storage_FileSystem", "Win32_System_Threading"] }
+winreg = "0.52"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+nix = "0.27"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.9"
+objc = "0.2"
+
+# Logging and tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Configuration
+clap = { version = "4.4", features = ["derive"] }
+toml = "0.8"
+directories = "5.0"
+
+# System info
+num_cpus = "1.16"
+sysinfo = "0.30"
+
+# Utilities
+open = "5.0"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Database (local cache)
+rusqlite = { version = "0.29", features = ["bundled"] }
+
+[build-dependencies]
+tonic-build = "0.10"
+
+[dev-dependencies]
+tempfile = "3.8"
+test-log = "0.2"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+opt-level = "z"
+
+[profile.release.package."*"]
+opt-level = "z"
