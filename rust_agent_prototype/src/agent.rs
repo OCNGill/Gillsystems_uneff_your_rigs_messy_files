@@ -92,7 +92,7 @@ impl UneffAgent {
             .unwrap_or_default()
             .as_secs() as i64;
 
-        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.1.0", now)?;
+        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.2.0", now)?;
 
         info!("UneffAgent initialized — node_id: {}, hostname: {}", node_id, hostname);
 

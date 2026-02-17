@@ -2,9 +2,9 @@
   "project_name": "Gillsystems_uneff_your_rigs_messy_files",
   "artifact_type": "Standalone Executable (Single Rust Binary)",
   "repository": "https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "version_authority": "version.py",
-  "status": "Design Complete → Develop Ready",
+  "status": "Develop Complete → Debug Ready",
   "commander": "Stephen",
   "infrastructure": {
     "type": "Distributed/Local",

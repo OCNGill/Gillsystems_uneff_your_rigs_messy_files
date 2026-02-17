@@ -506,7 +506,7 @@ impl UneffGUI {
                 .show(ctx, |ui| {
                     ui.vertical_centered(|ui| {
                         ui.heading("Gillsystems_uneff_your_rigs_messy_files");
-                        ui.label("Version 0.1.0");
+                        ui.label("Version 0.2.0");
                         ui.label("Created by Commander Stephen Gill");
                         ui.label("© 2026 GillSystems — 30+ Years of Technology Expertise");
                         ui.separator();

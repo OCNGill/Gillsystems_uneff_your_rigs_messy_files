@@ -32,7 +32,7 @@ async fn main() -> Result<()> {
 
     // Parse command line arguments
     let matches = Command::new("gillsystems-uneff-your-rigs-messy-files")
-        .version("0.1.0")
+        .version("0.2.0")
         .about("Gillsystems_uneff_your_rigs_messy_files - Cross-platform duplicate file management - Power to the people!")
         .arg(
             Arg::new("config")
