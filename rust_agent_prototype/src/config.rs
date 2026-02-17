@@ -11,6 +11,7 @@ pub struct Config {
     pub scanning: ScanningConfig,
     pub security: SecurityConfig,
     pub logging: LoggingConfig,
+    pub remediation: RemediationConfig,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -45,6 +46,15 @@ pub struct LoggingConfig {
     pub max_files: u32,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RemediationConfig {
+    pub quarantine_path: String,
+    pub grace_period_hours: u32,
+    pub verify_before_delete: bool,
+    pub filesystem_priority: Vec<String>,
+    pub max_hard_links_per_file: u32,
+}
+
 impl Default for Config {
     fn default() -> Self {
         Self {
@@ -54,6 +64,7 @@ impl Default for Config {
             scanning: ScanningConfig::default(),
             security: SecurityConfig::default(),
             logging: LoggingConfig::default(),
+            remediation: RemediationConfig::default(),
         }
     }
 }
@@ -109,6 +120,27 @@ impl Default for LoggingConfig {
             file_path: None,
             max_file_size_mb: 100,
             max_files: 5,
+        }
+    }
+}
+
+impl Default for RemediationConfig {
+    fn default() -> Self {
+        Self {
+            quarantine_path: "quarantine".to_string(),
+            grace_period_hours: 72,
+            verify_before_delete: true,
+            // ZFS first → NTFS second → ext4/XFS → FAT32 fallback
+            filesystem_priority: vec![
+                "zfs".to_string(),
+                "ntfs".to_string(),
+                "ext4".to_string(),
+                "xfs".to_string(),
+                "btrfs".to_string(),
+                "apfs".to_string(),
+                "fat32".to_string(),
+            ],
+            max_hard_links_per_file: 1023,
         }
     }
 }

@@ -8,7 +8,7 @@ use tracing::{error, info};
 use crate::{
     agent::UneffAgent,
     config::Config,
-    file_scanner::{ScanProgress, ScanStatus},
+    file_scanner::{ScanProgress, ScanStatus, ScanPhase},
 };
 
 // Windows 7 Aero Theme Colors
@@ -128,10 +128,8 @@ impl UneffGUI {
         self.agent = Some(agent);
     }
     
-    fn windows_7_aero_style(&self) {
-        let ctx = egui::Context::default();
-        
-        // Windows 7 Aero color scheme
+    fn windows_7_aero_style(&self, ctx: &egui::Context) {
+        // Windows 7 Aero color scheme — applied to the REAL context
         let mut style = (*ctx.style()).clone();
         
         // Glass effect backgrounds
@@ -159,7 +157,6 @@ impl UneffGUI {
         style.visuals.selection.stroke = Stroke::new(1.0, AERO_DARK);
         
         ctx.set_style(style);
-        ctx
     }
     
     fn draw_top_bar(&mut self, ui: &mut egui::Ui) {
@@ -604,6 +601,10 @@ impl UneffGUI {
         // TODO: Implement refresh
     }
     
+    fn show_warning(&mut self, message: String) {
+        self.current_warning = Some(message);
+    }
+
     fn process_messages(&mut self) {
         while let Ok(message) = self.message_rx.try_recv() {
             match message {
@@ -635,8 +636,8 @@ impl UneffGUI {
 
 impl App for UneffGUI {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // Apply Windows 7 Aero styling
-        self.windows_7_aero_style();
+        // Apply Windows 7 Aero styling to the real context
+        self.windows_7_aero_style(ctx);
         
         // Process background messages
         self.process_messages();
@@ -669,9 +670,11 @@ impl App for UneffGUI {
 
 pub fn run_gui(config: Arc<Config>) -> Result<()> {
     let options = NativeOptions {
-        initial_window_size: Some(egui::vec2(1200.0, 800.0)),
-        resizable: Some(true),
-        decorated: Some(true),
+        viewport: egui::ViewportBuilder::default()
+            .with_inner_size([1200.0, 800.0])
+            .with_resizable(true)
+            .with_decorations(true)
+            .with_title("Gillsystems_uneff_your_rigs_messy_files"),
         ..Default::default()
     };
     
@@ -680,8 +683,8 @@ pub fn run_gui(config: Arc<Config>) -> Result<()> {
     eframe::run_native(
         "Gillsystems_uneff_your_rigs_messy_files",
         options,
-        Box::new(|_cc| Box::new(gui)),
-    )?;
+        Box::new(|_cc| Ok(Box::new(gui))),
+    ).map_err(|e| anyhow::anyhow!("GUI error: {}", e))?;
     
     Ok(())
 }

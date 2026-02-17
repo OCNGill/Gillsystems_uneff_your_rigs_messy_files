@@ -1,15 +1,27 @@
+// Gillsystems_uneff_your_rigs_messy_files — File Scanner Module
+// Philosophy: Full speed — all CPU cores, no throttling, no artificial limits.
+//
+// Pipeline: Discover → Hash (xxHash64) → Collect → Report
+// Files are discovered via WalkBuilder (respects .gitignore, custom patterns).
+// Each file gets hashed on discovery. Results collected into ScannedFile vec.
+// Progress reported to GUI via mpsc channel.
+// Database insertion handled by the caller (agent.rs) for separation of concerns.
+//
+// Cancellation: check cancel_token periodically during walk.
+
 use anyhow::{Context, Result};
 use ignore::WalkBuilder;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::SystemTime;
 use tokio::sync::mpsc;
 use tracing::{debug, error, info, warn};
-use walkdir::WalkDir;
 
 use crate::config::ScanningConfig;
 use crate::hashing::HashEngine;
 
+/// Metadata gathered during file discovery (before hashing).
 #[derive(Debug, Clone)]
 pub struct FileInfo {
     pub path: PathBuf,
@@ -20,6 +32,7 @@ pub struct FileInfo {
     pub symlink_target: Option<PathBuf>,
 }
 
+/// A fully scanned file — discovery metadata + hash results.
 #[derive(Debug, Clone)]
 pub struct ScannedFile {
     pub info: FileInfo,
@@ -27,6 +40,8 @@ pub struct ScannedFile {
     pub sha256_hash: Option<String>,
 }
 
+/// The scanning pipeline — discovers files, hashes them, reports progress.
+/// Database writes are NOT done here (separation of concerns — agent.rs handles that).
 pub struct FileScanner {
     config: Arc<ScanningConfig>,
     hash_engine: Arc<HashEngine>,
@@ -39,135 +54,158 @@ impl FileScanner {
             config,
         }
     }
-    
+
+    /// Get a reference to the hash engine (for standalone hash operations).
+    pub fn hash_engine(&self) -> &Arc<HashEngine> {
+        &self.hash_engine
+    }
+
+    /// Scan paths and stream progress. Returns all discovered+hashed files.
+    ///
+    /// Pipeline:
+    ///   1. Walk all paths → discover FileInfo
+    ///   2. Hash each file (xxHash64 always, SHA-256 always for now)
+    ///   3. Collect into Vec<ScannedFile>
+    ///   4. Report progress via mpsc channel
+    ///
+    /// The cancel_flag can be set to true externally to abort the scan.
     pub async fn scan_paths(
         &self,
         paths: &[PathBuf],
         progress_sender: mpsc::Sender<ScanProgress>,
-    ) -> Result<()> {
+        cancel_flag: Arc<AtomicBool>,
+    ) -> Result<Vec<ScannedFile>> {
         info!("Starting scan of {} paths", paths.len());
-        
-        let (file_sender, mut file_receiver) = mpsc::channel::<FileInfo>(1000);
-        let (hash_sender, mut hash_receiver) = mpsc::channel::<FileInfo>(1000);
-        
-        // File discovery task
-        let discovery_config = self.config.clone();
-        let discovery_sender = file_sender.clone();
-        let discovery_task = tokio::spawn(async move {
-            if let Err(e) = Self::discover_files(paths, discovery_config, discovery_sender).await {
-                error!("File discovery failed: {}", e);
-            }
-        });
-        
-        // Hashing task pool
-        let hash_config = self.config.clone();
-        let hash_engine = self.hash_engine.clone();
-        let hash_progress_sender = progress_sender.clone();
-        let hash_task = tokio::spawn(async move {
-            if let Err(e) = Self::hash_files(hash_engine, hash_config, hash_sender, hash_progress_sender).await {
-                error!("File hashing failed: {}", e);
-            }
-        });
-        
-        // Progress reporting task
-        let mut files_processed = 0u64;
-        let mut bytes_processed = 0u64;
-        let mut last_progress = SystemTime::now();
-        
-        while let Some(file_info) = file_receiver.recv().await {
-            files_processed += 1;
-            bytes_processed += file_info.size;
-            
-            // Send file to hashing pipeline
-            if let Err(e) = hash_sender.send(file_info.clone()).await {
-                warn!("Failed to send file to hasher: {}", e);
-            }
-            
-            // Report progress periodically
-            if last_progress.elapsed().unwrap_or_default().as_millis() 
-                >= self.config.progress_report_interval_ms as u128 {
-                
-                let progress = ScanProgress {
-                    files_processed,
-                    bytes_processed,
-                    current_path: file_info.path.to_string_lossy().to_string(),
-                    ..Default::default()
-                };
-                
-                if let Err(e) = progress_sender.send(progress).await {
-                    debug!("Progress send failed: {}", e);
-                    break;
-                }
-                
-                last_progress = SystemTime::now();
-            }
-        }
-        
-        // Wait for all tasks to complete
-        drop(hash_sender); // Close hash sender to signal completion
-        
-        let _ = tokio::try_join!(discovery_task, hash_task);
-        
-        // Send final progress
-        let final_progress = ScanProgress {
-            files_processed,
-            bytes_processed,
-            status: ScanStatus::Completed,
+
+        // Phase 1: Discover all files
+        let _ = progress_sender.send(ScanProgress {
+            status: ScanStatus::Scanning,
+            phase: ScanPhase::Discovery,
             ..Default::default()
-        };
-        
-        let _ = progress_sender.send(final_progress).await;
-        
-        info!("Scan completed: {} files, {} bytes processed", files_processed, bytes_processed);
-        Ok(())
+        }).await;
+
+        let discovered = self.discover_files(paths, &progress_sender, &cancel_flag).await?;
+
+        if cancel_flag.load(Ordering::Relaxed) {
+            let _ = progress_sender.send(ScanProgress {
+                status: ScanStatus::Cancelled,
+                files_found: discovered.len() as u64,
+                ..Default::default()
+            }).await;
+            return Ok(Vec::new());
+        }
+
+        info!("Discovery complete: {} files found", discovered.len());
+
+        // Phase 2: Hash all discovered files in batches
+        let _ = progress_sender.send(ScanProgress {
+            status: ScanStatus::Scanning,
+            phase: ScanPhase::Hashing,
+            files_found: discovered.len() as u64,
+            ..Default::default()
+        }).await;
+
+        let scanned = self.hash_discovered_files(
+            &discovered, &progress_sender, &cancel_flag,
+        ).await?;
+
+        if cancel_flag.load(Ordering::Relaxed) {
+            let _ = progress_sender.send(ScanProgress {
+                status: ScanStatus::Cancelled,
+                files_found: discovered.len() as u64,
+                files_processed: scanned.len() as u64,
+                ..Default::default()
+            }).await;
+            return Ok(scanned);
+        }
+
+        // Phase 3: Complete
+        let total_bytes: u64 = scanned.iter().map(|f| f.info.size).sum();
+        let _ = progress_sender.send(ScanProgress {
+            status: ScanStatus::Completed,
+            phase: ScanPhase::Complete,
+            files_found: discovered.len() as u64,
+            files_processed: scanned.len() as u64,
+            bytes_processed: total_bytes,
+            ..Default::default()
+        }).await;
+
+        info!(
+            "Scan completed: {} files discovered, {} hashed, {} bytes",
+            discovered.len(), scanned.len(), total_bytes
+        );
+
+        Ok(scanned)
     }
-    
+
+    /// Discover all files across the given paths.
+    /// Respects config: max_file_size_gb, default_exclude_patterns.
+    /// Reports progress periodically.
     async fn discover_files(
+        &self,
         paths: &[PathBuf],
-        config: Arc<ScanningConfig>,
-        sender: mpsc::Sender<FileInfo>,
-    ) -> Result<()> {
+        progress_sender: &mpsc::Sender<ScanProgress>,
+        cancel_flag: &AtomicBool,
+    ) -> Result<Vec<FileInfo>> {
+        let mut discovered = Vec::new();
+        let mut last_report = SystemTime::now();
+
         for path in paths {
+            if cancel_flag.load(Ordering::Relaxed) { break; }
             info!("Discovering files in: {}", path.display());
-            
+
             let mut walk_builder = WalkBuilder::new(path);
-            
-            // Configure ignore patterns
-            for pattern in &config.default_exclude_patterns {
+
+            // Apply exclude patterns from config
+            for pattern in &self.config.default_exclude_patterns {
                 walk_builder.add_ignore(pattern);
             }
-            
+
             walk_builder
-                .max_depth(Some(10)) // Reasonable default depth
                 .follow_links(false)
-                .same_file_system(true);
-            
+                .same_file_system(true)
+                .threads(num_cpus::get().min(8)); // Parallel walk
+
             let walker = walk_builder.build();
-            
+
             for result in walker {
+                if cancel_flag.load(Ordering::Relaxed) { break; }
+
                 match result {
                     Ok(entry) => {
                         let metadata = match entry.metadata() {
-                            Ok(meta) => meta,
+                            Ok(m) => m,
                             Err(e) => {
-                                warn!("Failed to read metadata for {}: {}", entry.path().display(), e);
+                                warn!("Metadata error {}: {}", entry.path().display(), e);
                                 continue;
                             }
                         };
-                        
+
+                        // Skip directories — we only hash files
+                        if metadata.is_dir() { continue; }
+
                         let file_size = metadata.len();
-                        
-                        // Skip files that are too large
-                        if file_size > config.max_file_size_gb * 1024 * 1024 * 1024 {
-                            debug!("Skipping large file: {} ({} bytes)", entry.path().display(), file_size);
+
+                        // Skip empty files (can't be duplicates meaningfully)
+                        if file_size == 0 { continue; }
+
+                        // Skip files beyond max size
+                        let max_bytes = self.config.max_file_size_gb * 1024 * 1024 * 1024;
+                        if file_size > max_bytes {
+                            debug!(
+                                "Skipping oversized: {} ({} bytes)",
+                                entry.path().display(), file_size
+                            );
                             continue;
                         }
-                        
+
                         let file_info = FileInfo {
                             path: entry.path().to_path_buf(),
                             size: file_size,
-                            modified_time: metadata.modified().unwrap_or_else(|_| SystemTime::now()),
-                            is_directory: metadata.is_dir(),
+                            modified_time: metadata
+                                .modified()
+                                .unwrap_or_else(|_| SystemTime::now()),
+                            is_directory: false,
                             is_symlink: metadata.is_symlink(),
                             symlink_target: if metadata.is_symlink() {
                                 std::fs::read_link(entry.path()).ok()
@@ -175,73 +213,76 @@ impl FileScanner {
                                 None
                             },
                         };
-                        
-                        if let Err(e) = sender.send(file_info).await {
-                            error!("Failed to send file info: {}", e);
-                            break;
+
+                        discovered.push(file_info);
+
+                        // Report progress periodically
+                        let elapsed = last_report.elapsed().unwrap_or_default().as_millis();
+                        if elapsed >= self.config.progress_report_interval_ms as u128 {
+                            let _ = progress_sender.try_send(ScanProgress {
+                                status: ScanStatus::Scanning,
+                                phase: ScanPhase::Discovery,
+                                files_found: discovered.len() as u64,
+                                current_path: entry.path().to_string_lossy().to_string(),
+                                ..Default::default()
+                            });
+                            last_report = SystemTime::now();
                         }
                     }
                     Err(e) => {
-                        warn!("Error during file walk: {}", e);
+                        warn!("Walk error: {}", e);
                     }
                 }
             }
         }
-        
-        Ok(())
+
+        Ok(discovered)
     }
-    
-    async fn hash_files(
-        hash_engine: Arc<HashEngine>,
-        config: Arc<ScanningConfig>,
-        mut receiver: mpsc::Receiver<FileInfo>,
-        progress_sender: mpsc::Sender<ScanProgress>,
-    ) -> Result<()> {
-        let mut batch = Vec::with_capacity(config.hash_batch_size);
-        
-        while let Some(file_info) = receiver.recv().await {
-            batch.push(file_info);
-            
-            if batch.len() >= config.hash_batch_size {
-                Self::process_hash_batch(&hash_engine, &batch, &progress_sender).await?;
-                batch.clear();
+
+    /// Hash all discovered files in batches.
+    /// Stage 1: xxHash64 (always).
+    /// Stage 2: SHA-256 (always, for now — future optimization: only on xxHash match).
+    async fn hash_discovered_files(
+        &self,
+        files: &[FileInfo],
+        progress_sender: &mpsc::Sender<ScanProgress>,
+        cancel_flag: &AtomicBool,
+    ) -> Result<Vec<ScannedFile>> {
+        let total = files.len();
+        let batch_size = self.config.hash_batch_size.max(1);
+        let mut results = Vec::with_capacity(total);
+        let mut last_report = SystemTime::now();
+
+        for chunk in files.chunks(batch_size) {
+            if cancel_flag.load(Ordering::Relaxed) { break; }
+
+            let hashed = self.hash_engine.hash_files(chunk).await?;
+            results.extend(hashed);
+
+            // Report progress
+            let elapsed = last_report.elapsed().unwrap_or_default().as_millis();
+            if elapsed >= self.config.progress_report_interval_ms as u128 {
+                let bytes_so_far: u64 = results.iter().map(|f| f.info.size).sum();
+                let _ = progress_sender.try_send(ScanProgress {
+                    status: ScanStatus::Scanning,
+                    phase: ScanPhase::Hashing,
+                    files_found: total as u64,
+                    files_processed: results.len() as u64,
+                    bytes_processed: bytes_so_far,
+                    current_path: chunk.last()
+                        .map(|f| f.path.to_string_lossy().to_string())
+                        .unwrap_or_default(),
+                    ..Default::default()
+                });
+                last_report = SystemTime::now();
             }
         }
-        
-        // Process remaining files
-        if !batch.is_empty() {
-            Self::process_hash_batch(&hash_engine, &batch, &progress_sender).await?;
-        }
-        
-        Ok(())
-    }
-    
-    async fn process_hash_batch(
-        hash_engine: &HashEngine,
-        batch: &[FileInfo],
-        progress_sender: &mpsc::Sender<ScanProgress>,
-    ) -> Result<()> {
-        let hashed_files = hash_engine.hash_files(batch).await?;
-        
-        for scanned_file in hashed_files {
-            // Here we would typically send the scanned file to the database
-            // For now, we'll just update progress
-            debug!("Hashed file: {:?}", scanned_file.info.path);
-        }
-        
-        // Update progress
-        let progress = ScanProgress {
-            files_processed: batch.len() as u64,
-            ..Default::default()
-        };
-        
-        if let Err(e) = progress_sender.try_send(progress) {
-            debug!("Failed to send hash progress: {}", e);
-        }
-        
-        Ok(())
+
+        Ok(results)
     }
 }
+
+// ── Progress Types ─────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Default)]
 pub struct ScanProgress {
@@ -251,6 +292,7 @@ pub struct ScanProgress {
     pub duplicates_found: u64,
     pub current_path: String,
     pub status: ScanStatus,
+    pub phase: ScanPhase,
     pub error_message: String,
 }
 
@@ -263,9 +305,19 @@ pub enum ScanStatus {
 }
 
 impl Default for ScanStatus {
-    fn default() -> Self {
-        Self::Scanning
-    }
+    fn default() -> Self { Self::Scanning }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ScanPhase {
+    Discovery,
+    Hashing,
+    DuplicateDetection,
+    Complete,
+}
+
+impl Default for ScanPhase {
+    fn default() -> Self { Self::Discovery }
 }
 
 #[cfg(test)]
@@ -273,22 +325,47 @@ mod tests {
     use super::*;
     use tempfile::tempdir;
     use tokio::sync::mpsc;
-    
+
     #[tokio::test]
     async fn test_file_scanner_basic() -> Result<()> {
         let dir = tempdir()?;
         let test_file = dir.path().join("test.txt");
         std::fs::write(&test_file, "Hello, World!")?;
-        
+
         let config = Arc::new(ScanningConfig::default());
         let scanner = FileScanner::new(config);
-        
+        let cancel = Arc::new(AtomicBool::new(false));
         let (progress_sender, _progress_receiver) = mpsc::channel(100);
-        
-        scanner
-            .scan_paths(&[dir.path().to_path_buf()], progress_sender)
+
+        let results = scanner
+            .scan_paths(&[dir.path().to_path_buf()], progress_sender, cancel)
             .await?;
-        
+
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].info.size, 13); // "Hello, World!" = 13 bytes
+        assert!(results[0].xxhash64.is_some());
+        assert!(results[0].sha256_hash.is_some());
+
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn test_cancellation() -> Result<()> {
+        let dir = tempdir()?;
+        for i in 0..100 {
+            std::fs::write(dir.path().join(format!("file_{}.txt", i)), format!("content {}", i))?;
+        }
+
+        let config = Arc::new(ScanningConfig::default());
+        let scanner = FileScanner::new(config);
+        let cancel = Arc::new(AtomicBool::new(true)); // Pre-cancelled
+        let (progress_sender, _) = mpsc::channel(100);
+
+        let results = scanner
+            .scan_paths(&[dir.path().to_path_buf()], progress_sender, cancel)
+            .await?;
+
+        assert!(results.is_empty());
         Ok(())
     }
 }

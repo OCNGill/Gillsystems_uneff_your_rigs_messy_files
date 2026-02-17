@@ -72,6 +72,8 @@ sysinfo = "0.30"
 
 # Utilities
 open = "5.0"
+hostname = "0.4"
+chrono = "0.4"
 
 # Error handling
 anyhow = "1.0"
