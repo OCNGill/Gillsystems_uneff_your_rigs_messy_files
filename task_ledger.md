@@ -1,4 +1,4 @@
-# 7D Task Ledger - Gillsystems_uneff_your_rigs_messy_files Multi-Agent System
+# 7D Task Ledger — Gillsystems_uneff_your_rigs_messy_files
 
 ## Project Status: v0.1.0 — Design Complete → DEVELOP Ready
 

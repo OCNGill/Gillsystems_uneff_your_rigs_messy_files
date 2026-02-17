@@ -1,8 +1,10 @@
-# Gillsystems_uneff_your_rigs_messy_files - Multi-Agent System
+# Gillsystems_uneff_your_rigs_messy_files
 
 **Power to the People!** 🚀
 
-A cross-platform duplicate file detection system with **Windows 7 Aero style** interface, built on the philosophy of user empowerment and radical transparency.
+A cross-platform **standalone executable** for duplicate file detection and remediation, featuring a **Windows 7 Aero style** native GUI. Single binary. No installers. No dependencies. No web servers. No cloud. Just run it.
+
+Built with Rust for maximum performance — zero garbage collection, zero frameworks, maximum intent.
 
 ## 🎯 Mission
 
@@ -40,41 +42,21 @@ This is **Gillsystems-style** development — no guardrails, admin privileges as
 - **Linux**: systemd services, multiple distros, root-level access
 - **macOS**: LaunchAgents, code signing, Full Disk Access granted
 
-## 👥 Multi-Agent Team Structure
+## � Project Status
 
-### Team Alpha: UI/UX Design Division
-- **Lead**: Agent Alpha-1 (Aero Glass Rendering Specialist)
-- **Squad**: 3 specialized UI agents
-- **Domain**: Windows 7 Aero interface & cross-platform UX
-
-### Team Beta: Systems Architecture Division
-- **Lead**: Agent Beta-1 (GUI Architecture Optimizer)
-- **Squad**: 3 specialized systems agents
-- **Domain**: Core architecture & performance optimization
-
-### Team Gamma: Platform Integration Division
-- **Lead**: Agent Gamma-1 (Windows Integration Expert)
-- **Squad**: 3 specialized integration agents
-- **Domain**: Platform integration & service management
-
-## 📋 Project Status
-
-**Current Phase**: Design (Day 1 of 28)
+**Version**: 0.1.0 — Design Complete → Develop Ready  
+**Artifact**: Standalone executable (single Rust binary)  
+**Version Authority**: [`version.py`](version.py)
 
 ### 7D Progress
-- [x] **Define**: Project scope and team structure
-- [ ] **Design**: Architecture and specifications
-- [ ] **Develop**: Core implementation
+- [x] **Discover**: Codebase reconnaissance, philosophy alignment
+- [x] **Define**: Project scope, architecture decisions
+- [x] **Design**: Full architecture, ZFS-first remediation, GUI design, module stubs
+- [ ] **Develop**: Core implementation (25 tasks across 6 sprints)
 - [ ] **Debug**: Testing and validation
 - [ ] **Document**: User guides and API docs
-- [ ] **Deliver**: Production-ready artifacts
-- [ ] **Deploy**: Final system integration
-
-### Active Milestones
-- **M1**: Design Phase Complete (Day 7)
-- **M2**: Development Phase (Day 14)
-- **M3**: Integration Phase (Day 21)
-- **M4**: Delivery Phase (Day 28)
+- [ ] **Deliver**: Production-ready executable
+- [ ] **Deploy**: Distribution and installation
 
 ## 🚀 Quick Start
 
@@ -188,19 +170,12 @@ Gillsystems_uneff_your_rigs_messy_files/
 └── README.md               # This file
 ```
 
-### Team Coordination
-- **Daily standups** at 0900, 1000, 1100, 1600
-- **Cross-team integration** working groups
-- **Peer review** required for all changes
-- **Performance benchmarks** for all components
-
 ## 📚 Documentation
 
-- **[User Guide](docs/user_guide.md)** - Complete usage instructions
-- **[Architecture Design](architecture_design.md)** - System architecture
-- **[Design Team Analysis](design_team_analysis.md)** - Design team breakdown
-- **[Team Leader Directives](team_leader_directives.md)** - Leadership instructions
-- **[Task Ledger](task_ledger.md)** - 7D progress tracking
+- **[User Guide](docs/user_guide.md)** — Complete usage instructions
+- **[Architecture Design](architecture_design.md)** — System architecture
+- **[Task Ledger](task_ledger.md)** — 7D development progress
+- **[7D × SWEET](docs/7D_agile_process_with_SWEET_principles.md)** — Methodology reference
 
 ## 🤝 Contributing
 
@@ -220,13 +195,6 @@ Gillsystems_uneff_your_rigs_messy_files/
 - **Single Binary** — No dependencies, no installers, easy deployment
 - **Performance First** — Rust, LTO, stripped binaries, all CPU cores, maximum I/O
 
-### 3×3 Agent Team
-| Team | Lead | Domain |
-|------|------|--------|
-| **Alpha** | Aero Glass Rendering Specialist | UI/UX, Theming, Animations, DWM |
-| **Beta** | GUI Architecture Optimizer | Core Architecture, Performance |
-| **Gamma** | Windows Integration Expert | Platform Integration, Service Mgmt |
-
 ## 📄 License
 
 MIT License - See [LICENSE](LICENSE) file for details.
@@ -240,7 +208,7 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 ---
 
-**Remember**: This is more than just a duplicate file finder — it's a statement about **user freedom** and **technological sovereignty**. Built by Commander Stephen Gill with 30+ years of expertise, zero frameworks, and maximum intent. We're bringing back the **banging Windows 7 Aero style** while delivering cutting-edge cross-platform functionality. Systems should serve humans — and this one does.
+**Remember**: This isn't just a duplicate file finder — it's a **standalone executable** that embodies **user freedom** and **technological sovereignty**. One binary, no installers, no cloud, no BS. Built by Commander Stephen Gill with 30+ years of expertise, zero frameworks, and maximum intent. Bringing back the **banging Windows 7 Aero style** while delivering real cross-platform functionality. Systems should serve humans — and this one does.
 
 **Power to the People!** 🚀
 

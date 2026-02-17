@@ -1,5 +1,6 @@
 {
-  "project_name": "Gillsystems_uneff_your_rigs_messy_files - Multi-Agent System",
+  "project_name": "Gillsystems_uneff_your_rigs_messy_files",
+  "artifact_type": "Standalone Executable (Single Rust Binary)",
   "repository": "https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files",
   "version": "0.1.0",
   "version_authority": "version.py",
