@@ -717,7 +717,7 @@ This project follows the **7D Agile** development methodology aligned with **SWE
 
 - **GitHub**: [https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files](https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files)
 - **Website**: [https://gillsystems.net](https://gillsystems.net)
-- **Documentation**: [https://docs.gillsystems.net/gillsystems-uneff-your-rigs-messy-files](https://docs.gillsystems.net/gillsystems-uneff-your-rigs-messy-files)
+- **Documentation**: [https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/tree/main/docs](https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/tree/main/docs)
 
 ---
 

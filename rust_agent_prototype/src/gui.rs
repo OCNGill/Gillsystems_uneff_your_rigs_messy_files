@@ -229,7 +229,7 @@ impl UneffGUI {
             // Help menu
             ui.menu_button("Help", |ui| {
                 if ui.button("User Guide").clicked() {
-                    open::that("https://docs.gillsystems.net/gillsystems-uneff-your-rigs-messy-files").ok();
+                    open::that("https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/tree/main/docs").ok();
                 }
                 ui.separator();
                 if ui.button("About").clicked() {
@@ -507,7 +507,7 @@ impl UneffGUI {
                     ui.vertical_centered(|ui| {
                         ui.heading("Gillsystems_uneff_your_rigs_messy_files");
                         ui.label("Version 0.2.0");
-                        ui.label("Created by Commander Stephen Gill");
+                        ui.label("Created by Stephen Gill");
                         ui.label("© 2026 GillSystems — 30+ Years of Technology Expertise");
                         ui.separator();
                         ui.label(RichText::new("\"Systems Should Serve Humans.\"").italics().size(14.0));
@@ -523,7 +523,7 @@ impl UneffGUI {
                             open::that("https://gillsystems.net").ok();
                         }
                         if ui.button("📚 Documentation").clicked() {
-                            open::that("https://docs.gillsystems.net/gillsystems-uneff-your-rigs-messy-files").ok();
+                            open::that("https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/tree/main/docs").ok();
                         }
                         if ui.button("💖 Support / Donate").clicked() {
                             open::that("https://paypal.me/gillsystems").ok();
