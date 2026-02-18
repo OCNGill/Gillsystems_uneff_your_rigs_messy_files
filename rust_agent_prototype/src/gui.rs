@@ -82,6 +82,9 @@ pub struct UneffGUI {
     // Aero effects
     animation_time: f32,
     hover_progress: f32,
+
+    // Gillsystems branded background texture
+    background_texture: Option<egui::TextureHandle>,
 }
 
 #[derive(Debug, Clone)]
@@ -150,6 +153,7 @@ impl UneffGUI {
             right_panel_selected: None,
             animation_time: 0.0,
             hover_progress: 0.0,
+            background_texture: None,
         };
         
         (gui, message_tx)
@@ -163,9 +167,9 @@ impl UneffGUI {
         // Windows 7 Aero color scheme — applied to the REAL context
         let mut style = (*ctx.style()).clone();
         
-        // Glass effect backgrounds
-        style.visuals.panel_fill = AERO_GLASS;
-        style.visuals.window_fill = AERO_GLASS;
+        // Glass effect backgrounds — semi-transparent so Gillsystems background shows through
+        style.visuals.panel_fill = Color32::from_rgba_premultiplied(0, 0, 0, 180);
+        style.visuals.window_fill = Color32::from_rgba_premultiplied(0, 20, 60, 200);
         style.visuals.window_shadow = egui::epaint::Shadow {
             extrusion: 8.0,
             color: Color32::from_rgba_premultiplied(0, 0, 0, 100),
@@ -696,6 +700,37 @@ impl App for UneffGUI {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         // Apply Windows 7 Aero styling to the real context
         self.windows_7_aero_style(ctx);
+        
+        // Load Gillsystems branded background once
+        if self.background_texture.is_none() {
+            let image_bytes = include_bytes!("../assets/gillsystems_bg.png");
+            if let Ok(image) = image::load_from_memory(image_bytes) {
+                let rgba = image.to_rgba8();
+                let (w, h) = rgba.dimensions();
+                let pixels = rgba.into_raw();
+                let color_image = egui::ColorImage::from_rgba_unmultiplied(
+                    [w as usize, h as usize],
+                    &pixels,
+                );
+                self.background_texture = Some(ctx.load_texture(
+                    "gillsystems_bg",
+                    color_image,
+                    egui::TextureOptions::LINEAR,
+                ));
+            }
+        }
+
+        // Paint the Gillsystems background behind everything
+        let screen_rect = ctx.screen_rect();
+        let painter = ctx.layer_painter(egui::LayerId::background());
+        if let Some(tex) = &self.background_texture {
+            painter.image(
+                tex.id(),
+                screen_rect,
+                egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)),
+                Color32::WHITE,
+            );
+        }
         
         // Process background messages
         self.process_messages();

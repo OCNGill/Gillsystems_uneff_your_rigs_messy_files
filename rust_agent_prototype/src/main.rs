@@ -73,6 +73,7 @@ use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 mod agent;
+mod boot_screen;
 mod config;
 mod database;
 mod file_scanner;
@@ -81,10 +82,13 @@ mod hashing;
 mod platform;
 mod remediation;
 mod service;
+mod smb_server;
 
 use agent::UneffAgent;
+use boot_screen::{BootMode, BootScreen};
 use config::Config;
 use gui::run_gui;
+use smb_server::SMBServer;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -97,9 +101,59 @@ async fn main() -> Result<()> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
+    // Check if running with CLI arguments
+    let args: Vec<String> = std::env::args().collect();
+    
+    // If explicit CLI argument, skip boot screen
+    if args.len() > 1 {
+        return run_cli_mode().await;
+    }
+
+    // Otherwise, show boot screen
+    info!("Starting Gillsystems_uneff_your_rigs_messy_files v0.4.0 — Deliver Phase");
+    
+    // Check permissions first
+    if !BootScreen::check_permissions().unwrap_or(false) {
+        info!("Requesting elevated permissions...");
+        BootScreen::request_elevation()?;
+        // After elevation, app should restart — exit here
+        std::process::exit(0);
+    }
+
+    // Show boot screen
+    // TODO: Integrate boot screen UI with eframe window
+    // For now, default to GUI mode
+    let boot_mode = BootMode::LaunchGUI;
+
+    // Load configuration
+    let config = Arc::new(Config::load("config.toml")?);
+    config.validate()?;
+
+    match boot_mode {
+        BootMode::LaunchGUI => {
+            info!("Launching GUI mode");
+            run_gui(config)
+        }
+        BootMode::LaunchService => {
+            info!("Launching service mode");
+            run_service_mode(config).await
+        }
+        BootMode::SetupSMB => {
+            info!("Launching SMB setup");
+            run_smb_setup().await
+        }
+        BootMode::ShowBootScreen => {
+            // This shouldn't be reached
+            error!("Boot screen selection incomplete");
+            Err(anyhow::anyhow!("No mode selected"))
+        }
+    }
+}
+
+async fn run_cli_mode() -> Result<()> {
     // Parse command line arguments
     let matches = Command::new("gillsystems-uneff-your-rigs-messy-files")
-        .version("0.2.0")
+        .version("0.4.0")
         .about("Gillsystems_uneff_your_rigs_messy_files - Cross-platform duplicate file management - Power to the people!")
         .arg(
             Arg::new("config")
@@ -199,5 +253,62 @@ async fn run_full_mode(config: Arc<Config>) -> Result<()> {
     // Shutdown agent
     agent_handle.abort();
     
+    Ok(())
+}
+async fn run_smb_setup() -> Result<()> {
+    info!("Starting SMB server setup");
+    
+    // Check if SMB is available
+    if !SMBServer::is_available()? {
+        error!("SMB not available on this system");
+        println!("To enable SMB server:");
+        
+        #[cfg(target_os = "linux")]
+        println!("  sudo apt-get install samba samba-common");
+        
+        #[cfg(target_os = "macos")]
+        println!("  SMB is built-in on macOS 10.5+");
+        
+        #[cfg(target_os = "windows")]
+        println!("  SMB is built-in on Windows 7+");
+        
+        return Err(anyhow::anyhow!("SMB not available"));
+    }
+    
+    // Create SMB server instance with all available drives
+    let share_path = std::env::temp_dir();
+    let available_drives = SMBServer::get_available_drives()?;
+    
+    // Generate unique share name for first drive as example
+    let share_name = if let Some(first_drive) = available_drives.first() {
+        SMBServer::generate_unique_share_name(first_drive)?
+    } else {
+        "uneff-rigs-unknown".to_string()
+    };
+    
+    let mut server = SMBServer::new(
+        share_name.clone(),
+        share_path.clone(),
+        true, // localhost only
+        available_drives, // share all available drives
+    );
+    
+    // Check if already shared
+    if SMBServer::is_path_shared(&share_path)? {
+        println!("✅ Path already shared via SMB");
+        println!("   Connection: {}", server.get_connection_string());
+        return Ok(());
+    }
+    
+    // Start SMB server
+    server.start()?;
+    
+    println!("✅ SMB server started successfully!");
+    println!("   Share Name: uneff-rigs");
+    println!("   Path: {}", share_path.display());
+    println!("   Connection: {}", server.get_connection_string());
+    println!("   Access: Localhost only (secure)");
+    
+    info!("SMB setup complete");
     Ok(())
 }
