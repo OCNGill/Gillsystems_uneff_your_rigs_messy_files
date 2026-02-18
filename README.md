@@ -2,6 +2,16 @@
 
 **Power to the People!** 🚀
 
+## 🚀 **JUST DOWNLOAD THE EXECUTABLES AND RUN! RUN FREE!**
+
+Get the binaries from the root folder:
+- **Windows**: `gillsystems-uneff-your-rigs-messy-files-windows-x64.exe`
+- **Linux**: `gillsystems-uneff-your-rigs-messy-files-linux-x64`
+
+No installation. No dependencies. No registration. **One click to freedom.**
+
+---
+
 A cross-platform **standalone executable** for duplicate file detection and remediation, featuring a **Windows 7 Aero style** native GUI. Single binary. No installers. No dependencies. No web servers. No cloud. Just run it.
 
 Built with Rust for maximum performance — zero garbage collection, zero frameworks, maximum intent.

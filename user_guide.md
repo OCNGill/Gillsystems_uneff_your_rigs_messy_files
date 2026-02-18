@@ -1,31 +1,51 @@
 # Gillsystems_uneff_your_rigs_messy_files — User Guide
 
-**Version**: 0.1.0  
+**Version**: 0.5.0  
 **Author**: GillSystems  
 **Methodology**: 7D Agile × SWEET Principles  
 **Philosophy**: Power to the People 🚀
 
 ---
 
+## 🚀 **QUICK START — JUST DOWNLOAD AND RUN!**
+
+### Get the Binary
+1. **Windows users**: Download `gillsystems-uneff-your-rigs-messy-files-windows-x64.exe` from root
+2. **Linux users**: Download `gillsystems-uneff-your-rigs-messy-files-linux-x64` from root
+3. **Run it immediately** — no installation, no dependencies, no setup
+
+```bash
+# Windows (from PowerShell or Command Prompt):
+gillsystems-uneff-your-rigs-messy-files-windows-x64.exe
+
+# Linux (from terminal):
+./gillsystems-uneff-your-rigs-messy-files-linux-x64
+```
+
+**That's it. RUN FREE! 🔓**
+
+---
+
 ## Table of Contents
 
-1. [Introduction](#1-introduction)
-2. [System Requirements](#2-system-requirements)
-3. [Installation](#3-installation)
-4. [First Launch](#4-first-launch)
-5. [The Interface — Windows 7 Aero Style](#5-the-interface--windows-7-aero-style)
-6. [Scanning for Duplicates](#6-scanning-for-duplicates)
-7. [Managing Duplicate Files](#7-managing-duplicate-files)
-8. [Network & Multi-Node Operations](#8-network--multi-node-operations)
-9. [Configuration](#9-configuration)
-10. [Platform-Specific Setup](#10-platform-specific-setup)
-11. [Run Modes](#11-run-modes)
-12. [Remediation Actions](#12-remediation-actions)
-13. [Keyboard Shortcuts & Quick Actions](#13-keyboard-shortcuts--quick-actions)
-14. [Troubleshooting](#14-troubleshooting)
-15. [FAQ](#15-faq)
-16. [Philosophy & Mission](#16-philosophy--mission)
-17. [Glossary](#17-glossary)
+1. [Quick Start](#-quick-start--just-download-and-run) ← Start here!
+2. [Introduction](#1-introduction)
+3. [System Requirements](#2-system-requirements)
+4. [Installation](#3-installation)
+5. [First Launch](#4-first-launch)
+6. [The Interface — Windows 7 Aero Style](#5-the-interface--windows-7-aero-style)
+7. [Scanning for Duplicates](#6-scanning-for-duplicates)
+8. [Managing Duplicate Files](#7-managing-duplicate-files)
+9. [Network & Multi-Node Operations](#8-network--multi-node-operations)
+10. [Configuration](#9-configuration)
+11. [Platform-Specific Setup](#10-platform-specific-setup)
+12. [Run Modes](#11-run-modes)
+13. [Remediation Actions](#12-remediation-actions)
+14. [Keyboard Shortcuts & Quick Actions](#13-keyboard-shortcuts--quick-actions)
+15. [Troubleshooting](#14-troubleshooting)
+16. [FAQ](#15-faq)
+17. [Philosophy & Mission](#16-philosophy--mission)
+18. [Glossary](#17-glossary)
 
 ---
 
