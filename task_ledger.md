@@ -1,10 +1,10 @@
 # 7D Task Ledger — Gillsystems_uneff_your_rigs_messy_files
 
-## Project Status: v0.3.0 — Debug Complete → Document Ready
+## Project Status: v0.4.0 — Document Complete → Deliver Ready
 
 ### Version Authority: `version.py` (Single Source of Truth)
 
-### Current Phase: ~~Discover~~ → ~~Define~~ → ~~Design~~ → ~~Develop~~ → ~~Debug~~ → **Document** → Deliver → Deploy
+### Current Phase: ~~Discover~~ → ~~Define~~ → ~~Design~~ → ~~Develop~~ → ~~Debug~~ → ~~Document~~ → **Deliver** → Deploy
 
 | Phase | Status | Requirement | Progress |
 | --- | --- | --- | --- |
@@ -12,8 +12,8 @@
 | **Design** | [x] | Architecture and diff proposal approved by Commander. | ✅ 100% |
 | **Develop** | [x] | All 10 modules implemented. 0 TODOs remaining. | ✅ 100% |
 | **Debug** | [x] | Local testing and validation. | ✅ 100% — 0 errors, 0 warnings, 5/5 tests pass, 4.68 MB release binary |
-| **Document** | [~] | README and inline docs updated. User guide created. | 🔄 80% |
-| **Deliver** | [ ] | Artifacts prepared for Commander review. | |
+| **Document** | [x] | README and inline docs updated. User guide created. | ✅ 100% — Comprehensive doc-comments, README polish, CONTRIBUTING.md |
+| **Deliver** | [~] | Artifacts prepared for Commander review. | 🔄 5% — Ready for next phase |
 | **Deploy** | [ ] | Final integration into local system. | |
 
 ---
