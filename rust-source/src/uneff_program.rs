@@ -1,15 +1,15 @@
-//! # Agent Core Module — Scan Orchestration
+//! # App Core Module — Scan Orchestration
 //!
 //! Philosophy: Systems Should Serve Humans — Power to the People!
 //!
-//! This module contains the [`UneffAgent`] struct — the heart of the application.
-//! It owns the scanning pipeline, database, network service, and remediation engine.
+//! This module contains [`UneffApp`] — the heart of the standalone program.
+//! It owns the scanning pipeline, database, and remediation engine.
 //! Single binary, single responsibility: un-eff your rigs.
 //!
 //! ## Key Types
-//! - [`UneffAgent`]: Main orchestrator
+//! - [`UneffApp`]: Main orchestrator
 //! - [`ScanState`]: Running scan session metadata
-//! - [`GuiMessage`]: Communication between agent and GUI
+//! - [`GuiMessage`]: Communication between app core and GUI
 //!
 //! ## Workflow
 //! 1. Agent initializes with config and database
@@ -55,10 +55,10 @@ pub struct ScanState {
     pub current_path: String,
 }
 
-/// The core agent that orchestrates all subsystems.
+/// The standalone program core that orchestrates all subsystems.
 ///
 /// Single binary, single responsibility: un-eff your rigs.
-/// Owns the scanning pipeline, database, network service, and remediation engine.
+/// Owns the scanning pipeline, database, and remediation engine.
 ///
 /// # Features
 /// - **Cross-platform**: Detects and scans ZFS, NTFS, ext4, exFAT, etc.
@@ -66,7 +66,7 @@ pub struct ScanState {
 /// - **Progressive hashing**: Streams xxHash64 and SHA-256 for efficiency
 /// - **Multi-strategy remediation**: ZFS clone → NTFS hard link → POSIX reflink
 /// - **Audited**: All operations logged to SQLite with SHA-256 verification
-pub struct UneffAgent {
+pub struct UneffSecretFunctions {
     config: Arc<Config>,
     database: Arc<Database>,
     scanner: Arc<FileScanner>,
@@ -78,8 +78,8 @@ pub struct UneffAgent {
     node_id: String,
 }
 
-impl UneffAgent {
-    /// Create a new agent instance.
+impl UneffSecretFunctions {
+    /// Create the standalone program core.
     ///
     /// Full admin assumed — no permission checks, no gatekeeping.
     /// Initializes all subsystems: database, scanner, remediation, gRPC service.
@@ -133,9 +133,9 @@ impl UneffAgent {
             .unwrap_or_default()
             .as_secs() as i64;
 
-        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.4.0", now)?;
+        database.upsert_node(&node_id, &hostname, "127.0.0.1", &platform, "0.5.1", now)?;
 
-        info!("UneffAgent initialized — node_id: {}, hostname: {}", node_id, hostname);
+        info!("UneffSecretFunctions initialized — node_id: {}, hostname: {}", node_id, hostname);
 
         Ok(Self {
             config,
@@ -415,5 +415,90 @@ impl UneffAgent {
     /// Get a reference to the remediation engine.
     pub fn remediation(&self) -> &Arc<RemediationEngine> {
         &self.remediation
+    }
+
+    /// Export a scan summary as `.md` + `.json` to `scan_logs/` next to the program.
+    /// Called automatically on Stop Scan; results reflect whatever is currently in the DB.
+    pub fn export_scan_log(&self) -> anyhow::Result<()> {
+        use chrono::Local;
+        let now = Local::now();
+        let timestamp    = now.format("%Y%m%d_%H%M%S").to_string();
+        let display_time = now.format("%Y-%m-%d %H:%M:%S").to_string();
+
+        // Ensure output directory exists next to the running binary
+        let log_dir = std::path::PathBuf::from("scan_logs");
+        std::fs::create_dir_all(&log_dir)?;
+
+        // ── Gather data ────────────────────────────────────────────────────────
+        let groups       = self.database.get_duplicate_groups().unwrap_or_default();
+        let total_wasted = self.database.get_total_wasted_space().unwrap_or(0);
+        let total_files_in_groups: i64 = groups.iter().map(|g| g.file_count).sum();
+
+        // Resolve per-group file lists
+        let mut group_details: Vec<(crate::database::DuplicateGroupRow, Vec<crate::database::FileRow>)> = Vec::new();
+        for g in &groups {
+            let files = self.database.get_files_by_hash(&g.sha256_hash).unwrap_or_default();
+            group_details.push((g.clone(), files));
+        }
+
+        // ── Markdown ───────────────────────────────────────────────────────────
+        let mut md = String::new();
+        md.push_str(&format!("# un-F Scan Report — {}\n\n", display_time));
+        md.push_str("## Summary\n\n| Metric | Value |\n|---|---|\n");
+        md.push_str(&format!("| Duplicate Groups | {} |\n", groups.len()));
+        md.push_str(&format!("| Files in Groups | {} |\n", total_files_in_groups));
+        md.push_str(&format!(
+            "| Total Wasted Space | {:.2} GB |\n",
+            total_wasted as f64 / 1_073_741_824.0
+        ));
+        md.push_str(&format!("| Node ID | `{}` |\n\n", self.node_id));
+        md.push_str("## Duplicate Groups\n");
+        for (i, (group, files)) in group_details.iter().enumerate() {
+            let wasted_mb = group.total_wasted_bytes / 1_048_576;
+            md.push_str(&format!("\n### Group {} — {} MB wasted\n", i + 1, wasted_mb));
+            md.push_str(&format!("- **Hash**: `{}`\n", group.sha256_hash));
+            md.push_str(&format!("- **Size per file**: {} bytes\n", group.size_bytes));
+            md.push_str("- **Files**:\n");
+            for f in files {
+                md.push_str(&format!("  - `{}`\n", f.file_path));
+            }
+        }
+        let md_path = log_dir.join(format!("scan_{}.md", timestamp));
+        std::fs::write(&md_path, &md)?;
+
+        // ── JSON ───────────────────────────────────────────────────────────────
+        let json_groups: Vec<serde_json::Value> = group_details
+            .iter()
+            .map(|(g, files)| {
+                serde_json::json!({
+                    "sha256": g.sha256_hash,
+                    "size_bytes": g.size_bytes,
+                    "file_count": g.file_count,
+                    "wasted_bytes": g.total_wasted_bytes,
+                    "files": files.iter().map(|f| serde_json::json!({
+                        "path": f.file_path,
+                        "modified_time": f.modified_time,
+                    })).collect::<Vec<_>>(),
+                })
+            })
+            .collect();
+
+        let report = serde_json::json!({
+            "scan_date": display_time,
+            "node_id": self.node_id,
+            "duplicate_groups": groups.len(),
+            "total_files_in_groups": total_files_in_groups,
+            "total_wasted_bytes": total_wasted,
+            "groups": json_groups,
+        });
+        let json_path = log_dir.join(format!("scan_{}.json", timestamp));
+        std::fs::write(&json_path, serde_json::to_string_pretty(&report)?)?;
+
+        info!(
+            "Scan log exported: {} and {}",
+            md_path.display(),
+            json_path.display()
+        );
+        Ok(())
     }
 }

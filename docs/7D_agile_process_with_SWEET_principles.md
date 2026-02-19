@@ -18,3 +18,11 @@ This table shows how the SWEET Agile principles (Simplicity, Workable, Empirical
 - **7D Agile** gives structure: phases from *Discover → Decommission*.  
 - **SWEET principles** guide behavior: *Simplicity, Workable, Empirical, Empowering, Transparent*.  
 - Together, they ensure Agile stays both **disciplined and adaptive**.
+
+---
+
+## Operational Team Model (Current)
+- **Team size: 9 total**
+- **3 leaders** (Alpha, Beta, Gamma)
+- **6 execution agents** (2 per leader)
+- **Reporting cadence**: agents report mission completion to leaders; leaders report consolidated status at each 7D checkpoint.

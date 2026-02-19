@@ -1,0 +1,47 @@
+grpc_port = 50051
+
+[database]
+path = "gillsystems_uneff_cache.db"
+cache_size_mb = 64
+wal_mode = true
+
+[scanning]
+max_file_size_gb = 10
+default_exclude_patterns = [
+    "*.tmp",
+    "*.temp",
+    "*.swp",
+    "*.swo",
+    ".git/**",
+    "node_modules/**",
+    "target/**",
+    "*.log",
+    "$Recycle.Bin/**",
+    "System Volume Information/**",
+]
+thread_pool_size = 3
+hash_batch_size = 1000
+progress_report_interval_ms = 5000
+
+[security]
+client_auth_required = false
+
+[logging]
+level = "info"
+max_file_size_mb = 100
+max_files = 5
+
+[remediation]
+quarantine_path = "quarantine"
+grace_period_hours = 72
+verify_before_delete = true
+filesystem_priority = [
+    "zfs",
+    "ntfs",
+    "ext4",
+    "xfs",
+    "btrfs",
+    "apfs",
+    "fat32",
+]
+max_hard_links_per_file = 1023

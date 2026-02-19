@@ -12,7 +12,7 @@ No installation. No dependencies. No registration. **One click to freedom.**
 
 ---
 
-A cross-platform **standalone executable** for duplicate file detection and remediation, featuring a **Windows 7 Aero style** native GUI. Single binary. No installers. No dependencies. No web servers. No cloud. Just run it.
+A cross-platform **standalone executable** for duplicate file detection and remediation, featuring a **Windows 7 Aero style* meets the DOS prompt chick at the middle school dance ** native GUI. Single binary. No installers. No dependencies. No web servers. No cloud. Just run it.
 
 Built with Rust for maximum performance — zero garbage collection, zero frameworks, maximum intent.
 
@@ -21,9 +21,9 @@ Built with Rust for maximum performance — zero garbage collection, zero framew
 > *"Systems Should Serve Humans — not the other way around."*  
 > — Commander Stephen Gill, GillSystems • 30+ years of technology expertise
 
-Bring back the **banging Windows 7 Aero style** while delivering unmatched cross-platform duplicate file management. Built with **zero frameworks, maximum intent**. Your technology should make you money, not cost you money — and this tool embodies that belief in every line of code.
+Bring back the **banging Windows 7 Aero style, but it met an DOS prompt at a late 80's middle school dance** while delivering unmatched cross-platform duplicate file management. Built with **zero frameworks, maximum intent**. Your technology should make you money, not cost you money — and this tool embodies that belief in every line of code.
 
-This is **Gillsystems-style** development — no guardrails, admin privileges assumed, power to the people, and zero vendor BS.
+This is **Gillsystems-style** development — no guardrails, admin privileges assumed, power to the people, no guard-rails, be careful.
 
 ## 🏗️ Architecture
 
@@ -33,7 +33,7 @@ This is **Gillsystems-style** development — no guardrails, admin privileges as
 - **Peer-to-peer network** - no central orchestrator
 - **10+ node support** with multi-drive detection
 
-### Windows 7 Aero Interface
+### Windows 7 Aero Meet's pre-CGA days Interface
 - **Glass effects** with transparency and blur
 - **Classic color schemes** (Blue, Silver, Olive Green)
 - **Smooth animations** at 60 FPS

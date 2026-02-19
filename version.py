@@ -40,15 +40,15 @@ Repository: https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files
 # ──────────────────────────────────────────────
 
 VERSION_MAJOR = 0
-VERSION_MINOR = 4
-VERSION_PATCH = 0
+VERSION_MINOR = 5
+VERSION_PATCH = 1
 
 VERSION_TUPLE = (VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 VERSION = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
 
 # 7D Phase Tracking
-PHASE = "Document Complete → Deliver Ready"
-PHASE_CODE = "DEBUG_COMPLETE"
+PHASE = "Deliver — Matrix Green Aero GUI Live"
+PHASE_CODE = "DELIVER_MATRIX_GREEN"
 
 # Phase history (append-only log)
 PHASE_HISTORY = [
@@ -57,6 +57,8 @@ PHASE_HISTORY = [
     {"version": "0.1.0", "phase": "Design", "milestone": "Architecture complete, ZFS-first remediation, branding purge, 6 module stubs, user guide, 3 reflection loops passed"},
     {"version": "0.2.0", "phase": "Develop", "milestone": "Full implementation — 10 modules, 0 TODOs, all subsystems operational: scanner, hashing, database CRUD, remediation (ZFS/NTFS/POSIX/FAT32), GUI wired, gRPC service, duplicate detection pipeline"},
     {"version": "0.3.0", "phase": "Debug", "milestone": "Full cargo build: 0 errors, 0 warnings. 5/5 tests pass. Release binary 4.68 MB. Fixed: protoc-vendored, Cargo.toml platform section trap, gui.rs borrow conflicts, Shadow API, egui Rounding fields, run_native closure signature, proto3 enum naming, orphan brace in platform.rs"},
+    {"version": "0.4.0", "phase": "Document", "milestone": "Comprehensive doc-comments on all 10 modules, README polish, CONTRIBUTING.md, user_guide.md, architecture_design.md complete"},
+    {"version": "0.5.1", "phase": "Deliver", "milestone": "Matrix Green Aero GUI overhaul: #00FF41 theme with full contrast, cover-mode background image, Aero glass outer panels, Teams Delta/Epsilon/Zeta. Build: 0 errors, 5.4 MB Windows exe"},
 ]
 
 # Build metadata
@@ -74,13 +76,16 @@ BUILD_METADATA = {
 # Team structure
 TEAM_STRUCTURE = {
     "commander": "Stephen Gill",
-    "team_leaders": 3,
+    "team_leaders": 6,
     "agents_per_team": 3,
-    "total_agents": 9,
+    "total_agents": 18,
     "teams": [
         "Alpha (UI/UX Design)",
         "Beta (Systems Architecture)",
         "Gamma (Platform Integration)",
+        "Delta (Matrix Green Theme Command)",
+        "Epsilon (Background & Aero Glass Architecture)",
+        "Zeta (Build Verification & Cross-Platform Consistency)",
     ],
 }
 

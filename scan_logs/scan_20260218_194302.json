@@ -1,0 +1,1997 @@
+{
+  "duplicate_groups": 63,
+  "groups": [
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\vs_xbr-lv2-noblend.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\vs_xbr-lv2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\vs_xbr-lv3-noblend.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\vs_xbr-lv3.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-sharp.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2-gamma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4-gamma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4b.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v5-gamma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-a-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-b-pass0.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-c-pass0.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv3-multipass\\vs_xbr-lv3-pass0.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass2.bin"
+        }
+      ],
+      "sha256": "d02871e3628738e79cdd9d4f900547d1cb4b750c91689743ec2288492832cd56",
+      "size_bytes": 2087,
+      "wasted_bytes": 37566
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\vs_xbr-lv2-noblend.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\vs_xbr-lv2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\vs_xbr-lv3-noblend.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\vs_xbr-lv3.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-sharp.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2-gamma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4-gamma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4b.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v5-gamma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-a-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-b-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-c-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv3-multipass\\vs_xbr-lv3-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass2.bin"
+        }
+      ],
+      "sha256": "a3c3789999ad8e421d2a8ca19444439a8a4f312c0cc15f585840a4b23f0be44f",
+      "size_bytes": 1937,
+      "wasted_bytes": 34866
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\vs_xbr-lv2-noblend.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\vs_xbr-lv2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\vs_xbr-lv3-noblend.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\vs_xbr-lv3.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-sharp.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2-gamma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4-gamma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4b.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v5-gamma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-a-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-b-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-c-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv3-multipass\\vs_xbr-lv3-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass2.bin"
+        }
+      ],
+      "sha256": "9a789399b3c17cea5168535c0372c6ecfe330306e89211732f7d5031e892b31d",
+      "size_bytes": 1339,
+      "wasted_bytes": 24102
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\vs_xbr-lv2-noblend.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\vs_xbr-lv2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\vs_xbr-lv3-noblend.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\vs_xbr-lv3.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-sharp.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2-gamma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4-gamma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v4b.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid-v5-gamma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-hybrid\\vs_2xbr-hybrid.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-a-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-b-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-c-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv3-multipass\\vs_xbr-lv3-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass2.bin"
+        }
+      ],
+      "sha256": "1de2d03b91724e090adf601953f677a609bc3ffe174de1bd297642d391406437",
+      "size_bytes": 770,
+      "wasted_bytes": 13860
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\default\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_left_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_left_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_right_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_right_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\unfiltered\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_custom-jinc2-sharper.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-xbr-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\vs_gui.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\vs_screen.bin"
+        }
+      ],
+      "sha256": "38306be7565a4d8a9262c69d262b5a26e4594fe43a8e24f333d6dd56f7ac3052",
+      "size_bytes": 577,
+      "wasted_bytes": 10386
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_left_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_left_vertical\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_right_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_right_vertical\\fs_gaussian.bin"
+        }
+      ],
+      "sha256": "777b5e23efb17bdd73103be2682128d85cf3d03cd39480fd19d46ae223304fbb",
+      "size_bytes": 2901,
+      "wasted_bytes": 8703
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass2.bin"
+        }
+      ],
+      "sha256": "f9aea703c03f6513b4110d1d4e2bd6ba347ff8e2f6388c017cc68e67cb857fd0",
+      "size_bytes": 8621,
+      "wasted_bytes": 8621
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_left_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_left_vertical\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_right_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_right_vertical\\fs_gaussian.bin"
+        }
+      ],
+      "sha256": "cd70bc81b64303ab4245968c3f089f30d8f06b9c6718bc7d7573050dadd7d9aa",
+      "size_bytes": 2861,
+      "wasted_bytes": 8583
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass2.bin"
+        }
+      ],
+      "sha256": "b7ba2a65844c1c83def20072fb35a515d4a13d5e4651ce159a17f59be1743203",
+      "size_bytes": 8237,
+      "wasted_bytes": 8237
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_left_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_left_vertical\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_right_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_right_vertical\\fs_gaussian.bin"
+        }
+      ],
+      "sha256": "b2fd1adacd5b5ec8813e44c1fcf02070b7ea5463e0ddab845ad8da4346f3fea4",
+      "size_bytes": 2665,
+      "wasted_bytes": 7995
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass2.bin"
+        }
+      ],
+      "sha256": "c7b6e36c31ae8f258d0f360bbcb2d39fb429156cd3db74b2fbec95efe5beb1c8",
+      "size_bytes": 7652,
+      "wasted_bytes": 7652
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass3.bin"
+        }
+      ],
+      "sha256": "84e92dd832d469b54ffc788c5dff8de8a1f2b4cdfa5442e98f81c47a577ce490",
+      "size_bytes": 7651,
+      "wasted_bytes": 7651
+    },
+    {
+      "file_count": 6,
+      "files": [
+        {
+          "modified_time": 1603789612,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\chains\\LICENSE"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\default\\LICENSE"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\hlsl\\LICENSE"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\LICENSE"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\unfiltered\\LICENSE"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\LICENSE"
+        }
+      ],
+      "sha256": "5fc8b8f58bb4ddf0ac6d6e001ee0272a9603ee68baaf110d8ec2bd46628a6209",
+      "size_bytes": 1525,
+      "wasted_bytes": 7625
+    },
+    {
+      "file_count": 14,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_chroma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_color.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_defocus.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_distortion.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_ntsc_decode.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_ntsc_encode.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_phosphor.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_post.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\vs_scanline.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\misc\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\misc\\vs_bob-and-ghost-deinterlace.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\misc\\vs_lut.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\misc\\vs_saturation.bin"
+        }
+      ],
+      "sha256": "d0c79c748707e01a08ca729be60ae4fc59302b31c1a076b5cd55f0ba38f9334b",
+      "size_bytes": 581,
+      "wasted_bytes": 7553
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\default\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_left_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_left_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_right_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_right_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\unfiltered\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_custom-jinc2-sharper.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-xbr-pass1.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\vs_gui.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\vs_screen.bin"
+        }
+      ],
+      "sha256": "2e487a6d0f14ccc45a085b4b24a137c138d10a0c499ce73f5c23c005bbfe1f37",
+      "size_bytes": 419,
+      "wasted_bytes": 7542
+    },
+    {
+      "file_count": 10,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_chroma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_color.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_defocus.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_distortion.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_ntsc_decode.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_ntsc_encode.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_phosphor.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_post.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hlsl\\vs_scanline.bin"
+        }
+      ],
+      "sha256": "0dd33b323a46d75ac62bce022eb2ff6b5a7850e9d813169406c37a0cbea246e3",
+      "size_bytes": 831,
+      "wasted_bytes": 7479
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass3f.bin"
+        }
+      ],
+      "sha256": "44dd4d14f49a30ad9001a949b0754b33332273c205c05a04efcad2af1b298e4d",
+      "size_bytes": 6951,
+      "wasted_bytes": 6951
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\default\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_left_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_left_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_right_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_right_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\unfiltered\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_custom-jinc2-sharper.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass0.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-xbr-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\vs_gui.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\vs_screen.bin"
+        }
+      ],
+      "sha256": "c83671e23a5eb35cbdb7d0faed8588a54f6874f69d16a87f876118d7749e9251",
+      "size_bytes": 377,
+      "wasted_bytes": 6786
+    },
+    {
+      "file_count": 19,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\default\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_left_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_left_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_right_horizontal\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_right_vertical\\vs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\unfiltered\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_custom-jinc2-sharper.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-xbr-fast-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-xbr-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\vs_gui.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\vs_screen.bin"
+        }
+      ],
+      "sha256": "483ebe067ab84630d2606070a56c38d86d0322e015793855ecf423325c7f19a0",
+      "size_bytes": 320,
+      "wasted_bytes": 5760
+    },
+    {
+      "file_count": 5,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1f.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3f.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-xbr-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\super-xbr\\vs_super-xbr-pass3.bin"
+        }
+      ],
+      "sha256": "ae341a2a8b7171bdec306bb9ca1a9532704a39fcbea9f63ebd610c88a11f1bae",
+      "size_bytes": 1415,
+      "wasted_bytes": 5660
+    },
+    {
+      "file_count": 14,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_chroma.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_color.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_defocus.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_distortion.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_ntsc_decode.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_ntsc_encode.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_phosphor.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_post.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\vs_scanline.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\misc\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\misc\\vs_bob-and-ghost-deinterlace.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\misc\\vs_lut.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\misc\\vs_saturation.bin"
+        }
+      ],
+      "sha256": "9ad15e96e26ad0425d27dac3e43fb3ba057d6b96675e6ba4f84effd4aa55b34f",
+      "size_bytes": 423,
+      "wasted_bytes": 5499
+    },
+    {
+      "file_count": 5,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1f.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3f.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-xbr-pass2.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\super-xbr\\vs_super-xbr-pass3.bin"
+        }
+      ],
+      "sha256": "fb55f122a2e3e99e7365271c06a4fea18e06578083b0dcc24157775e1b47449a",
+      "size_bytes": 1301,
+      "wasted_bytes": 5204
+    },
+    {
+      "file_count": 14,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_chroma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_color.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_defocus.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_distortion.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_ntsc_decode.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_ntsc_encode.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_phosphor.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_post.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\vs_scanline.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\misc\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\misc\\vs_bob-and-ghost-deinterlace.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\misc\\vs_lut.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\misc\\vs_saturation.bin"
+        }
+      ],
+      "sha256": "6b20f1019df1e654e0ca8763e131138293252b9c1e3a5eb94e952cf7c5ee0e05",
+      "size_bytes": 381,
+      "wasted_bytes": 4953
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_left_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_left_vertical\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_right_horizontal\\fs_gaussian.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_right_vertical\\fs_gaussian.bin"
+        }
+      ],
+      "sha256": "b8e6f67fe51891c2c027e1166b2d971fa6ca777865d82b662b2fd587edb75516",
+      "size_bytes": 1502,
+      "wasted_bytes": 4506
+    },
+    {
+      "file_count": 5,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1f.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3f.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-xbr-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\super-xbr\\vs_super-xbr-pass3.bin"
+        }
+      ],
+      "sha256": "9aadcb6394922d14ce2bd1364c3aed5e563dec390b9392b67d8e3abd76550028",
+      "size_bytes": 1095,
+      "wasted_bytes": 4380
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass0.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass2.bin"
+        }
+      ],
+      "sha256": "16fe7739969763cee6d63ac39c50e5f671fa7efab1995bcb5808bd038b82a80e",
+      "size_bytes": 4205,
+      "wasted_bytes": 4205
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\fs_super-2xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\fs_super-4xbr-3d-pass3f.bin"
+        }
+      ],
+      "sha256": "e65921f417cc0ce6f9eebba08c74f1dfcdd888cbd30ada1a0986493b56fececd",
+      "size_bytes": 3712,
+      "wasted_bytes": 3712
+    },
+    {
+      "file_count": 5,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\blurs\\vs_smart-blur.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hqx\\vs_hq2x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hqx\\vs_hq3x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hqx\\vs_hq4x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\vs_xbr-lv2-fast.bin"
+        }
+      ],
+      "sha256": "0bc03a502ee4573a57dfc623cca797ef3ad851140f5c5c6989e9bf2059f0d913",
+      "size_bytes": 911,
+      "wasted_bytes": 3644
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hqx\\vs_hq2x.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hqx\\vs_hq3x.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\hqx\\vs_hq4x.bin"
+        }
+      ],
+      "sha256": "a18e92d20810a671303a93ce553e630bfcfd67c62e035e0174d3febbf7e55060",
+      "size_bytes": 1546,
+      "wasted_bytes": 3092
+    },
+    {
+      "file_count": 10,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_chroma.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_color.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_defocus.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_distortion.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_ntsc_decode.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_ntsc_encode.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_phosphor.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_post.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hlsl\\vs_scanline.bin"
+        }
+      ],
+      "sha256": "de7ea017e0ab592d3acee9c0ce8dec80760699eb3ed1a7d2511a736bfc98ebb6",
+      "size_bytes": 324,
+      "wasted_bytes": 2916
+    },
+    {
+      "file_count": 5,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-2xbr-3d-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass1f.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-4xbr-3d-pass3f.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-xbr-pass2.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\super-xbr\\vs_super-xbr-pass3.bin"
+        }
+      ],
+      "sha256": "75c8c58dc12fc0d34d4e976006df399a376006b40ab9112238090e3014e1e6d1",
+      "size_bytes": 650,
+      "wasted_bytes": 2600
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hqx\\vs_hq2x.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hqx\\vs_hq3x.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hqx\\vs_hq4x.bin"
+        }
+      ],
+      "sha256": "ffdbfec8ea622536daf1dd5f9db975fd0c455f62cb512675781acd15b88940e4",
+      "size_bytes": 1178,
+      "wasted_bytes": 2356
+    },
+    {
+      "file_count": 5,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\blurs\\vs_smart-blur.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hqx\\vs_hq2x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hqx\\vs_hq3x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\hqx\\vs_hq4x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\vs_xbr-lv2-fast.bin"
+        }
+      ],
+      "sha256": "87413b610076a345447ca884e3a53ce05e85163aa96c349033c10602e15a0597",
+      "size_bytes": 566,
+      "wasted_bytes": 2264
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hqx\\vs_hq2x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hqx\\vs_hq3x.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hqx\\vs_hq4x.bin"
+        }
+      ],
+      "sha256": "44bc31e0de3df536368319aed7640b353cd2584cacc69d421b320a8b99bd49a9",
+      "size_bytes": 1082,
+      "wasted_bytes": 2164
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass1.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-noblend-pass1.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-pass1.bin"
+        }
+      ],
+      "sha256": "e04b3525b20f00e337f4a646d19ea5d2112e15bf9df227a831e5c1b04bed332a",
+      "size_bytes": 911,
+      "wasted_bytes": 1822
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-noblend-pass1.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-pass1.bin"
+        }
+      ],
+      "sha256": "d26e9705ea58337d134a906a75f5b4eeafbe31b1af13fceb60fc46fc8ed8bacb",
+      "size_bytes": 833,
+      "wasted_bytes": 1666
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-noblend-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-pass1.bin"
+        }
+      ],
+      "sha256": "86850dbe26966b701295301f98744035c1ec16531dcda103a1c589d3d4b9c02d",
+      "size_bytes": 831,
+      "wasted_bytes": 1662
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_left_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_left_vertical\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_right_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\pillarbox_right_vertical\\fs_offset_sat.bin"
+        }
+      ],
+      "sha256": "c78c735829bf9b3ba948f7a1941792df10ddc382cf312322340464d69c44c34b",
+      "size_bytes": 525,
+      "wasted_bytes": 1575
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_left_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_left_vertical\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_right_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\pillarbox_right_vertical\\fs_offset_sat.bin"
+        }
+      ],
+      "sha256": "e3086380e664104278ffc02e76e26978da28766432a0a9d845e4b8e8831947e8",
+      "size_bytes": 456,
+      "wasted_bytes": 1368
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_left_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_left_vertical\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_right_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\pillarbox_right_vertical\\fs_offset_sat.bin"
+        }
+      ],
+      "sha256": "f653178b5023c579583ba0a2d44c0aa1d20978bd98dbefa3ac79a05e2615f9c5",
+      "size_bytes": 429,
+      "wasted_bytes": 1287
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\default\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\unfiltered\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\fs_gui.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\fs_screen.bin"
+        }
+      ],
+      "sha256": "e5b50060d0f16c48925df1bcaa4d51f19c9ec148d13d028339b35cdaef0d3b99",
+      "size_bytes": 398,
+      "wasted_bytes": 1194
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\blurs\\vs_smart-blur.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\vs_xbr-lv2-fast.bin"
+        }
+      ],
+      "sha256": "b1bf2cee6d232c5d76c589fa7e2f3f43c89ea8df5b36b154597a7d94a675ae27",
+      "size_bytes": 1178,
+      "wasted_bytes": 1178
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_left_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_left_vertical\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_right_horizontal\\fs_offset_sat.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\pillarbox_right_vertical\\fs_offset_sat.bin"
+        }
+      ],
+      "sha256": "6736efcc5407bd917adfcc3977f6fc7b2802a72ed150cf0dba5763f3ee96cba0",
+      "size_bytes": 362,
+      "wasted_bytes": 1086
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\blurs\\vs_smart-blur.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\vs_xbr-lv2-fast.bin"
+        }
+      ],
+      "sha256": "060347eb597331c3384e8fbf0a76820487e53721e50b238f4bd776c54d3fcb43",
+      "size_bytes": 1082,
+      "wasted_bytes": 1082
+    },
+    {
+      "file_count": 3,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-accuracy-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-noblend-pass1.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-lv2-multipass\\vs_xbr-lv2-pass1.bin"
+        }
+      ],
+      "sha256": "0b918c3a6ee60fea8d85d2353f225789f1ac9ee6d70e0c81e5fbaa050b155f35",
+      "size_bytes": 522,
+      "wasted_bytes": 1044
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\misc\\vs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\misc\\vs_bob-and-ghost-deinterlace.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\misc\\vs_lut.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\misc\\vs_saturation.bin"
+        }
+      ],
+      "sha256": "fe4a9354199a0642b0f1bf760ba5a4ea870b85b48b71e25832b6cd3ce19a6ba0",
+      "size_bytes": 336,
+      "wasted_bytes": 1008
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\default\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\unfiltered\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\fs_gui.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\fs_screen.bin"
+        }
+      ],
+      "sha256": "700289687f3e4ac2ea5906a1c49a6b2327da3791ebf9a1415e0a65a71b646b02",
+      "size_bytes": 238,
+      "wasted_bytes": 714
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass3.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass4.bin"
+        }
+      ],
+      "sha256": "55ad09266299157de3b22888bb1b6c927bf708927b98b9e7d715096273b5b7d5",
+      "size_bytes": 707,
+      "wasted_bytes": 707
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass3.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass4.bin"
+        }
+      ],
+      "sha256": "596dce4acf39d16109958acdceac4d7254159931ac6f6acc94681bc1986cf7b0",
+      "size_bytes": 696,
+      "wasted_bytes": 696
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\default\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\unfiltered\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\fs_gui.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\fs_screen.bin"
+        }
+      ],
+      "sha256": "76802104ad6bb0b6a0d3b52ae3f9f4fc04592f7275661f92e4a94f7ddd93c1c2",
+      "size_bytes": 231,
+      "wasted_bytes": 693
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\crt-geom\\vs_phosphor_apply.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\metal\\chains\\crt-geom\\vs_phosphor_update.bin"
+        }
+      ],
+      "sha256": "0e3c47a22402526cbc3ca56c66ac6b8ac86bf876b72292cbf939d6af970920a4",
+      "size_bytes": 684,
+      "wasted_bytes": 684
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789612,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\artwork\\bgfx\\border_blur\\default.lay"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\layouts\\sample\\horizontal\\default.lay"
+        }
+      ],
+      "sha256": "d5e2ac2909dbfc80a9ab5ffef7965db34a9079453d9bc890344b09c0a23e2dc4",
+      "size_bytes": 681,
+      "wasted_bytes": 681
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass3.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass4.bin"
+        }
+      ],
+      "sha256": "b0bdf1b2da07cc8d2b802fe8c14975db7aa0a325b592f3cde0bd8b0e6bbbdd5b",
+      "size_bytes": 630,
+      "wasted_bytes": 630
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\default\\README.md"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\hlsl\\README.md"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\README.md"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\effects\\unfiltered\\README.md"
+        }
+      ],
+      "sha256": "d3ea2bb919b965b74b9880c98817c681a35082e7c261aa174c12a1a9901082ee",
+      "size_bytes": 207,
+      "wasted_bytes": 621
+    },
+    {
+      "file_count": 4,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\default\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\unfiltered\\fs_blit.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\fs_gui.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\fs_screen.bin"
+        }
+      ],
+      "sha256": "731d27c94ce96bb2fa9d80b2dd8aa3773fe8559333f0c87525ce2252f237b09f",
+      "size_bytes": 181,
+      "wasted_bytes": 543
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\crt-geom\\vs_phosphor_apply.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\crt-geom\\vs_phosphor_update.bin"
+        }
+      ],
+      "sha256": "c780f82301d6d9e539190851f8aba56d3a708c856767844e14eaeebfe8cf26fb",
+      "size_bytes": 505,
+      "wasted_bytes": 505
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass3.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\xbr\\xbr-mlv4-multipass\\vs_xbr-mlv4-pass4.bin"
+        }
+      ],
+      "sha256": "463413c431b7be754417c80b9905e8f38f2167a76de5b10fff130b51fa6c0d72",
+      "size_bytes": 458,
+      "wasted_bytes": 458
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\hlsl\\fs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx11\\chains\\misc\\fs_blit.bin"
+        }
+      ],
+      "sha256": "c49f069438262efd72bd48ddf95112a5887b6d5a33f04d4ee8fd1ae872637104",
+      "size_bytes": 402,
+      "wasted_bytes": 402
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\crt-geom\\vs_phosphor_apply.bin"
+        },
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\crt-geom\\vs_phosphor_update.bin"
+        }
+      ],
+      "sha256": "9bc8a35b0490121110c40bc300b242e2607dae00eb463eab60d92a65c273684d",
+      "size_bytes": 334,
+      "wasted_bytes": 334
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\crt-geom\\vs_phosphor_apply.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\crt-geom\\vs_phosphor_update.bin"
+        }
+      ],
+      "sha256": "66d05fe8171e09c23b38f5f7b4e4021721a82051291683f3c9ca2d5ff98dd34a",
+      "size_bytes": 304,
+      "wasted_bytes": 304
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\crt-geom\\vs_phosphor_apply.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\dx9\\chains\\crt-geom\\vs_phosphor_update.bin"
+        }
+      ],
+      "sha256": "eb4e70b90a6f06423afe567109a62ad9d54e08855697ae0d62839de402b5a4e4",
+      "size_bytes": 284,
+      "wasted_bytes": 284
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789616,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\hlsl\\fs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789618,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\essl\\chains\\misc\\fs_blit.bin"
+        }
+      ],
+      "sha256": "b43705dce2da33b7d510b65b549d89381a8599e3b7e5540f9ce1124ac851ad92",
+      "size_bytes": 242,
+      "wasted_bytes": 242
+    },
+    {
+      "file_count": 2,
+      "files": [
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\hlsl\\fs_prescale.bin"
+        },
+        {
+          "modified_time": 1603789614,
+          "path": "C:\\Users\\Gillsystems Laptop\\Desktop\\Emulators\\Multiple Arcade Machine\\bgfx\\shaders\\glsl\\chains\\misc\\fs_blit.bin"
+        }
+      ],
+      "sha256": "78c90a9c8381fc40f1c889e59aafd04b43bad9646e4c06e8f5f1552cb23b641e",
+      "size_bytes": 185,
+      "wasted_bytes": 185
+    }
+  ],
+  "node_id": "af1016da-c6fc-4832-93ee-5bd597434985",
+  "scan_date": "2026-02-18 19:43:02",
+  "total_files_in_groups": 371,
+  "total_wasted_bytes": 309728
+}

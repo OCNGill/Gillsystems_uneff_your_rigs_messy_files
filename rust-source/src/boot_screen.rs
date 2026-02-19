@@ -18,6 +18,7 @@
 use anyhow::{Context, Result};
 use eframe::egui;
 use std::path::PathBuf;
+use std::sync::{Arc, Mutex};
 use tracing::{info, error, warn};
 
 /// Boot screen mode selection
@@ -222,7 +223,7 @@ impl BootScreen {
     pub fn show(&mut self, ctx: &egui::Context) -> Option<BootMode> {
         // Load Gillsystems branded background once
         if self.background_texture.is_none() {
-            let image_bytes = include_bytes!("../assets/gillsystems_bg.png");
+            let image_bytes = include_bytes!("../assets/Gillsystems_background.png");
             if let Ok(img) = image::load_from_memory(image_bytes) {
                 let rgba = img.to_rgba8();
                 let (w, h) = rgba.dimensions();
@@ -535,33 +536,387 @@ impl BootScreen {
     }
 }
 
-/// Standalone boot screen app (for testing)
-pub struct BootScreenApp {
-    boot_screen: BootScreen,
-    selected_mode: Option<BootMode>,
+// ── Matrix green palette for the boot launcher ────────────────────────────────
+const BOOT_GREEN:      egui::Color32 = egui::Color32::from_rgb(0,   255,  65);
+const BOOT_GREEN_DIM:  egui::Color32 = egui::Color32::from_rgb(0,   200,  45);
+const BOOT_GREEN_GLOW: egui::Color32 = egui::Color32::from_rgb(57,  255,  20);
+const BOOT_GREEN_DARK: egui::Color32 = egui::Color32::from_rgb(0,    80,  15);
+const BOOT_BG:         egui::Color32 = egui::Color32::from_rgb(5,   10,   5);
+
+/// Real launcher window — three big Matrix-green mode buttons.
+/// Closes itself the moment the user clicks one; returns the selected BootMode.
+struct BootLauncher {
+    chosen: Arc<Mutex<Option<BootMode>>>,
+    background_texture:      Option<egui::TextureHandle>,
+    background_texture_size: Option<[usize; 2]>,
+    footer_texture:          Option<egui::TextureHandle>,
+    footer_texture_size:     Option<[usize; 2]>,
 }
 
-impl BootScreenApp {
-    pub fn new(_cc: &eframe::CreationContext<'_>) -> Self {
+impl BootLauncher {
+    fn new(chosen: Arc<Mutex<Option<BootMode>>>) -> Self {
         Self {
-            boot_screen: BootScreen::new(),
-            selected_mode: None,
+            chosen,
+            background_texture: None,
+            background_texture_size: None,
+            footer_texture: None,
+            footer_texture_size: None,
         }
     }
+    fn select(&self, ctx: &egui::Context, mode: BootMode) {
+        *self.chosen.lock().unwrap() = Some(mode);
+        ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+    }
+
+    #[cfg(windows)]
+    fn minimize_window_native(&self) {
+        unsafe {
+            let hwnd = winapi::um::winuser::GetForegroundWindow();
+            if !hwnd.is_null() {
+                winapi::um::winuser::ShowWindow(hwnd, winapi::um::winuser::SW_MINIMIZE);
+            }
+        }
+    }
+
+    #[cfg(not(windows))]
+    fn minimize_window_native(&self) {}
 }
 
-impl eframe::App for BootScreenApp {
+impl eframe::App for BootLauncher {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        if let Some(mode) = self.boot_screen.show(ctx) {
-            self.selected_mode = Some(mode);
-            // In real usage, this would signal to main.rs to proceed with the selected mode
+        // ── Matrix Green style ────────────────────────────────────────────────
+        {
+            let mut style = (*ctx.style()).clone();
+            style.visuals.panel_fill  = egui::Color32::BLACK;
+            style.visuals.window_fill = egui::Color32::BLACK;
+            style.visuals.override_text_color = Some(BOOT_GREEN);
+            style.visuals.widgets.noninteractive.bg_fill      = egui::Color32::BLACK;
+            style.visuals.widgets.noninteractive.weak_bg_fill = egui::Color32::BLACK;
+            style.visuals.widgets.inactive.bg_fill      = egui::Color32::BLACK;
+            style.visuals.widgets.inactive.weak_bg_fill = egui::Color32::BLACK;  // CRITICAL
+            style.visuals.widgets.inactive.fg_stroke =
+                egui::Stroke::new(1.0, BOOT_GREEN_DIM);
+            style.visuals.widgets.inactive.bg_stroke =
+                egui::Stroke::new(0.8, BOOT_GREEN_DARK);
+            style.visuals.widgets.inactive.rounding = egui::Rounding::same(2.0);
+            style.visuals.widgets.hovered.bg_fill =
+                egui::Color32::from_rgba_unmultiplied(0, 60, 15, 220);
+            style.visuals.widgets.hovered.weak_bg_fill =
+                egui::Color32::from_rgba_unmultiplied(0, 60, 15, 220);
+            style.visuals.widgets.hovered.fg_stroke =
+                egui::Stroke::new(1.5, BOOT_GREEN);
+            style.visuals.widgets.hovered.bg_stroke =
+                egui::Stroke::new(1.5, BOOT_GREEN);
+            style.visuals.widgets.hovered.rounding = egui::Rounding::same(2.0);
+            style.visuals.widgets.active.bg_fill =
+                egui::Color32::from_rgba_unmultiplied(0, 100, 25, 240);
+            style.visuals.widgets.active.weak_bg_fill =
+                egui::Color32::from_rgba_unmultiplied(0, 100, 25, 240);
+            style.visuals.widgets.active.fg_stroke =
+                egui::Stroke::new(2.0, BOOT_GREEN_GLOW);
+            style.visuals.widgets.active.rounding = egui::Rounding::same(2.0);
+            style.visuals.window_rounding = egui::Rounding::same(4.0);
+            ctx.set_style(style);
         }
+
+        // ── Load Gillsystems header once (plain logo — no QR codes) ──────────
+        if self.background_texture.is_none() {
+            let bytes = include_bytes!("../../assets/Gill Systems Logo.png");
+            if let Ok(img) = image::load_from_memory(bytes) {
+                let rgba = img.to_rgba8();
+                let (w, h) = rgba.dimensions();
+                let pixels = rgba.into_raw();
+                let ci = egui::ColorImage::from_rgba_unmultiplied(
+                    [w as usize, h as usize], &pixels,
+                );
+                self.background_texture_size = Some([w as usize, h as usize]);
+                self.background_texture = Some(ctx.load_texture(
+                    "boot_header", ci, egui::TextureOptions::LINEAR,
+                ));
+            }
+        }
+
+        // ── Load footer image once ───────────────────────────────────────────
+        if self.footer_texture.is_none() {
+            let bytes = include_bytes!("../../assets/Gillsystems_logo_with_donation_qrcodes.png");
+            if let Ok(img) = image::load_from_memory(bytes) {
+                let rgba = img.to_rgba8();
+                let (w, h) = rgba.dimensions();
+                let pixels = rgba.into_raw();
+                let ci = egui::ColorImage::from_rgba_unmultiplied(
+                    [w as usize, h as usize], &pixels,
+                );
+                self.footer_texture_size = Some([w as usize, h as usize]);
+                self.footer_texture = Some(ctx.load_texture(
+                    "boot_footer", ci, egui::TextureOptions::LINEAR,
+                ));
+            }
+        }
+
+        // ── Paint black background ────────────────────────────────────────────
+        let screen = ctx
+            .input(|i| i.viewport().inner_rect)
+            .unwrap_or_else(|| ctx.screen_rect());
+        let painter = ctx.layer_painter(egui::LayerId::background());
+        painter.rect_filled(screen, egui::Rounding::ZERO, BOOT_BG);
+
+        // No global border — avoids windowed-mode edge artifact
+
+        // ── Custom title bar — Win7 Aero glass, Windows-style controls ────────
+        egui::TopBottomPanel::top("boot_title")
+            .exact_height(32.0)
+            .frame(egui::Frame::none())
+            .show(ctx, |ui| {
+                let bar = ui.max_rect();
+                // Win7 Aero glass gradient layers
+                {
+                    let p = ui.painter();
+                    p.rect_filled(bar, egui::Rounding::ZERO,
+                        egui::Color32::from_rgba_unmultiplied(8, 18, 10, 252));
+                    let refl = egui::Rect::from_min_max(
+                        bar.min, egui::pos2(bar.max.x, bar.min.y + bar.height() * 0.45),
+                    );
+                    p.rect_filled(refl, egui::Rounding::ZERO,
+                        egui::Color32::from_rgba_unmultiplied(40, 80, 48, 170));
+                    let hi = egui::Rect::from_min_max(
+                        bar.min, egui::pos2(bar.max.x, bar.min.y + 2.0),
+                    );
+                    p.rect_filled(hi, egui::Rounding::ZERO,
+                        egui::Color32::from_rgba_unmultiplied(80, 200, 100, 90));
+                    let bl = egui::Rect::from_min_max(
+                        egui::pos2(bar.min.x, bar.max.y - 1.0), bar.max,
+                    );
+                    p.rect_filled(bl, egui::Rounding::ZERO, BOOT_GREEN_DARK);
+                }
+                ui.horizontal(|ui| {
+                    ui.add_space(10.0);
+                    ui.label(
+                        egui::RichText::new("un-F  \u{2014}  Launcher")
+                            .size(13.0).strong().color(BOOT_GREEN_GLOW),
+                    );
+
+                    let bw = 46.0f32;
+                    let total_btn_w = bw * 3.0;
+                    let left_fill = (bar.width() - total_btn_w - 150.0).max(0.0);
+                    ui.add_space(left_fill);
+
+                    let bh = bar.height();
+                    let fnt = egui::FontId::proportional(13.0);
+                    let is_maximized = ctx.input(|i| i.viewport().maximized).unwrap_or(false);
+
+                    // _ MINIMIZE
+                    let (nr, min_r) = ui.allocate_exact_size(egui::vec2(bw, bh), egui::Sense::click());
+                    if min_r.hovered() {
+                        ui.painter().rect_filled(nr, egui::Rounding::ZERO,
+                            egui::Color32::from_rgba_unmultiplied(0, 80, 20, 160));
+                    }
+                    ui.painter().text(nr.center(), egui::Align2::CENTER_CENTER, "_",
+                        egui::FontId::proportional(15.0),
+                        if min_r.hovered() { BOOT_GREEN_GLOW } else { BOOT_GREEN });
+                    if min_r.clicked() {
+                        self.minimize_window_native();
+                        #[cfg(not(windows))]
+                        ctx.send_viewport_cmd(egui::ViewportCommand::Minimized(true));
+                    }
+
+                    // □ MAXIMIZE
+                    let (mr, max_r) = ui.allocate_exact_size(egui::vec2(bw, bh), egui::Sense::click());
+                    if max_r.hovered() {
+                        ui.painter().rect_filled(mr, egui::Rounding::ZERO,
+                            egui::Color32::from_rgba_unmultiplied(0, 80, 20, 160));
+                    }
+                    ui.painter().text(mr.center(), egui::Align2::CENTER_CENTER, "□",
+                        fnt.clone(),
+                        if max_r.hovered() { BOOT_GREEN_GLOW } else { BOOT_GREEN });
+                    if max_r.clicked() {
+                        ctx.send_viewport_cmd(egui::ViewportCommand::Maximized(!is_maximized));
+                    }
+
+                    // X CLOSE
+                    let (cr, close_r) = ui.allocate_exact_size(egui::vec2(bw, bh), egui::Sense::click());
+                    if close_r.hovered() {
+                        ui.painter().rect_filled(cr, egui::Rounding::ZERO,
+                            egui::Color32::from_rgba_unmultiplied(200, 20, 20, 220));
+                    }
+                    ui.painter().text(cr.center(), egui::Align2::CENTER_CENTER, "X",
+                        fnt,
+                        if close_r.hovered() { egui::Color32::WHITE }
+                        else { egui::Color32::from_rgb(255, 100, 100) });
+                    if close_r.clicked() {
+                        ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                        std::process::exit(0);
+                    }
+                });
+                // Drag — fixed: drag_started() not is_pointer_button_down_on()
+                let drag_rect = egui::Rect::from_min_max(
+                    bar.min,
+                    egui::pos2(bar.max.x - 160.0, bar.max.y),
+                );
+                let drag = ui.interact(drag_rect, egui::Id::new("boot_drag"),
+                    egui::Sense::click_and_drag());
+                if drag.drag_started() {
+                    ctx.send_viewport_cmd(egui::ViewportCommand::StartDrag);
+                }
+            });
+
+        // ── Header image ──────────────────────────────────────────────────────
+        let header_h = self
+            .background_texture_size
+            .map(|[w, h]| ((screen.width() * (h as f32 / w as f32)).clamp(36.0, 54.0)))
+            .unwrap_or(48.0);
+
+        egui::TopBottomPanel::top("boot_header_logo")
+            .exact_height(header_h)
+            .frame(egui::Frame::none().fill(egui::Color32::BLACK))
+            .show(ctx, |ui| {
+                let rect = ui.max_rect();
+                if let Some(tex) = &self.background_texture {
+                    ui.painter().image(
+                        tex.id(),
+                        rect,
+                        egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)),
+                        egui::Color32::WHITE,
+                    );
+                }
+            });
+
+        // ── Footer image (smaller) ────────────────────────────────────────────
+        let footer_h = self
+            .footer_texture_size
+            .map(|[w, h]| (((screen.width() * (h as f32 / w as f32)) * 0.5).clamp(44.0, 88.0)))
+            .unwrap_or(56.0);
+
+        egui::TopBottomPanel::bottom("boot_footer_logo")
+            .exact_height(footer_h)
+            .frame(
+                egui::Frame::none()
+                    .fill(egui::Color32::BLACK)
+                    .stroke(egui::Stroke::new(1.0, BOOT_GREEN_DARK))
+            )
+            .show(ctx, |ui| {
+                let rect = ui.max_rect();
+                if let Some(tex) = &self.footer_texture {
+                    ui.painter().image(
+                        tex.id(),
+                        rect,
+                        egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)),
+                        egui::Color32::WHITE,
+                    );
+                }
+            });
+
+        // ── Central: three launch buttons ─────────────────────────────────────
+        egui::CentralPanel::default()
+            .frame(egui::Frame::none()
+                .fill(egui::Color32::from_rgba_unmultiplied(0, 0, 0, 200)))
+            .show(ctx, |ui| {
+                ui.vertical_centered(|ui| {
+                    ui.add_space(32.0);
+                    ui.label(
+                        egui::RichText::new("Choose Your Launch Mode")
+                            .size(22.0).strong().color(BOOT_GREEN),
+                    );
+                    ui.add_space(6.0);
+                    ui.label(
+                        egui::RichText::new(format!(
+                            "GillSystems  —  un-F Your Rigs  v{}",
+                            option_env!("APP_VERSION").unwrap_or(env!("CARGO_PKG_VERSION"))
+                        ))
+                            .size(11.0).color(BOOT_GREEN_DIM),
+                    );
+                    ui.add_space(36.0);
+
+                    // Full mode
+                    if ui.add_sized(
+                        [440.0, 66.0],
+                        egui::Button::new(
+                            egui::RichText::new("▶  FULL  —  GUI + Scanner + SMB")
+                                .size(17.0).strong().color(BOOT_GREEN_GLOW)
+                        ),
+                    ).on_hover_text(
+                        "Full interface: duplicate scanner, live results, optional SMB share"
+                    ).clicked() {
+                        self.select(ctx, BootMode::LaunchGUI);
+                    }
+
+                    ui.add_space(18.0);
+
+                    // Silent mode
+                    if ui.add_sized(
+                        [440.0, 66.0],
+                        egui::Button::new(
+                            egui::RichText::new("⛔  SILENT  —  Scanner only, no GUI")
+                                .size(17.0).color(BOOT_GREEN)
+                        ),
+                    ).on_hover_text(
+                        "Headless background service — scans and logs without any window"
+                    ).clicked() {
+                        self.select(ctx, BootMode::LaunchService);
+                    }
+
+                    ui.add_space(18.0);
+
+                    // SMB mode
+                    if ui.add_sized(
+                        [440.0, 66.0],
+                        egui::Button::new(
+                            egui::RichText::new("🌐  SMB  —  Network Share Setup")
+                                .size(17.0).color(BOOT_GREEN)
+                        ),
+                    ).on_hover_text(
+                        "Configure an SMB network share for cross-machine duplicate access"
+                    ).clicked() {
+                        self.select(ctx, BootMode::SetupSMB);
+                    }
+
+                    ui.add_space(28.0);
+                    ui.label(
+                        egui::RichText::new(
+                            "\u{2713} GUI launches automatically if no selection is made"
+                        ).size(10.0).color(BOOT_GREEN_DIM),
+                    );
+                });
+            });
+    }
+
+    fn clear_color(&self, _visuals: &egui::Visuals) -> [f32; 4] {
+        [0.0, 0.0, 0.0, 1.0]
     }
 }
 
-/// Run the boot screen as a standalone window
-pub async fn show_boot_screen() -> Result<Option<BootMode>> {
-    // For now, return the selected mode
-    // In production, this would run the egui window and wait for user selection
-    Ok(Some(BootMode::LaunchGUI))
+fn load_window_icon() -> Option<egui::IconData> {
+    eframe::icon_data::from_png_bytes(include_bytes!("../assets/gillsystems_logo.png")).ok()
+}
+
+/// Run the boot launcher window synchronously and return the user's chosen BootMode.
+/// If the window is closed without a selection, defaults to LaunchGUI.
+/// This MUST be called from the main thread (eframe requirement).
+pub fn run_boot_screen() -> Result<BootMode> {
+    let chosen: Arc<Mutex<Option<BootMode>>> = Arc::new(Mutex::new(None));
+    let chosen_inner = chosen.clone();
+
+    let mut viewport = egui::ViewportBuilder::default()
+        .with_inner_size([900.0, 560.0])
+        .with_resizable(false)
+        .with_decorations(false)
+        .with_title("un-F — Launcher");
+
+    if let Some(icon) = load_window_icon() {
+        viewport = viewport.with_icon(icon);
+    }
+
+    let options = eframe::NativeOptions {
+        viewport,
+        ..Default::default()
+    };
+
+    eframe::run_native(
+        "un-F — Launcher",
+        options,
+        Box::new(move |_cc| Box::new(BootLauncher::new(chosen_inner)) as Box<dyn eframe::App>),
+    ).map_err(|e| anyhow::anyhow!("Boot screen error: {}", e))?;
+
+    let mode = chosen.lock().unwrap().unwrap_or(BootMode::LaunchGUI);
+    info!("Boot mode selected: {:?}", mode);
+    Ok(mode)
 }

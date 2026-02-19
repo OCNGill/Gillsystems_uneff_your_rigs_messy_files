@@ -20,6 +20,22 @@
 
 ## Active Tasks
 
+### Task ID: DELIVER-UI-007
+**Team**: Team of 9 (3 leaders + 6 agents)
+**Lead**: Team Leader Alpha (with Beta/Gamma support)
+**Status**: In Progress
+**7D Phase**: Develop → Debug → Document → Deliver
+
+**Subtasks:**
+- [x] Footer embedded under duplicate area at half-size
+- [x] Defined bottom border for full program window and center panel
+- [x] Minimize stability fix (no process termination)
+- [x] Launcher parity with main GUI (header/footer/buttons)
+- [x] Network discovery UX baseline operational
+- [x] Directory picker upgrade (native folder explorer)
+- [x] Active scan strip in center area
+- [x] Movable center split + selected duplicate metadata comparison panel
+
 ### Task ID: DESIGN-001
 **Team**: Team Alpha (UI/UX Design Division)  
 **Lead**: Agent Alpha-1 (Aero Glass Rendering Specialist)  

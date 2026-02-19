@@ -1,6 +1,6 @@
 [package]
 name = "gillsystems-uneff-your-rigs-messy-files"
-version = "0.4.0"
+version = "0.5.1"
 edition = "2021"
 authors = ["GillSystems <gillsystems@gmail.com>"]
 description = "Cross-platform agent for duplicate file detection and un-effing your rigs"
@@ -61,6 +61,7 @@ open = "5.0"
 hostname = "0.4"
 chrono = "0.4"
 which = "4.4"
+rfd = "0.14"
 
 # Error handling
 anyhow = "1.0"

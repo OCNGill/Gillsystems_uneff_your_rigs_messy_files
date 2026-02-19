@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![cfg_attr(target_os = "windows", windows_subsystem = "windows")]
 //! # Gillsystems_uneff_your_rigs_messy_files — Un-eff your rigs!
 //!
 //! **Version**: 0.4.0 (Documentation Phase)
@@ -72,7 +73,7 @@ use std::sync::Arc;
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-mod agent;
+mod uneff_program;
 mod boot_screen;
 mod config;
 mod database;
@@ -84,7 +85,7 @@ mod remediation;
 mod service;
 mod smb_server;
 
-use agent::UneffAgent;
+use uneff_program::UneffSecretFunctions;
 use boot_screen::{BootMode, BootScreen};
 use config::Config;
 use gui::run_gui;
@@ -112,18 +113,19 @@ async fn main() -> Result<()> {
     // Otherwise, show boot screen
     info!("Starting Gillsystems_uneff_your_rigs_messy_files v0.4.0 — Deliver Phase");
     
-    // Check permissions first
+    // Do not force elevation here — launch immediately and let user continue.
     if !BootScreen::check_permissions().unwrap_or(false) {
-        info!("Requesting elevated permissions...");
-        BootScreen::request_elevation()?;
-        // After elevation, app should restart — exit here
-        std::process::exit(0);
+        info!("Running without elevation. Some protected paths may be inaccessible.");
     }
 
-    // Show boot screen
-    // TODO: Integrate boot screen UI with eframe window
-    // For now, default to GUI mode
-    let boot_mode = BootMode::LaunchGUI;
+    // Run the boot launcher — user picks Full GUI, Silent, or SMB
+    let boot_mode = match boot_screen::run_boot_screen() {
+        Ok(mode) => mode,
+        Err(e) => {
+            error!("Boot screen failed: {} — defaulting to GUI", e);
+            BootMode::LaunchGUI
+        }
+    };
 
     // Load configuration
     let config = Arc::new(Config::load("config.toml")?);
@@ -212,8 +214,8 @@ async fn run_cli_mode() -> Result<()> {
 }
 
 async fn run_service_mode(config: Arc<Config>) -> Result<()> {
-    let agent = UneffAgent::new(config, None, None).await?;
-    
+    let app = UneffSecretFunctions::new(config, None, None).await?;
+
     // Register service
     #[cfg(unix)]
     {
@@ -226,33 +228,32 @@ async fn run_service_mode(config: Arc<Config>) -> Result<()> {
     }
     
     // Run service
-    agent.run_service().await?;
-    
+    app.run_service().await?;
+
     Ok(())
 }
 
 async fn run_full_mode(config: Arc<Config>) -> Result<()> {
-    // Start agent in background
-    let agent_config = config.clone();
-    let agent_handle = tokio::spawn(async move {
-        if let Ok(agent) = UneffAgent::new(agent_config, None, None).await {
-            if let Err(e) = agent.run_service().await {
-                error!("Agent service failed: {}", e);
+    // Start background gRPC service
+    let svc_config = config.clone();
+    let svc_handle = tokio::spawn(async move {
+        if let Ok(core) = UneffSecretFunctions::new(svc_config, None, None).await {
+            if let Err(e) = core.run_service().await {
+                error!("Background service failed: {}", e);
             }
         }
     });
-    
-    // Give agent time to start
+
+    // Give service time to start
     tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
-    
-    // Start GUI
+
+    // Start GUI (creates its own app core internally)
     if let Err(e) = run_gui(config) {
         error!("GUI failed: {}", e);
     }
-    
-    // Shutdown agent
-    agent_handle.abort();
-    
+
+    svc_handle.abort();
+
     Ok(())
 }
 async fn run_smb_setup() -> Result<()> {
