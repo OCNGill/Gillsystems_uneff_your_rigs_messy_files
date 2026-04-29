@@ -1,7 +1,7 @@
 grpc_port = 50051
 
 [database]
-path = "gillsystems_uneff_cache.db"
+path = "gillsystems_unmess_cache.db"
 cache_size_mb = 64
 wal_mode = true
 
@@ -19,7 +19,7 @@ default_exclude_patterns = [
     "$Recycle.Bin/**",
     "System Volume Information/**",
 ]
-thread_pool_size = 3
+thread_pool_size = 4
 hash_batch_size = 1000
 progress_report_interval_ms = 5000
 

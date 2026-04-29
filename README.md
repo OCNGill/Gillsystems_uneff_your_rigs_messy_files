@@ -1,284 +1,90 @@
-# Gillsystems_uneff_your_rigs_messy_files
+# Gillsystems_unmess_your_rigs_messy_files
 
-**Power to the People!** 🚀
+Gillsystems_unmess_your_rigs_messy_files is a local-first Rust application for finding duplicate files, reviewing the results in a native egui desktop UI, and applying real remediation actions such as quarantine, delete, and filesystem-aware deduplication.
 
-## 🚀 **JUST DOWNLOAD THE EXECUTABLES AND RUN! RUN FREE!**
+The current build is version 0.5.1. Version authority lives in `version.py` and is propagated into the Rust build as `APP_VERSION`.
 
-Get the binaries from the root folder:
-- **Windows**: `gillsystems-uneff-your-rigs-messy-files-windows-x64.exe`
-- **Linux**: `gillsystems-uneff-your-rigs-messy-files-linux-x64`
+## What It Actually Does
 
-No installation. No dependencies. No registration. **One click to freedom.**
+- Scans configured local paths and stores results in SQLite.
+- Detects duplicates by content hash and keeps duplicate groups scoped to the scan that found them.
+- Persists a stable local node ID instead of generating a new one every launch.
+- Lets you mark a file to keep, then delete, quarantine, or deduplicate the other copies from the UI.
+- Exports scan reports to `scan_logs/` as both Markdown and JSON.
+- Runs file search in the background so the UI stays responsive.
 
----
+## What It Does Not Claim
 
-A cross-platform **standalone executable** for duplicate file detection and remediation, featuring a **Windows 7 Aero style* meets the DOS prompt chick at the middle school dance ** native GUI. Single binary. No installers. No dependencies. No web servers. No cloud. Just run it.
+- It is not a delivered multi-node duplicate-management product.
+- The gRPC service and networking code exist, but they should be treated as scaffolding rather than a finished distributed feature set.
+- The desktop look is a custom matrix-green egui theme, not true Windows 7 Aero glass.
 
-Built with Rust for maximum performance — zero garbage collection, zero frameworks, maximum intent.
+## Current Layout
 
-## 🎯 Mission
+- `rust-source/`: Rust application source, build script, protobuf definitions, and tests.
+- `config.toml`: Runtime configuration file.
+- `scan_logs/`: Exported scan reports.
+- `docs/`: Design notes and supporting project documents.
+- `version.py`: Version authority.
 
-> *"Systems Should Serve Humans — not the other way around."*  
-> — Commander Stephen Gill, GillSystems • 30+ years of technology expertise
+## Running From Source
 
-Bring back the **banging Windows 7 Aero style, but it met an DOS prompt at a late 80's middle school dance** while delivering unmatched cross-platform duplicate file management. Built with **zero frameworks, maximum intent**. Your technology should make you money, not cost you money — and this tool embodies that belief in every line of code.
-
-This is **Gillsystems-style** development — no guardrails, admin privileges assumed, power to the people, no guard-rails, be careful.
-
-## 🏗️ Architecture
-
-### Single Binary Design
-- **Rust executable** with embedded GUI (egui/eframe)
-- **No web-based bullshit** - pure native interface
-- **Peer-to-peer network** - no central orchestrator
-- **10+ node support** with multi-drive detection
-
-### Windows 7 Aero Meet's pre-CGA days Interface
-- **Glass effects** with transparency and blur
-- **Classic color schemes** (Blue, Silver, Olive Green)
-- **Smooth animations** at 60 FPS
-- **Dual panel view** for duplicate comparison
-
-### 🔓 Full Admin / Full Speed Architecture
-- **Admin/sudo assumed on every node** — no permission prompts, no UAC friction
-- **Auto-elevation on launch** — requests admin rights immediately on Windows, expects root/sudo on Linux/macOS
-- **Unrestricted filesystem access** — scans every drive, every directory, every hidden file
-- **No sandboxing** — direct kernel/OS integration for maximum I/O throughput
-- **Full hardware utilization** — all CPU cores, GPU acceleration, maximum thread pool
-- **Zero artificial limits** — no file count caps, no scan throttling, no "are you sure?" gatekeeping
-
-### Cross-Platform Support
-- **Windows**: 7-11 with DWM integration, auto-admin elevation
-- **Linux**: systemd services, multiple distros, root-level access
-- **macOS**: LaunchAgents, code signing, Full Disk Access granted
-
-## � Project Status
-
-**Version**: 0.4.0 — Document Complete → Deliver Ready  
-**Phase**: Documentation + Polish complete  
-**Binary Size**: 4.68 MB (optimized release build)  
-**Test Status**: ✅ 5/5 tests passing, 0 errors, 0 warnings  
-**Version Authority**: [`version.py`](version.py)
-
-### 7D Agile Progress
-- [x] **Discover**: Codebase reconnaissance, philosophy alignment
-- [x] **Define**: Project scope, architecture decisions
-- [x] **Design**: Full architecture, ZFS-first remediation, GUI design, module stubs
-- [x] **Develop**: Core implementation (10 modules + build.rs + proto)
-- [x] **Debug**: Full cargo build, 5/5 tests, zero errors/warnings
-- [x] **Document**: Comprehensive doc-comments, README polish, user guide
-- [ ] **Deliver**: Beta testing, release artifacts, deployment
-
-- [ ] **Debug**: Testing and validation
-- [ ] **Document**: User guides and API docs
-- [ ] **Deliver**: Production-ready executable
-- [ ] **Deploy**: Distribution and installation
-
-## 🚀 Quick Start
-
-### Prerequisites
-- **Admin/Sudo privileges** (assumed — full system access required)
-- **Rust 1.92+** for building from source (optional if using pre-built binary)
-- **Cross-platform build tools** (available via rustup)
-
-### Installation: Option 1 — Pre-Built Binary (Easiest)
 ```bash
-# Download from GitHub releases
-# https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/releases/tag/v0.4.0
-
-# Extract and run
-unzip uneff-your-rigs-v0.4.0-windows-x64.zip
-./uneff-your-rigs.exe
-
-# On Linux/macOS, add execute permission first
-chmod +x ./uneff-your-rigs
-./uneff-your-rigs
+cd rust-source
+cargo run --release
 ```
 
-### Installation: Option 2 — Build from Source
+Useful modes:
+
 ```bash
-# Clone the repository
-git clone https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files.git
-cd Gillsystems_uneff_your_rigs_messy_files/rust_agent_prototype
-
-# Build release binary (4.68 MB, optimized)
-cargo build --release
-
-# Binary location
-./target/release/gillsystems-uneff-your-rigs-messy-files
-
-# Run with GUI
-./target/release/gillsystems-uneff-your-rigs-messy-files --gui-only
-
-# Or start as service
-./target/release/gillsystems-uneff-your-rigs-messy-files --service
+cargo run -- --gui-only
+cargo run -- --service
 ```
 
-./target/release/gillsystems-uneff-your-rigs-messy-files --service
+## Validation
 
-# GUI only (connect to existing service)
-./target/release/gillsystems-uneff-your-rigs-messy-files --gui-only
+The codebase currently validates with:
+
+```bash
+cd rust-source
+cargo check
+cargo test
 ```
 
-### First Launch
-1. **Launch the GUI** - Windows 7 Aero interface appears
-2. **Network Discovery** - Automatically finds other nodes
-3. **Initial Scan** - Select drives and start scanning
-4. **Wait for completion** - First scan may take 30+ minutes
+## Remediation Model
 
-## 🎨 Windows 7 Aero Features
+The UI now wires to the real remediation engine.
 
-### Glass Effects
-- **Translucent windows** with blur effects
-- **Custom title bars** with glass styling
-- **Smooth shadows** and rounded corners
-- **GPU acceleration** where available
+- `Delete`: Permanently removes a selected file, with optional SHA-256 verification before deletion.
+- `Quarantine`: Moves a selected file into the configured quarantine directory.
+- `Deduplicate To KEEP`: Replaces selected duplicate copies with a filesystem-aware deduplication strategy when supported.
 
-### Color Schemes
-- **Windows 7 Blue** (classic)
-- **Windows 7 Silver** (professional)
-- **Windows 7 Olive Green** (legacy)
-- **Custom themes** with color picker
+All successful actions are written back to SQLite and removed from active duplicate groups.
 
-### Animations
-- **Window transitions** with smooth effects
-- **Hover animations** on buttons and controls
-- **Loading animations** with glass shimmer
-- **60 FPS target** on all platforms
+## Configuration Notes
 
-## 🌐 Network Architecture
+The app reads `config.toml`.
 
-### Peer-to-Peer Design
-```
-Node A (Main Desktop)    Node B (Laptop)    Node C (HTC)
-├── C:, D:, E: drives    ├── C:, USB:      ├── ZFS pools
-├── Windows 7 Aero GUI   ├── Aero GUI       ├── Aero GUI
-└── gRPC/mTLS links     └── gRPC/mTLS     └── gRPC/mTLS
-```
+Important sections:
 
-### Multi-Drive Support
-- **Internal**: SATA, NVMe, M.2 drives
-- **External**: USB 3.0, USB-C, Thunderbolt
-- **Network**: SMB/CIFS shares, NFS mounts
-- **Special**: ZFS pools, RAID arrays, LVM volumes
+- `database.path`: SQLite file path.
+- `scanning.thread_pool_size`: File discovery worker count.
+- `scanning.max_file_size_gb`: Upper size limit during scanning.
+- `remediation.quarantine_path`: Where quarantined files are moved.
+- `remediation.verify_before_delete`: Enables hash verification before deletion.
 
-## ⚡ Performance Targets
+## Limitations
 
-### Scanning Performance
-- **10,000+ files/second** scanning speed
-- **<1GB** memory usage for large scans
-- **Real-time progress** updates
-- **Parallel processing** across drives
+- Duplicate history is scan-scoped, so the UI shows the latest completed scan rather than an aggregate of all scans.
+- Search is intentionally limited in depth and result count to keep the interface responsive.
+- Exported reports describe the latest completed scan unless a specific scan is requested programmatically.
 
-### GUI Performance
-- **60 FPS** animations and transitions
-- **<100ms** UI response time
-- **<50MB** additional memory for Aero effects
-- **GPU acceleration** where available
+## Documentation
 
-### Network Performance
-- **<5 second** sync latency on local network
-- **Efficient delta updates** between nodes
-- **Offline operation** support
-- **Conflict resolution** for concurrent operations
+- `user_guide.md`: End-user workflow and UI behavior.
+- `architecture_design.md`: High-level project architecture notes.
+- `task_ledger.md`: Ongoing work tracking.
 
-## 🛠️ Development
+## Support
 
-### Build Requirements
-```toml
-[dependencies]
-eframe = "0.24"           # GUI framework
-tokio = "1.35"             # Async runtime
-tonic = "0.10"             # gRPC networking
-sha2 = "0.10"              # Hashing
-walkdir = "2.4"             # File system
-```
-
-### Project Structure
-```
-Gillsystems_uneff_your_rigs_messy_files/
-├── src/                    # Source code
-├── docs/                   # Documentation
-├── scripts/                 # Build and deployment scripts
-├── assets/                  # Icons, themes, resources
-├── manifest.json            # Project manifest
-├── task_ledger.md          # 7D task tracking
-└── README.md               # This file
-```
-
-## 📚 Documentation
-
-- **[User Guide](docs/user_guide.md)** — Complete usage instructions
-- **[Architecture Design](architecture_design.md)** — System architecture
-- **[Task Ledger](task_ledger.md)** — 7D development progress
-- **[7D × SWEET](docs/7D_agile_process_with_SWEET_principles.md)** — Methodology reference
-
-## 🤝 Contributing
-
-### GillSystems Philosophy
-
-> *"Technology should empower people, not control them. Open source and decentralization are essential for human freedom."*
-
-- **Power to the People** — No artificial limitations. No vendor lock-in. No features locked behind paywalls.
-- **Radical Transparency** — Open development. Every line of code, every design decision, every trade-off is visible.
-- **User Empowerment** — The tool serves you, not the other way around. Intelligence, autonomy, and compute belong in YOUR hands.
-- **Anti-Vendor BS** — We don't do vendor BS here. No unnecessary complexity. No bloated frameworks. No cloud dependencies. Built with zero frameworks, maximum intent.
-- **Sovereignty** — Your data stays on your machines. No telemetry. No phone-home. No third-party dependencies at runtime.
-
-### Development Standards
-- **7D Methodology** — Define → Design → Develop → Debug → Document → Deliver → Deploy
-- **SWEET Principles** — Simplicity, Workable, Empirical, Empowering, Transparent
-- **Single Binary** — No dependencies, no installers, easy deployment
-- **Performance First** — Rust, LTO, stripped binaries, all CPU cores, maximum I/O
-
-## 📄 License
-
-MIT License - See [LICENSE](LICENSE) file for details.
-
-## 🌐 Links
-
-- **GitHub Repository**: https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files
-- **GillSystems Website**: https://gillsystems.net
-- **Documentation**: [docs/user_guide.md](docs/user_guide.md)
-- **Community**: [GitHub Discussions](https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/discussions)
-
----
-
-**Remember**: This isn't just a duplicate file finder — it's a **standalone executable** that embodies **user freedom** and **technological sovereignty**. One binary, no installers, no cloud, no BS. Built by Commander Stephen Gill with 30+ years of expertise, zero frameworks, and maximum intent. Bringing back the **banging Windows 7 Aero style** while delivering real cross-platform functionality. Systems should serve humans — and this one does.
-
-**Power to the People!** 🚀
-
----
-
-## 💖 Support / Donate
-
-If you find this project helpful, you can support ongoing work — thank you!
-
-<p align="center">
-	<img src="assets/qr-paypal.png" alt="PayPal QR code" width="180" style="margin:8px;">
-	<img src="assets/qr-venmo.png" alt="Venmo QR code" width="180" style="margin:8px;">
-</p>
-
-
-**Donate:**
-
-- [![PayPal](https://img.shields.io/badge/PayPal-Donate-009cde?logo=paypal&logoColor=white)](https://paypal.me/gillsystems) https://paypal.me/gillsystems
-- [![Venmo](https://img.shields.io/badge/Venmo-Donate-3d95ce?logo=venmo&logoColor=white)](https://venmo.com/Stephen-Gill-007) https://venmo.com/Stephen-Gill-007
-
----
-
-
-<p align="center">
-	<img src="assets/Gillsystems_logo_with_donation_qrcodes.png" alt="Gillsystems logo with QR codes and icons" width="800">
-</p>
-
-<p align="center">
-	<a href="https://paypal.me/gillsystems"><img src="assets/paypal_icon.png" alt="PayPal" width="32" style="vertical-align:middle;"></a>
-	<a href="https://venmo.com/Stephen-Gill-007"><img src="assets/venmo_icon.png" alt="Venmo" width="32" style="vertical-align:middle;"></a>
-</p>
-
----
-
-*Version: 0.1.0 — Design Complete → Develop Ready*  
-*Version Authority: [`version.py`](version.py) — Single Source of Truth*  
-*Tagged: v0.1.0 — Discover + Define + Design milestone*
+If you find the project useful, support links and QR codes remain in `assets/`.

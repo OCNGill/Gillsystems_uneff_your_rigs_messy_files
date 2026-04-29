@@ -1,9 +1,9 @@
-//! # gRPC Service Module — Peer-to-Peer Network Communication
+//! # gRPC Service Module — Current Listener Scaffolding
 //!
-//! Philosophy: Peer-to-peer — no central authority, no central orchestrator.
+//! This module currently exposes the in-repo gRPC listener scaffolding.
 //!
-//! Implements the UneffAgent gRPC service defined in `agent_service.proto`.
-//! Uses tonic for high-performance gRPC. Every node is equal. Every node is sovereign.
+//! Implements the UnmessAgent gRPC service defined in `agent_service.proto`.
+//! Uses tonic-related build outputs, but the runtime path is still a placeholder listener.
 //!
 //! ## API Operations
 //! - **StartScan**: Initiate a new duplicate-file scan on a target node
@@ -28,8 +28,8 @@ use std::net::SocketAddr;
 use std::time::Instant;
 use tracing::{info, warn};
 
-/// The gRPC service implementation for peer-to-peer communication.
-/// Handles: HealthCheck, SystemInfo, StartScan, StopScan, GetMounts, Remediation.
+/// The current gRPC listener implementation.
+/// Handles the placeholder TCP listener used while the service layer is incomplete.
 pub struct GrpcService {
     port: u16,
     start_time: Instant,
@@ -47,7 +47,7 @@ impl GrpcService {
     /// Binds to all interfaces — full admin assumed.
     ///
     /// The actual tonic server implementation requires the generated proto module.
-    /// Once `cargo build` runs build.rs and generates src/proto/gillsystems_uneff.rs,
+    /// Once `cargo build` runs build.rs and generates src/proto/gillsystems_unmess.rs,
     /// this will be wired to the real tonic server.
     ///
     /// For now, this starts a TCP listener as a placeholder that responds to
@@ -58,14 +58,14 @@ impl GrpcService {
             .context("Invalid gRPC listen address")?;
 
         info!(
-            "gRPC service listening on {} — peer-to-peer, no central authority",
+            "gRPC listener active on {} — current scaffolding mode",
             addr
         );
 
         // Use a TCP listener as the transport layer.
         // When proto codegen is available, this will be replaced with:
         //   tonic::transport::Server::builder()
-        //       .add_service(UneffAgentServer::new(service_impl))
+        //       .add_service(UnmessAgentServer::new(service_impl))
         //       .serve(addr)
         //       .await?;
         let listener = tokio::net::TcpListener::bind(addr).await
@@ -120,20 +120,20 @@ impl GrpcService {
 // ── Proto Service Trait Implementation ─────────────────────────────────
 //
 // When build.rs generates the proto module, uncomment this block and wire
-// the generated UneffAgent trait to the real agent:
+// the generated UnmessAgent trait to the real agent:
 //
 // mod proto {
-//     tonic::include_proto!("gillsystems_uneff");
+//     tonic::include_proto!("gillsystems_unmess");
 // }
 //
-// use proto::uneff_agent_server::{UneffAgent, UneffAgentServer};
+// use proto::unmess_agent_server::{UnmessAgent, UnmessAgentServer};
 //
-// pub struct UneffAgentService {
-//     agent: Arc<crate::agent::UneffAgent>,
+// pub struct UnmessAgentService {
+//     agent: Arc<crate::agent::UnmessAgent>,
 // }
 //
 // #[tonic::async_trait]
-// impl UneffAgent for UneffAgentService {
+// impl UnmessAgent for UnmessAgentService {
 //     type StartScanStream = ...;
 //
 //     async fn start_scan(&self, req: Request<proto::ScanRequest>)

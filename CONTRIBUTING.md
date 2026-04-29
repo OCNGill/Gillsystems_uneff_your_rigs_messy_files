@@ -1,4 +1,4 @@
-# Contributing to Gillsystems_uneff_your_rigs_messy_files
+# Contributing to Gillsystems_unmess_your_rigs_messy_files
 
 **Welcome, developer!** We're thrilled you want to contribute. This guide will help you navigate the codebase and submit high-quality contributions.
 
@@ -47,8 +47,8 @@ This project embodies three core principles:
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # 2. Clone the repository
-git clone https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files.git
-cd Gillsystems_uneff_your_rigs_messy_files/rust_agent_prototype
+git clone https://github.com/OCNGill/Gillsystems_unmess_your_rigs_messy_files.git
+cd Gillsystems_unmess_your_rigs_messy_files/rust_agent_prototype
 
 # 3. Verify toolchain
 rustc --version  # Should be 1.92.0
@@ -75,13 +75,13 @@ cargo build
 ### Debug Build
 ```bash
 cargo build
-# Output: target/debug/uneff-your-rigs (larger, with debug symbols)
+# Output: target/debug/unmess-your-rigs (larger, with debug symbols)
 ```
 
 ### Release Build
 ```bash
 cargo build --release
-# Output: target/release/uneff-your-rigs (4.68 MB, optimized)
+# Output: target/release/unmess-your-rigs (4.68 MB, optimized)
 ```
 
 ### Run Tests
@@ -122,18 +122,18 @@ cargo doc
 ## Project Structure
 
 ```
-rust_agent_prototype/
+rust-source/
 ├── src/
 │   ├── main.rs              # Entry point, CLI parsing, tracing setup
-│   ├── agent.rs             # UneffAgent orchestrator (scan pipeline, dedup)
+│   ├── unmess_program.rs    # App core orchestrator (scan pipeline, dedup, remediation)
 │   ├── database.rs          # SQLite layer (nodes, drives, files, scans, duplicates)
 │   ├── file_scanner.rs      # Parallel filesystem walk + xxHash64 hashing
 │   ├── hashing.rs           # Two-stage hash (xxHash64 + SHA-256)
 │   ├── platform.rs          # Cross-platform (ZFS, NTFS, ext4, XFS, APFS, FAT32)
 │   ├── config.rs            # TOML configuration + validation
 │   ├── remediation.rs       # Dedup strategies (clone, hard link, delete, quarantine)
-│   ├── service.rs           # gRPC service (peer-to-peer API)
-│   └── gui.rs               # egui-based GUI (Windows 7 Aero theme)
+│   ├── service.rs           # Current gRPC listener scaffolding
+│   └── gui.rs               # egui-based matrix-green desktop UI
 ├── build.rs                 # Protobuf codegen (tonic + protoc-bin-vendored)
 ├── proto/
 │   └── agent_service.proto  # gRPC service definition
@@ -145,7 +145,7 @@ rust_agent_prototype/
 
 | Module | Responsibility | Key Types | Public API |
 |--------|---------------|-----------|-----------|
-| **agent.rs** | Orchestration | UneffAgent, ScanState | new, scan_async, remediate |
+| **unmess_program.rs** | Orchestration | UnmessSecretFunctions, ScanState | new, start_scan, delete_file |
 | **database.rs** | SQL storage | Database, FileRow | new, insert_files_batch, find_sha256_matches |
 | **file_scanner.rs** | Filesystem walk | FileScanner, ScanProgress | new, scan_paths |
 | **hashing.rs** | Fingerprinting | HashEngine | compute_xxhash64, compute_sha256 |
@@ -153,7 +153,7 @@ rust_agent_prototype/
 | **config.rs** | Configuration | Config, RemediationConfig | load, validate |
 | **remediation.rs** | Dedup operations | RemediationEngine, RemediationResult | quarantine, hard_link, delete |
 | **service.rs** | gRPC API | GrpcService | start, handle_scan_request |
-| **gui.rs** | User interface | UneffGUI, GuiMessage | run_gui, update |
+| **gui.rs** | User interface | UnmessGUI, GuiMessage | run_gui, update |
 
 ---
 
@@ -252,8 +252,8 @@ git checkout -b feature/my-feature-name
 cargo test --lib
 
 # Integration (manual)
-./target/debug/uneff-your-rigs --gui-only
-cargo build --release && ./target/release/uneff-your-rigs --service
+./target/debug/unmess-your-rigs --gui-only
+cargo build --release && ./target/release/unmess-your-rigs --service
 ```
 
 ### Step 5: Document
@@ -332,7 +332,7 @@ export RUST_LOG=debug
 set RUST_LOG=debug
 
 # Run agent
-./target/debug/uneff-your-rigs
+./target/debug/unmess-your-rigs
 ```
 
 ### Attach Debugger (VS Code)
@@ -343,8 +343,8 @@ set RUST_LOG=debug
     "request": "launch",
     "name": "Debug",
     "cargo": {
-        "args": ["build", "--bin=uneff-your-rigs"],
-        "filter": "uneff-your-rigs"
+        "args": ["build", "--bin=unmess-your-rigs"],
+        "filter": "unmess-your-rigs"
     }
 }
 ```
@@ -362,12 +362,12 @@ info!("Executing query: {}", sql);
 ### Profiling
 ```bash
 # CPU profiling (Linux only with perf)
-perf record ./target/release/uneff-your-rigs --gui-only
+perf record ./target/release/unmess-your-rigs --gui-only
 perf report
 
 # Flamegraph (cargo-flamegraph)
 cargo install flamegraph
-cargo flamegraph --bin uneff-your-rigs
+cargo flamegraph --bin unmess-your-rigs
 ```
 
 ### Benchmarking
@@ -392,7 +392,7 @@ fn bench_xxhash64(b: &mut Bencher) {
 
 ## Questions?
 
-- **Open an Issue**: https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/issues
+- **Open an Issue**: https://github.com/OCNGill/Gillsystems_unmess_your_rigs_messy_files/issues
 - **Email**: gillsystems@gmail.com
 
 ---

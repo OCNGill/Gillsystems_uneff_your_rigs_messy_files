@@ -33,14 +33,14 @@ jobs:
       - name: Stage artifact
         run: |
           Copy-Item `
-            "rust-source/target/x86_64-pc-windows-msvc/release/gillsystems-uneff-your-rigs-messy-files.exe" `
-            "gillsystems-uneff-your-rigs-messy-files-windows-x64.exe"
+            "rust-source/target/x86_64-pc-windows-msvc/release/gillsystems-unmess-your-rigs-messy-files.exe" `
+            "gillsystems-unmess-your-rigs-messy-files-windows-x64.exe"
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gillsystems-uneff-windows-x64
-          path: gillsystems-uneff-your-rigs-messy-files-windows-x64.exe
+          name: gillsystems-unmess-windows-x64
+          path: gillsystems-unmess-your-rigs-messy-files-windows-x64.exe
           retention-days: 30
 
   build-linux:
@@ -79,13 +79,13 @@ jobs:
 
       - name: Stage artifact
         run: |
-          cp rust-source/target/x86_64-unknown-linux-gnu/release/gillsystems-uneff-your-rigs-messy-files \
-             gillsystems-uneff-your-rigs-messy-files-linux-x64
-          chmod +x gillsystems-uneff-your-rigs-messy-files-linux-x64
+          cp rust-source/target/x86_64-unknown-linux-gnu/release/gillsystems-unmess-your-rigs-messy-files \
+             gillsystems-unmess-your-rigs-messy-files-linux-x64
+          chmod +x gillsystems-unmess-your-rigs-messy-files-linux-x64
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gillsystems-uneff-linux-x64
-          path: gillsystems-uneff-your-rigs-messy-files-linux-x64
+          name: gillsystems-unmess-linux-x64
+          path: gillsystems-unmess-your-rigs-messy-files-linux-x64
           retention-days: 30

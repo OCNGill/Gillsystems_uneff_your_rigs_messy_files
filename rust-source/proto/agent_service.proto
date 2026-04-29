@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package gillsystems_uneff;
+package gillsystems_unmess;
 
 // Agent service for gRPC communication
-service UneffAgent {
+service UnmessAgent {
   // Start a scan operation
   rpc StartScan(ScanRequest) returns (stream ScanProgress);
   

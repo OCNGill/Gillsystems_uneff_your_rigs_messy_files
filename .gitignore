@@ -37,7 +37,7 @@ desktop.ini
 *.db
 *.db-shm
 *.db-wal
-gillsystems_uneff_cache.db
+gillsystems_unmess_cache.db
 
 # ─── Logs ───
 *.log

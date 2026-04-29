@@ -1,34 +1,34 @@
 #![allow(dead_code)]
 #![cfg_attr(target_os = "windows", windows_subsystem = "windows")]
-//! # Gillsystems_uneff_your_rigs_messy_files — Un-eff your rigs!
+//! # Gillsystems_unmess_your_rigs_messy_files — Un-eff your rigs!
 //!
-//! **Version**: 0.4.0 (Documentation Phase)
+//! **Version**: sourced from `version.py` via `APP_VERSION`
 //! **Philosophy**: Systems Should Serve Humans — Power to the People!
 //!
-//! A cross-platform agent for finding and eliminating duplicate files intelligently.
+//! A local-first duplicate file scanner and remediation tool with a native egui UI.
 //! 
 //! ## Entry Points
 //! - **GUI Mode** (default): `--gui-only` or no arguments
-//! - **Service Mode**: `--service` — start gRPC peer listening for cluster commands
-//! - **Headless**: Internally, the agent can be used programmatically
+//! - **Service Mode**: `--service` — start the current gRPC listener implementation
+//! - **Headless**: The core can also be driven programmatically
 //!
 //! ## Features
 //! - **Fast duplicate detection**: xxHash64 (pre-filter) → SHA-256 (verify)
 //! - **Platform-optimized remediation**: ZFS clone, NTFS hard link, ext4 reflink
 //! - **Full audit trail**: Every operation logged with SHA-256 verification
-//! - **Peer-to-peer**: No central authority, every node is sovereign
-//! - **Windows 7 Aero UI**: Responsive, real-time duplicate visualization
+//! - **Scan-scoped duplicate groups**: Results remain tied to the scan that found them
+//! - **Native UI**: Matrix-green egui interface with real-time duplicate visualization
 //!
 //! ## Architecture (10 modules)
-//! - [`agent`]: Orchestration (scanning, remediation, dedup pipeline)
+//! - [`unmess_program`]: Orchestration (scanning, remediation, dedup pipeline)
 //! - [`database`]: SQLite storage (nodes, drives, files, scans, duplicates, audit log)
 //! - [`file_scanner`]: Parallel filesystem walk + progressive hashing
 //! - [`hashing`]: Two-stage (xxHash64 + SHA-256) fingerprinting
 //! - [`remediation`]: Intelligent dedup (ZFS clone, hard link, quarantine, delete)
 //! - [`platform`]: Cross-platform (ZFS, NTFS, ext4, XFS, FAT32, APFS)
 //! - [`config`]: TOML-based runtime configuration
-//! - [`service`]: gRPC peer-to-peer API
-//! - [`gui`]: egui-based Windows 7 Aero theme UI
+//! - [`service`]: Current gRPC service scaffolding
+//! - [`gui`]: egui-based desktop UI
 //!
 //! ## Building
 //! ```bash
@@ -40,13 +40,13 @@
 //! ## Usage
 //! ```bash
 //! # GUI mode (default)
-//! ./uneff-your-rigs
+//! ./unmess-your-rigs
 //!
 //! # Service mode (cluster peer)
-//! ./uneff-your-rigs --service
+//! ./unmess-your-rigs --service
 //!
 //! # GUI only (no service listening)
-//! ./uneff-your-rigs --gui-only
+//! ./unmess-your-rigs --gui-only
 //! ```
 //!
 //! ## Philosophy
@@ -55,7 +55,7 @@
 //! - **Radical Transparency**: Every byte, every hash, every decision visible
 //! - **User Empowerment**: Honest warnings, never silent deletions
 //! - **Full Speed**: All CPU cores, no throttling, no artificial limits
-//! - **Peer-to-Peer**: No cloud, no phone-home, no central authority
+//! - **Local-first**: No cloud dependency or remote control requirement
 //!
 //! ## Safety
 //! - **Fully Reversible**: All operations reversible except explicit delete
@@ -73,7 +73,7 @@ use std::sync::Arc;
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-mod uneff_program;
+mod unmess_program;
 mod boot_screen;
 mod config;
 mod database;
@@ -85,11 +85,15 @@ mod remediation;
 mod service;
 mod smb_server;
 
-use uneff_program::UneffSecretFunctions;
+use unmess_program::UnmessSecretFunctions;
 use boot_screen::{BootMode, BootScreen};
 use config::Config;
 use gui::run_gui;
 use smb_server::SMBServer;
+
+fn app_version() -> &'static str {
+    option_env!("APP_VERSION").unwrap_or(env!("CARGO_PKG_VERSION"))
+}
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -97,7 +101,7 @@ async fn main() -> Result<()> {
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| "gillsystems-uneff-your-rigs-messy-files=info,tower_http=debug".into()),
+                .unwrap_or_else(|_| "gillsystems-unmess-your-rigs-messy-files=info,tower_http=debug".into()),
         )
         .with(tracing_subscriber::fmt::layer())
         .init();
@@ -111,7 +115,10 @@ async fn main() -> Result<()> {
     }
 
     // Otherwise, show boot screen
-    info!("Starting Gillsystems_uneff_your_rigs_messy_files v0.4.0 — Deliver Phase");
+    info!(
+        "Starting Gillsystems_unmess_your_rigs_messy_files v{}",
+        app_version()
+    );
     
     // Do not force elevation here — launch immediately and let user continue.
     if !BootScreen::check_permissions().unwrap_or(false) {
@@ -154,9 +161,9 @@ async fn main() -> Result<()> {
 
 async fn run_cli_mode() -> Result<()> {
     // Parse command line arguments
-    let matches = Command::new("gillsystems-uneff-your-rigs-messy-files")
-        .version("0.4.0")
-        .about("Gillsystems_uneff_your_rigs_messy_files - Cross-platform duplicate file management - Power to the people!")
+    let matches = Command::new("gillsystems-unmess-your-rigs-messy-files")
+        .version(app_version())
+        .about("Local-first duplicate file management with native Rust remediation tooling.")
         .arg(
             Arg::new("config")
                 .short('c')
@@ -193,17 +200,17 @@ async fn run_cli_mode() -> Result<()> {
     match (service_mode, gui_only) {
         (true, false) => {
             // Service mode only
-            info!("Starting Gillsystems_uneff_your_rigs_messy_files in service mode");
+            info!("Starting Gillsystems_unmess_your_rigs_messy_files in service mode");
             run_service_mode(config).await
         }
         (false, true) => {
             // GUI mode only
-            info!("Starting Gillsystems_uneff_your_rigs_messy_files GUI only");
+            info!("Starting Gillsystems_unmess_your_rigs_messy_files GUI only");
             run_gui(config)
         }
         (false, false) => {
             // Full mode: service + GUI
-            info!("Starting Gillsystems_uneff_your_rigs_messy_files with GUI and service");
+            info!("Starting Gillsystems_unmess_your_rigs_messy_files with GUI and service");
             run_full_mode(config).await
         }
         (true, true) => {
@@ -214,7 +221,7 @@ async fn run_cli_mode() -> Result<()> {
 }
 
 async fn run_service_mode(config: Arc<Config>) -> Result<()> {
-    let app = UneffSecretFunctions::new(config, None, None).await?;
+    let app = UnmessSecretFunctions::new(config, None, None).await?;
 
     // Register service
     #[cfg(unix)]
@@ -237,7 +244,7 @@ async fn run_full_mode(config: Arc<Config>) -> Result<()> {
     // Start background gRPC service
     let svc_config = config.clone();
     let svc_handle = tokio::spawn(async move {
-        if let Ok(core) = UneffSecretFunctions::new(svc_config, None, None).await {
+        if let Ok(core) = UnmessSecretFunctions::new(svc_config, None, None).await {
             if let Err(e) = core.run_service().await {
                 error!("Background service failed: {}", e);
             }
@@ -284,7 +291,7 @@ async fn run_smb_setup() -> Result<()> {
     let share_name = if let Some(first_drive) = available_drives.first() {
         SMBServer::generate_unique_share_name(first_drive)?
     } else {
-        "uneff-rigs-unknown".to_string()
+        "unmess-rigs-unknown".to_string()
     };
     
     let mut server = SMBServer::new(
@@ -305,7 +312,7 @@ async fn run_smb_setup() -> Result<()> {
     server.start()?;
     
     println!("✅ SMB server started successfully!");
-    println!("   Share Name: uneff-rigs");
+    println!("   Share Name: unmess-rigs");
     println!("   Path: {}", share_path.display());
     println!("   Connection: {}", server.get_connection_string());
     println!("   Access: Localhost only (secure)");

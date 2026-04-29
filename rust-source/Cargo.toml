@@ -1,14 +1,14 @@
 [package]
-name = "gillsystems-uneff-your-rigs-messy-files"
+name = "gillsystems-unmess-your-rigs-messy-files"
 version = "0.5.1"
 edition = "2021"
 authors = ["GillSystems <gillsystems@gmail.com>"]
 description = "Cross-platform agent for duplicate file detection and un-effing your rigs"
 license = "MIT"
-repository = "https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files"
+repository = "https://github.com/OCNGill/Gillsystems_unmess_your_rigs_messy_files"
 
 [[bin]]
-name = "gillsystems-uneff-your-rigs-messy-files"
+name = "gillsystems-unmess-your-rigs-messy-files"
 path = "src/main.rs"
 
 [dependencies]

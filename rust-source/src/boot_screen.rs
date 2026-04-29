@@ -2,8 +2,8 @@
 //!
 //! The first screen users see when launching the application.
 //! Provides three main options:
-//! 1. **GUI Mode**: Full Windows 7 Aero interface for duplicate detection
-//! 2. **Service Mode**: Background gRPC peer listening for cluster commands
+//! 1. **GUI Mode**: Native desktop interface for duplicate detection
+//! 2. **Service Mode**: Background gRPC listener for the current service scaffolding
 //! 3. **SMB Server Setup**: Configure network share for cross-system access
 //!
 //! This module also handles permission elevation:
@@ -55,7 +55,7 @@ pub struct BootScreen {
 pub struct SMBConfig {
     /// Enable SMB server on this node?
     pub enable_smb: bool,
-    /// Share name (default: "uneff-rigs")
+    /// Share name (default: "unmess-rigs")
     pub share_name: String,
     /// Share path (default: current user's temp directory)
     pub share_path: String,
@@ -77,7 +77,7 @@ impl Default for SMBConfig {
     fn default() -> Self {
         Self {
             enable_smb: false,
-            share_name: "uneff-rigs".to_string(),
+            share_name: "unmess-rigs".to_string(),
             share_path: std::env::temp_dir().to_string_lossy().to_string(),
             localhost_only: true,
             available_drives: Vec::new(),
@@ -369,7 +369,10 @@ impl BootScreen {
                 ui.add_space(30.0);
 
                 ui.heading("🚀 Gillsystems — Un-eff Your Rigs");
-                ui.label("v0.4.0 • Document Complete");
+                ui.label(format!(
+                    "v{} • local-first duplicate remediation",
+                    option_env!("APP_VERSION").unwrap_or(env!("CARGO_PKG_VERSION"))
+                ));
 
                 ui.add_space(40.0);
 
@@ -378,7 +381,7 @@ impl BootScreen {
                 ui.add_space(30.0);
 
                 // GUI Mode Button
-                if ui.button("🎮 Launch GUI\n\nFull duplicate detection with Windows 7 Aero interface")
+                if ui.button("🎮 Launch GUI\n\nFull duplicate detection with the native desktop interface")
                     .on_hover_text("Start the full GUI with duplicate detection")
                     .clicked() {
                     self.selected_mode = Some(BootMode::LaunchGUI);
@@ -388,8 +391,8 @@ impl BootScreen {
                 ui.add_space(15.0);
 
                 // Service Mode Button
-                if ui.button("⚙️ Start Service\n\nRun as background peer (gRPC on port 50051)")
-                    .on_hover_text("Start as background service for cluster operations")
+                if ui.button("⚙️ Start Service\n\nRun the current gRPC listener implementation")
+                    .on_hover_text("Start the background service scaffolding")
                     .clicked() {
                     self.selected_mode = Some(BootMode::LaunchService);
                     selected_mode = Some(BootMode::LaunchService);
@@ -499,7 +502,7 @@ impl BootScreen {
 
         if launch_smb {
             // Launch SMB in separate process with unique share names per drive
-            // Each drive gets its own share: uneff-rigs-{HOSTNAME}-{DRIVE}
+            // Each drive gets its own share: unmess-rigs-{HOSTNAME}-{DRIVE}
             for drive in &self.smb_config.selected_drives {
                 // Generate unique share name for this drive on this node
                 let share_name = match crate::smb_server::SMBServer::generate_unique_share_name(drive) {
@@ -762,7 +765,7 @@ impl eframe::App for BootLauncher {
         // ── Header image ──────────────────────────────────────────────────────
         let header_h = self
             .background_texture_size
-            .map(|[w, h]| ((screen.width() * (h as f32 / w as f32)).clamp(36.0, 54.0)))
+            .map(|[w, h]| (screen.width() * (h as f32 / w as f32)).clamp(36.0, 54.0))
             .unwrap_or(48.0);
 
         egui::TopBottomPanel::top("boot_header_logo")
@@ -783,7 +786,7 @@ impl eframe::App for BootLauncher {
         // ── Footer image (smaller) ────────────────────────────────────────────
         let footer_h = self
             .footer_texture_size
-            .map(|[w, h]| (((screen.width() * (h as f32 / w as f32)) * 0.5).clamp(44.0, 88.0)))
+            .map(|[w, h]| ((screen.width() * (h as f32 / w as f32)) * 0.5).clamp(44.0, 88.0))
             .unwrap_or(56.0);
 
         egui::TopBottomPanel::bottom("boot_footer_logo")

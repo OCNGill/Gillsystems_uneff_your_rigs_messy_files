@@ -6,8 +6,8 @@
 +++ manifest.json
 @@ -0,0 +1,95 @@
 +{
-+  "project_name": "Gillsystems_uneff_your_rigs_messy_files - Multi-Agent System",
-+  "repository": "https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files",
++  "project_name": "Gillsystems_unmess_your_rigs_messy_files - Multi-Agent System",
++  "repository": "https://github.com/OCNGill/Gillsystems_unmess_your_rigs_messy_files",
 +  "version": "0.1.0",
 +  "status": "Defined",
 +  "commander": "Stephen",
@@ -134,7 +134,7 @@
 --- /dev/null
 +++ task_ledger.md
 @@ -0,0 +1,120 @@
-+# 7D Task Ledger - Gillsystems_uneff_your_rigs_messy_files Multi-Agent System
++# 7D Task Ledger - Gillsystems_unmess_your_rigs_messy_files Multi-Agent System
 +
 +## Project Status: Design Phase (Day 1)
 +
@@ -187,7 +187,7 @@
 --- /dev/null
 +++ README.md
 @@ -0,0 +1,200 @@
-+# Gillsystems_uneff_your_rigs_messy_files - Multi-Agent System
++# Gillsystems_unmess_your_rigs_messy_files - Multi-Agent System
 +
 +**Power to the People!** 🚀
 +

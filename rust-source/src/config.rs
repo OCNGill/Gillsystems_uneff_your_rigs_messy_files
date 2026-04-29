@@ -23,13 +23,13 @@
 //! thread_count = 16
 //! 
 //! [database]
-//! path = "/var/cache/uneff/uneff.db"
+//! path = "/var/cache/unmess/unmess.db"
 //! cache_size_mb = 256
 //! wal_mode = true
 //! 
 //! [remediation]
 //! strategy = "zfs_clone"
-//! quarantine_dir = "/var/cache/uneff/quarantine"
+//! quarantine_dir = "/var/cache/unmess/quarantine"
 //! delete_after_verification = false
 //! ```
 
@@ -107,7 +107,7 @@ impl Default for Config {
 impl Default for DatabaseConfig {
     fn default() -> Self {
         Self {
-            path: "gillsystems_uneff_cache.db".to_string(),
+            path: "gillsystems_unmess_cache.db".to_string(),
             cache_size_mb: 64,
             wal_mode: true,
         }

@@ -1,5 +1,5 @@
 """
-Gillsystems_uneff_your_rigs_messy_files — Version Authority
+Gillsystems_unmess_your_rigs_messy_files — Version Authority
 ============================================================
 This file is the SINGLE SOURCE OF TRUTH for project versioning.
 
@@ -32,7 +32,7 @@ Usage:
   print(f"v{VERSION} — Phase: {PHASE}")
 
 Commander: Stephen Gill — GillSystems
-Repository: https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files
+Repository: https://github.com/OCNGill/Gillsystems_unmess_your_rigs_messy_files
 """
 
 # ──────────────────────────────────────────────
@@ -47,8 +47,8 @@ VERSION_TUPLE = (VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 VERSION = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
 
 # 7D Phase Tracking
-PHASE = "Deliver — Matrix Green Aero GUI Live"
-PHASE_CODE = "DELIVER_MATRIX_GREEN"
+PHASE = "Deliver — Truthful local-first remediation build"
+PHASE_CODE = "DELIVER_LOCAL_FIRST_TRUTH"
 
 # Phase history (append-only log)
 PHASE_HISTORY = [
@@ -58,7 +58,7 @@ PHASE_HISTORY = [
     {"version": "0.2.0", "phase": "Develop", "milestone": "Full implementation — 10 modules, 0 TODOs, all subsystems operational: scanner, hashing, database CRUD, remediation (ZFS/NTFS/POSIX/FAT32), GUI wired, gRPC service, duplicate detection pipeline"},
     {"version": "0.3.0", "phase": "Debug", "milestone": "Full cargo build: 0 errors, 0 warnings. 5/5 tests pass. Release binary 4.68 MB. Fixed: protoc-vendored, Cargo.toml platform section trap, gui.rs borrow conflicts, Shadow API, egui Rounding fields, run_native closure signature, proto3 enum naming, orphan brace in platform.rs"},
     {"version": "0.4.0", "phase": "Document", "milestone": "Comprehensive doc-comments on all 10 modules, README polish, CONTRIBUTING.md, user_guide.md, architecture_design.md complete"},
-    {"version": "0.5.1", "phase": "Deliver", "milestone": "Matrix Green Aero GUI overhaul: #00FF41 theme with full contrast, cover-mode background image, Aero glass outer panels, Teams Delta/Epsilon/Zeta. Build: 0 errors, 5.4 MB Windows exe"},
+    {"version": "0.5.1", "phase": "Deliver", "milestone": "Scan-scoped duplicate groups, persistent node identity, real remediation wiring, asynchronous search, and documentation corrected to match the current local-first product."},
 ]
 
 # Build metadata
@@ -76,16 +76,11 @@ BUILD_METADATA = {
 # Team structure
 TEAM_STRUCTURE = {
     "commander": "Stephen Gill",
-    "team_leaders": 6,
-    "agents_per_team": 3,
-    "total_agents": 18,
+  "team_leaders": 1,
+  "agents_per_team": 0,
+  "total_agents": 0,
     "teams": [
-        "Alpha (UI/UX Design)",
-        "Beta (Systems Architecture)",
-        "Gamma (Platform Integration)",
-        "Delta (Matrix Green Theme Command)",
-        "Epsilon (Background & Aero Glass Architecture)",
-        "Zeta (Build Verification & Cross-Platform Consistency)",
+    "Current work tracked directly in the repository rather than fictional team rosters",
     ],
 }
 
@@ -97,7 +92,7 @@ def get_version_string():
 
 def get_full_version_info():
     """Return complete version + phase info for logs and About dialogs."""
-    return f"Gillsystems_uneff_your_rigs_messy_files v{VERSION} | Phase: {PHASE}"
+    return f"Gillsystems_unmess_your_rigs_messy_files v{VERSION} | Phase: {PHASE}"
 
 
 def get_cargo_version():

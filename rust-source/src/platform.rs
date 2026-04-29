@@ -51,7 +51,7 @@ pub mod unix {
         {
             let unit = format!(
                 "[Unit]\n\
-                 Description=Gillsystems Uneff Your Rigs Messy Files\n\
+                 Description=Gillsystems Unmess Your Rigs Messy Files\n\
                  After=network.target\n\n\
                  [Service]\n\
                  Type=simple\n\
@@ -63,12 +63,12 @@ pub mod unix {
                 exe
             );
 
-            let unit_path = "/etc/systemd/system/gillsystems-uneff.service";
+            let unit_path = "/etc/systemd/system/gillsystems-unmess.service";
             if let Err(e) = std::fs::write(unit_path, &unit) {
                 warn!("Failed to write systemd unit (need root?): {}", e);
             } else {
                 Command::new("systemctl").args(["daemon-reload"]).output().ok();
-                Command::new("systemctl").args(["enable", "gillsystems-uneff"]).output().ok();
+                Command::new("systemctl").args(["enable", "gillsystems-unmess"]).output().ok();
                 info!("Systemd service registered at {}", unit_path);
             }
         }
@@ -79,7 +79,7 @@ pub mod unix {
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
                  <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n\
                  <plist version=\"1.0\"><dict>\n\
-                 <key>Label</key><string>net.gillsystems.uneff</string>\n\
+                 <key>Label</key><string>net.gillsystems.unmess</string>\n\
                  <key>ProgramArguments</key><array><string>{}</string><string>--service</string></array>\n\
                  <key>RunAtLoad</key><true/>\n\
                  <key>KeepAlive</key><true/>\n\
@@ -88,7 +88,7 @@ pub mod unix {
             );
 
             let plist_path = format!(
-                "{}/Library/LaunchAgents/net.gillsystems.uneff.plist",
+                "{}/Library/LaunchAgents/net.gillsystems.unmess.plist",
                 std::env::var("HOME").unwrap_or_default()
             );
             if let Err(e) = std::fs::write(&plist_path, &plist) {
@@ -300,7 +300,7 @@ pub mod windows {
             "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
             winreg::enums::KEY_SET_VALUE,
         ) {
-            run_key.set_value("GillsystemsUneff", &exe).ok();
+            run_key.set_value("GillsystemsUnmess", &exe).ok();
             info!("Auto-start registered in HKCU Run key");
         }
 

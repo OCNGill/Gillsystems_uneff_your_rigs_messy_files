@@ -1,4 +1,5 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    println!("cargo:rerun-if-changed=../version.py");
     if let Ok(version_py) = std::fs::read_to_string("../version.py") {
         if let Some(line) = version_py.lines().find(|l| l.trim_start().starts_with("VERSION =")) {
             if let Some(raw) = line.split('=').nth(1) {
@@ -8,6 +9,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
             }
         }
+    } else {
+        println!("cargo:rustc-env=APP_VERSION={}", env!("CARGO_PKG_VERSION"));
     }
 
     // Use vendored protoc so users do not need to install protobuf-compiler.
@@ -16,7 +19,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     std::env::set_var("PROTOC", protoc);
 
     // Generate gRPC stubs into OUT_DIR (standard cargo convention).
-    // Access from Rust via: tonic::include_proto!("gillsystems_uneff");
+    // Access from Rust via: tonic::include_proto!("gillsystems_unmess");
     tonic_build::configure()
         .build_server(true)
         .build_client(true)

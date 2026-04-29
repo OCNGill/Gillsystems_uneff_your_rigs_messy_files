@@ -1,12 +1,12 @@
-//! # GUI Module — Windows 7 Aero Theme, Dual-Panel Interface
+//! # GUI Module — Native Matrix UI, Dual-Panel Interface
 //!
 //! Immediate-mode GUI using egui/eframe.
 //! Responsive, reactive layouts. Real-time duplicate visualization.
 //!
 //! ## Theme
-//! - **Windows 7 Aero**: Extrusion shadows, soft rounded corners, metallic accents
+//! - **Matrix-green native theme**: High-contrast panels and custom chrome
 //! - **Color Scheme**:
-//!   - Primary: Blue (#0066CC) — action buttons
+//!   - Primary: Matrix green (#00FF41) — action buttons
 //!   - Success: Green (#00AA00) — remediation complete
 //!   - Warning: Orange (#FF9900) — user confirmation needed
 //!   - Error: Red (#CC0000) — failures, destruction warnings
@@ -41,12 +41,12 @@ use tracing::info;
 use walkdir::WalkDir;
 
 use crate::{
-    uneff_program::UneffSecretFunctions,
+    unmess_program::UnmessSecretFunctions,
     config::Config,
     file_scanner::{ScanProgress, ScanStatus},
 };
 
-// Matrix Green Aero Theme Colors — GillSystems Signature
+// Matrix Green theme colors — GillSystems signature.
 const MATRIX_GREEN: Color32 = Color32::from_rgb(0, 255, 65);        // #00FF41 — bright matrix primary
 const MATRIX_GREEN_DIM: Color32 = Color32::from_rgb(0, 200, 45);    // #00C82D — secondary/dim
 const MATRIX_GREEN_GLOW: Color32 = Color32::from_rgb(57, 255, 20);  // #39FF14 — neon glow accent
@@ -83,12 +83,14 @@ pub enum GuiMessage {
     NodeDiscovered(String, String),
     NodeOffline(String),
     ShowWarning(String),
+    SearchCompleted { query: String, results: Vec<SearchResult> },
+    ActionFinished { success: bool, message: String },
     NetworkNodesUpdated(Vec<NodeInfo>),
 }
 
-pub struct UneffGUI {
+pub struct UnmessGUI {
     config: Arc<Config>,
-    app: Option<Arc<UneffSecretFunctions>>,   // The standalone program core
+    app: Option<Arc<UnmessSecretFunctions>>,   // The standalone program core
     scan_paths: Vec<String>,      // Directories to scan
     message_tx: mpsc::UnboundedSender<GuiMessage>,
     message_rx: mpsc::UnboundedReceiver<GuiMessage>,
@@ -98,6 +100,8 @@ pub struct UneffGUI {
     show_settings: bool,
     show_about: bool,
     current_warning: Option<String>,
+    pending_action: Option<PendingAction>,
+    action_in_progress: bool,
     
     // Network nodes
     network_nodes: Vec<NodeInfo>,
@@ -140,10 +144,13 @@ pub struct UneffGUI {
     show_search: bool,
     search_query: String,
     search_results: Vec<SearchResult>,
+    search_in_progress: bool,
     // Directory navigator history (for Back button)
     dir_nav_history: Vec<String>,
     // Network nodes last refresh time
     network_last_refresh: Option<std::time::Instant>,
+    pending_clipboard_text: Option<String>,
+    export_when_scan_finishes: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -178,6 +185,7 @@ pub struct DriveInfo {
 #[derive(Debug, Clone)]
 pub struct DuplicateGroup {
     pub id: String,
+    pub scan_id: String,
     pub hash: String,
     pub size: u64,
     pub files: Vec<DuplicateFile>,
@@ -189,7 +197,7 @@ pub struct DuplicateFile {
     pub id: String,
     pub path: String,
     pub node_id: String,
-    pub drive_id: String,
+    pub scan_id: String,
     pub modified_time: u64,
 }
 
@@ -203,7 +211,24 @@ pub struct SearchResult {
     pub host: String,
 }
 
-impl UneffGUI {
+#[derive(Debug, Clone)]
+struct FileTarget {
+    group_id: Option<i64>,
+    file_id: i64,
+}
+
+#[derive(Debug, Clone)]
+enum PendingAction {
+    DeleteFiles { targets: Vec<FileTarget> },
+    QuarantineFiles { targets: Vec<FileTarget> },
+    DeduplicateFiles {
+        group_id: i64,
+        keep_file_id: i64,
+        duplicate_file_ids: Vec<i64>,
+    },
+}
+
+impl UnmessGUI {
     pub fn new(config: Arc<Config>) -> (Self, mpsc::UnboundedSender<GuiMessage>) {
         let (message_tx, message_rx) = mpsc::unbounded_channel();
         let initial_thread_pool = config.scanning.thread_pool_size;
@@ -226,6 +251,8 @@ impl UneffGUI {
             show_settings: false,
             show_about: false,
             current_warning: None,
+            pending_action: None,
+            action_in_progress: false,
             network_nodes: Vec::new(),
             scan_progress: None,
             duplicate_groups: Vec::new(),
@@ -253,14 +280,17 @@ impl UneffGUI {
             show_search: false,
             search_query: String::new(),
             search_results: Vec::new(),
+            search_in_progress: false,
             dir_nav_history: Vec::new(),
             network_last_refresh: None,
+            pending_clipboard_text: None,
+            export_when_scan_finishes: false,
         };
         
         (gui, message_tx)
     }
     
-    pub fn set_app(&mut self, app: Arc<UneffSecretFunctions>) {
+    pub fn set_app(&mut self, app: Arc<UnmessSecretFunctions>) {
         self.app = Some(app);
     }
     
@@ -365,16 +395,20 @@ impl UneffGUI {
             ui.menu_button("File", |ui| {
                 if ui.button("New Scan").clicked() {
                     self.start_new_scan();
+                    ui.close_menu();
                 }
                 if ui.button("Open Saved Scan").clicked() {
-                    // TODO: Implement open saved scan
+                    self.open_saved_scan_report();
+                    ui.close_menu();
                 }
                 if ui.button("Save Results").clicked() {
-                    // TODO: Implement save results
+                    self.export_latest_results();
+                    ui.close_menu();
                 }
                 ui.separator();
                 if ui.button("Exit").clicked() {
-                    std::process::exit(0);
+                    ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+                    ui.close_menu();
                 }
             });
             
@@ -382,23 +416,29 @@ impl UneffGUI {
             ui.menu_button("Edit", |ui| {
                 if ui.button("Select All").clicked() {
                     self.select_all_duplicates();
+                    ui.close_menu();
                 }
                 if ui.button("Invert Selection").clicked() {
                     self.invert_selection();
+                    ui.close_menu();
                 }
                 ui.separator();
-                if ui.button("Cut").clicked() {
-                    self.cut_selected();
-                }
-                if ui.button("Copy").clicked() {
+                if ui.button("Copy Selected Paths").clicked() {
                     self.copy_selected();
+                    ui.close_menu();
                 }
-                if ui.button("Paste").clicked() {
-                    self.paste_files();
+                if ui.button("Quarantine Selected").clicked() {
+                    self.confirm_quarantine_selected();
+                    ui.close_menu();
+                }
+                if ui.button("Deduplicate Selected To KEEP").clicked() {
+                    self.confirm_deduplicate_selected();
+                    ui.close_menu();
                 }
                 ui.separator();
                 if ui.button("Delete").clicked() {
-                    self.show_delete_warning();
+                    self.confirm_delete_selected();
+                    ui.close_menu();
                 }
             });
             
@@ -406,9 +446,11 @@ impl UneffGUI {
             ui.menu_button("View", |ui| {
                 if ui.button("Refresh").clicked() {
                     self.refresh_view();
+                    ui.close_menu();
                 }
-                if ui.button("Filter").clicked() {
-                    // TODO: Implement filter dialog
+                if ui.button("Search Panel").clicked() {
+                    self.show_search = true;
+                    ui.close_menu();
                 }
             });
             
@@ -429,11 +471,13 @@ impl UneffGUI {
             // Help menu
             ui.menu_button("Help", |ui| {
                 if ui.button("User Guide").clicked() {
-                    open::that("https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/blob/main/user_guide.md").ok();
+                    self.open_local_document("user_guide.md");
+                    ui.close_menu();
                 }
                 ui.separator();
                 if ui.button("About").clicked() {
                     self.show_about = true;
+                    ui.close_menu();
                 }
             });
             
@@ -454,7 +498,7 @@ impl UneffGUI {
                     }
                 }
                 if ui.button("🗑️ Delete Selected").clicked() {
-                    self.show_delete_warning();
+                    self.confirm_delete_selected();
                 }
                 if ui.button("⚙️ Settings").clicked() {
                     self.show_settings = true;
@@ -984,7 +1028,11 @@ impl UneffGUI {
             if enter || ui.button("🔍 Search").clicked() {
                 self.run_search();
             }
-            if !self.search_results.is_empty() {
+            if self.search_in_progress {
+                ui.separator();
+                ui.spinner();
+                ui.label(RichText::new("Searching configured roots...").color(MATRIX_GREEN_DIM));
+            } else if !self.search_results.is_empty() {
                 ui.separator();
                 ui.label(
                     RichText::new(format!("{} results found", self.search_results.len()))
@@ -1009,6 +1057,17 @@ impl UneffGUI {
             }
         });
         ui.separator();
+
+        if self.search_in_progress {
+            ui.centered_and_justified(|ui| {
+                ui.label(
+                    RichText::new("Search is running in the background. Results will appear here when complete.")
+                        .color(MATRIX_GREEN_DIM)
+                        .size(13.0),
+                );
+            });
+            return;
+        }
 
         if self.search_results.is_empty() {
             ui.centered_and_justified(|ui| {
@@ -1076,70 +1135,26 @@ impl UneffGUI {
     }
 
     /// Walk all scan_paths looking for files matching the search query.
-    /// Uses 10 parallel walkdir workers via rayon-style threading.
     fn run_search(&mut self) {
-        let query = self.search_query.to_lowercase();
-        if query.trim().is_empty() {
+        let query = self.search_query.trim().to_lowercase();
+        if query.is_empty() {
             return;
         }
-        self.search_results.clear();
 
-        // Cross-reference set: paths that are known duplicates
+        self.search_results.clear();
+        self.search_in_progress = true;
+
         let dup_paths: std::collections::HashSet<String> = self
             .duplicate_groups
             .iter()
             .flat_map(|g| g.files.iter().map(|f| f.path.clone()))
             .collect();
 
-        let local_host = hostname::get()
-            .map(|h| h.to_string_lossy().to_string())
-            .unwrap_or_else(|_| "localhost".to_string());
-
-        // Walk each scan path (up to 10 threads conceptually; std threads per path)
-        for root in &self.scan_paths.clone() {
-            for entry in WalkDir::new(root)
-                .max_depth(12)
-                .follow_links(false)
-                .into_iter()
-                .filter_map(|e| e.ok())
-                .filter(|e| e.file_type().is_file())
-            {
-                let path_str = entry.path().display().to_string();
-                let name_str = entry.file_name().to_string_lossy().to_lowercase();
-
-                if !name_str.contains(&query) && !path_str.to_lowercase().contains(&query) {
-                    continue;
-                }
-
-                let meta      = entry.metadata().ok();
-                let size      = meta.as_ref().map(|m| m.len()).unwrap_or(0);
-                let mod_secs  = meta.as_ref()
-                    .and_then(|m| m.modified().ok())
-                    .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
-                    .map(|d| d.as_secs())
-                    .unwrap_or(0);
-
-                let is_dup = dup_paths.contains(&path_str);
-
-                self.search_results.push(SearchResult {
-                    path:           path_str,
-                    name:           entry.file_name().to_string_lossy().to_string(),
-                    size,
-                    modified_time:  mod_secs,
-                    is_duplicate:   is_dup,
-                    host:           local_host.clone(),
-                });
-
-                if self.search_results.len() >= 50_000 {
-                    break;
-                }
-            }
-        }
-
-        // Sort: duplicates first, then by name
-        self.search_results.sort_by(|a, b| {
-            b.is_duplicate.cmp(&a.is_duplicate)
-                .then(a.name.to_lowercase().cmp(&b.name.to_lowercase()))
+        let tx = self.message_tx.clone();
+        let roots = self.scan_paths.clone();
+        std::thread::spawn(move || {
+            let results = search_paths(query.clone(), roots, dup_paths);
+            let _ = tx.send(GuiMessage::SearchCompleted { query, results });
         });
     }
 
@@ -1245,6 +1260,9 @@ impl UneffGUI {
             None => return,
         };
 
+        self.draw_group_action_bar(ui, &group);
+        ui.add_space(6.0);
+
         // ── Per-file comparison table using TableBuilder for resizable columns ──
         // Check which files are checked for detail-compare
         let sel_ids = self.selected_file_ids.clone();
@@ -1261,7 +1279,7 @@ impl UneffGUI {
         let ts = &toggle_sel;
 
         ui.label(
-            RichText::new("Check files below → decide which to KEEP and which to delete. Hover any cell for full value.")
+            RichText::new("Check files below, choose the copy to KEEP, then delete, quarantine, or deduplicate the rest. Hover any cell for the full value.")
                 .small()
                 .color(MATRIX_GREEN_DIM),
         );
@@ -1356,7 +1374,7 @@ impl UneffGUI {
             self.selected_keep_file_id = Some(id);
         }
         if let Some(id) = do_delete.into_inner() {
-            self.delete_file(&id);
+            self.queue_delete_single(&group, &id);
         }
         if let Some(path) = do_open.into_inner() {
             self.open_file_location(&path);
@@ -1451,7 +1469,9 @@ impl UneffGUI {
     fn draw_warning_dialog(&mut self, ctx: &egui::Context) {
         if let Some(warning) = self.current_warning.clone() {
             let mut close_warning = false;
-            egui::Window::new("⚠️ Warning")
+            let confirm_mode = self.pending_action.is_some();
+            let mut execute_action = false;
+            egui::Window::new(if confirm_mode { "Confirm Action" } else { "Warning" })
                 .collapsible(false)
                 .resizable(false)
                 .fixed_size(Vec2::new(400.0, 200.0))
@@ -1459,19 +1479,43 @@ impl UneffGUI {
                 .show(ctx, |ui| {
                     ui.vertical_centered(|ui| {
                         ui.add_space(20.0);
-                        ui.label(RichText::new(&warning).size(16.0).color(Color32::RED));
+                        ui.label(
+                            RichText::new(&warning)
+                                .size(16.0)
+                                .color(if confirm_mode { Color32::from_rgb(255, 200, 0) } else { Color32::RED }),
+                        );
                         ui.add_space(20.0);
+                        if self.action_in_progress {
+                            ui.spinner();
+                            ui.label(RichText::new("Working...").color(MATRIX_GREEN_DIM));
+                            ui.add_space(12.0);
+                        }
                         
                         ui.horizontal(|ui| {
-                            if ui.button("I Understand the Risk").clicked() {
-                                close_warning = true;
+                            let primary_label = if confirm_mode { "Confirm" } else { "OK" };
+                            if ui
+                                .add_enabled(!self.action_in_progress, egui::Button::new(primary_label))
+                                .clicked()
+                            {
+                                if confirm_mode {
+                                    execute_action = true;
+                                } else {
+                                    close_warning = true;
+                                }
                             }
-                            if ui.button("Cancel").clicked() {
+                            if ui
+                                .add_enabled(!self.action_in_progress, egui::Button::new("Cancel"))
+                                .clicked()
+                            {
+                                self.pending_action = None;
                                 close_warning = true;
                             }
                         });
                     });
                 });
+            if execute_action {
+                self.execute_pending_action();
+            }
             if close_warning {
                 self.current_warning = None;
             }
@@ -1625,16 +1669,17 @@ impl UneffGUI {
     }
     
     fn draw_about_dialog(&mut self, ctx: &egui::Context) {
-        if self.show_about {
-            egui::Window::new("About Gillsystems_uneff_your_rigs_messy_files")
-                .open(&mut self.show_about)
+        let mut show = self.show_about;
+        if show {
+            egui::Window::new("About Gillsystems_unmess_your_rigs_messy_files")
+                .open(&mut show)
                 .collapsible(false)
                 .resizable(false)
                 .fixed_size(Vec2::new(450.0, 380.0))
                 .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
                 .show(ctx, |ui| {
                     ui.vertical_centered(|ui| {
-                        ui.heading("Gillsystems_uneff_your_rigs_messy_files");
+                        ui.heading("Gillsystems_unmess_your_rigs_messy_files");
                         ui.label(format!("Version {}", option_env!("APP_VERSION").unwrap_or(env!("CARGO_PKG_VERSION"))));
                         ui.label("Created by Stephen Gill");
                         ui.label("© 2026 GillSystems — 30+ Years of Technology Expertise");
@@ -1652,7 +1697,7 @@ impl UneffGUI {
                             open::that("https://gillsystems.net").ok();
                         }
                         if ui.button("📚 Documentation").clicked() {
-                            open::that("https://github.com/OCNGill/Gillsystems_uneff_your_rigs_messy_files/tree/main/docs").ok();
+                            self.open_local_document("README.md");
                         }
                         if ui.button("💖 Support / Donate").clicked() {
                             open::that("https://paypal.me/gillsystems").ok();
@@ -1660,6 +1705,7 @@ impl UneffGUI {
                     });
                 });
         }
+        self.show_about = show;
     }
     
     // Action methods
@@ -1680,6 +1726,7 @@ impl UneffGUI {
             self.right_panel_selected = None;
             self.selected_group_ids.clear();
             self.selected_file_ids.clear();
+            self.export_when_scan_finishes = false;
             self.scan_progress = Some(ScanProgress {
                 status: ScanStatus::Scanning,
                 ..Default::default()
@@ -1703,16 +1750,14 @@ impl UneffGUI {
                 if let Err(e) = app.stop_scan().await {
                     tracing::error!("Stop scan error: {}", e);
                 }
-                if let Err(e) = app.export_scan_log() {
-                    tracing::error!("Log export error: {}", e);
-                }
             });
+            self.export_when_scan_finishes = true;
+            self.show_warning(
+                "Stopping scan. Export will run after the current scan flushes its final results.".to_string(),
+            );
+        } else {
+            self.show_warning("App core not ready. Please restart.".to_string());
         }
-        self.scan_is_running = false;
-        self.reload_duplicates();
-        self.show_warning(
-            "⏹ Scan stopped — log exported to scan_logs/ next to the program.".to_string()
-        );
     }
 
     fn discover_network_nodes(&mut self) {
@@ -2039,33 +2084,327 @@ impl UneffGUI {
     fn minimize_window_native(&self) {}
     
     fn select_all_duplicates(&mut self) {
-        // TODO: Implement select all
+        if let Some(group) = self.current_group() {
+            self.selected_file_ids = group.files.into_iter().map(|file| file.id).collect();
+            return;
+        }
+
+        self.selected_group_ids = self
+            .duplicate_groups
+            .iter()
+            .map(|group| group.id.clone())
+            .collect();
     }
     
     fn invert_selection(&mut self) {
-        // TODO: Implement invert selection
-    }
-    
-    fn cut_selected(&mut self) {
-        self.show_warning("✂️ Cut operation: Files will be moved to clipboard. Make sure you have enough space on the destination!".to_string());
+        if let Some(group) = self.current_group() {
+            let next_selection: HashSet<String> = group
+                .files
+                .into_iter()
+                .filter_map(|file| {
+                    if self.selected_file_ids.contains(&file.id) {
+                        None
+                    } else {
+                        Some(file.id)
+                    }
+                })
+                .collect();
+            self.selected_file_ids = next_selection;
+            return;
+        }
+
+        let next_selection: HashSet<String> = self
+            .duplicate_groups
+            .iter()
+            .filter_map(|group| {
+                if self.selected_group_ids.contains(&group.id) {
+                    None
+                } else {
+                    Some(group.id.clone())
+                }
+            })
+            .collect();
+        self.selected_group_ids = next_selection;
     }
     
     fn copy_selected(&mut self) {
-        info!("Copying selected files");
-        // TODO: Implement copy
+        let mut paths = self.collect_selected_paths();
+        if paths.is_empty() {
+            self.show_warning("Select one or more files or duplicate groups first.".to_string());
+            return;
+        }
+
+        paths.sort();
+        paths.dedup();
+        let count = paths.len();
+        self.pending_clipboard_text = Some(paths.join("\n"));
+        self.show_warning(format!("Copied {} path(s) to the clipboard.", count));
     }
-    
-    fn paste_files(&mut self) {
-        info!("Pasting files");
-        // TODO: Implement paste
+
+    fn confirm_delete_selected(&mut self) {
+        let targets = self.collect_selected_targets();
+        if targets.is_empty() {
+            self.show_warning("Select one or more files or duplicate groups to delete.".to_string());
+            return;
+        }
+
+        self.queue_action_confirmation(
+            PendingAction::DeleteFiles { targets: targets.clone() },
+            format!(
+                "Permanently delete {} selected file(s)? Each file is verified before deletion when configured.",
+                targets.len()
+            ),
+        );
     }
-    
-    fn show_delete_warning(&mut self) {
-        self.show_warning("🗑️ DELETE WARNING! You're about to permanently delete files. This action cannot be undone! Are you absolutely sure you want to proceed? Think about your precious memories, important documents, and that one file you totally forgot about but will desperately need next week!".to_string());
+
+    fn confirm_quarantine_selected(&mut self) {
+        let targets = self.collect_selected_targets();
+        if targets.is_empty() {
+            self.show_warning("Select one or more files or duplicate groups to quarantine.".to_string());
+            return;
+        }
+
+        self.queue_action_confirmation(
+            PendingAction::QuarantineFiles { targets: targets.clone() },
+            format!(
+                "Move {} selected file(s) into quarantine? The original paths will disappear until restored.",
+                targets.len()
+            ),
+        );
     }
-    
-    fn delete_file(&mut self, file_id: &str) {
-        self.show_warning(format!("🔥 DELETE FILE: {} - This file will be permanently deleted! No recovery possible!", file_id));
+
+    fn confirm_deduplicate_selected(&mut self) {
+        let group = match self.current_group() {
+            Some(group) => group,
+            None => {
+                self.show_warning("Open a duplicate group first, then choose the copy to KEEP.".to_string());
+                return;
+            }
+        };
+
+        let group_id = match parse_numeric_id(&group.id) {
+            Some(group_id) => group_id,
+            None => {
+                self.show_warning("The selected duplicate group has an invalid ID.".to_string());
+                return;
+            }
+        };
+        let keep_file_id = match self.selected_keep_file_id.as_deref().and_then(parse_numeric_id) {
+            Some(file_id) => file_id,
+            None => {
+                self.show_warning("Choose a KEEP file before deduplicating.".to_string());
+                return;
+            }
+        };
+
+        let duplicate_file_ids: Vec<i64> = group
+            .files
+            .iter()
+            .filter_map(|file| parse_numeric_id(&file.id))
+            .filter(|file_id| *file_id != keep_file_id)
+            .filter(|file_id| {
+                self.selected_file_ids.is_empty()
+                    || self.selected_file_ids.contains(&file_id.to_string())
+            })
+            .collect();
+        if duplicate_file_ids.is_empty() {
+            self.show_warning("Select one or more duplicate copies to deduplicate against the KEEP file.".to_string());
+            return;
+        }
+
+        self.queue_action_confirmation(
+            PendingAction::DeduplicateFiles {
+                group_id,
+                keep_file_id,
+                duplicate_file_ids: duplicate_file_ids.clone(),
+            },
+            format!(
+                "Deduplicate {} selected file(s) against the chosen KEEP copy?",
+                duplicate_file_ids.len()
+            ),
+        );
+    }
+
+    fn draw_group_action_bar(&mut self, ui: &mut egui::Ui, group: &DuplicateGroup) {
+        ui.horizontal_wrapped(|ui| {
+            if ui.small_button("Select Group").clicked() {
+                self.selected_file_ids = group.files.iter().map(|file| file.id.clone()).collect();
+            }
+            if ui.small_button("Copy Paths").clicked() {
+                self.copy_selected();
+            }
+            if ui.small_button("Quarantine Selected").clicked() {
+                self.confirm_quarantine_selected();
+            }
+            if ui.small_button("Delete Selected").clicked() {
+                self.confirm_delete_selected();
+            }
+            let dedup_ready = self.selected_keep_file_id.is_some() && group.files.len() >= 2;
+            if ui
+                .add_enabled(dedup_ready, egui::Button::new("Deduplicate To KEEP"))
+                .clicked()
+            {
+                self.confirm_deduplicate_selected();
+            }
+
+            ui.separator();
+            ui.label(
+                RichText::new(format!(
+                    "{} file(s) selected{}",
+                    self.selected_file_ids.len(),
+                    self.selected_keep_file_id
+                        .as_deref()
+                        .map(|_| " • KEEP file chosen")
+                        .unwrap_or("")
+                ))
+                .small()
+                .color(MATRIX_GREEN_DIM),
+            );
+        });
+    }
+
+    fn queue_delete_single(&mut self, group: &DuplicateGroup, file_id: &str) {
+        let Some(parsed_file_id) = parse_numeric_id(file_id) else {
+            self.show_warning("The selected file has an invalid ID.".to_string());
+            return;
+        };
+        let group_id = parse_numeric_id(&group.id);
+        self.queue_action_confirmation(
+            PendingAction::DeleteFiles {
+                targets: vec![FileTarget {
+                    group_id,
+                    file_id: parsed_file_id,
+                }],
+            },
+            "Permanently delete this file? This action cannot be undone.".to_string(),
+        );
+    }
+
+    fn queue_action_confirmation(&mut self, action: PendingAction, message: String) {
+        self.pending_action = Some(action);
+        self.action_in_progress = false;
+        self.current_warning = Some(message);
+    }
+
+    fn execute_pending_action(&mut self) {
+        let Some(action) = self.pending_action.clone() else {
+            return;
+        };
+        let Some(app) = self.app.clone() else {
+            self.pending_action = None;
+            self.show_warning("App core not ready. Please restart.".to_string());
+            return;
+        };
+
+        let tx = self.message_tx.clone();
+        self.action_in_progress = true;
+        std::thread::spawn(move || {
+            let (success, message) = run_pending_action(&app, action);
+            let _ = tx.send(GuiMessage::ActionFinished { success, message });
+        });
+    }
+
+    fn collect_selected_targets(&self) -> Vec<FileTarget> {
+        if let Some(group) = self.current_group() {
+            if !self.selected_file_ids.is_empty() {
+                let group_id = parse_numeric_id(&group.id);
+                return group
+                    .files
+                    .iter()
+                    .filter(|file| self.selected_file_ids.contains(&file.id))
+                    .filter_map(|file| {
+                        parse_numeric_id(&file.id).map(|file_id| FileTarget { group_id, file_id })
+                    })
+                    .collect();
+            }
+        }
+
+        self.duplicate_groups
+            .iter()
+            .filter(|group| self.selected_group_ids.contains(&group.id))
+            .flat_map(|group| {
+                let group_id = parse_numeric_id(&group.id);
+                group.files.iter().filter_map(move |file| {
+                    parse_numeric_id(&file.id).map(|file_id| FileTarget { group_id, file_id })
+                })
+            })
+            .collect()
+    }
+
+    fn collect_selected_paths(&self) -> Vec<String> {
+        if let Some(group) = self.current_group() {
+            if !self.selected_file_ids.is_empty() {
+                return group
+                    .files
+                    .into_iter()
+                    .filter(|file| self.selected_file_ids.contains(&file.id))
+                    .map(|file| file.path)
+                    .collect();
+            }
+        }
+
+        self.duplicate_groups
+            .iter()
+            .filter(|group| self.selected_group_ids.contains(&group.id))
+            .flat_map(|group| group.files.iter().map(|file| file.path.clone()))
+            .collect()
+    }
+
+    fn current_group(&self) -> Option<DuplicateGroup> {
+        self.left_panel_selected
+            .and_then(|index| self.duplicate_groups.get(index).cloned())
+    }
+
+    fn clear_selection_after_action(&mut self) {
+        self.selected_file_ids.clear();
+        self.selected_group_ids.clear();
+        self.selected_keep_file_id = None;
+    }
+
+    fn export_latest_results(&mut self) {
+        let Some(app) = self.app.clone() else {
+            self.show_warning("App core not ready. Please restart.".to_string());
+            return;
+        };
+
+        let tx = self.message_tx.clone();
+        std::thread::spawn(move || {
+            let message = match app.export_scan_log(None) {
+                Ok(_) => "Exported the latest scan report to scan_logs/.".to_string(),
+                Err(error) => format!("Failed to export the latest scan report: {}", error),
+            };
+            let _ = tx.send(GuiMessage::ShowWarning(message));
+        });
+    }
+
+    fn open_saved_scan_report(&mut self) {
+        let mut dialog = rfd::FileDialog::new().add_filter("Scan Reports", &["md", "json"]);
+        if let Some(scan_log_dir) = self.resolve_workspace_path("scan_logs") {
+            dialog = dialog.set_directory(scan_log_dir);
+        }
+
+        if let Some(file) = dialog.pick_file() {
+            if let Err(error) = open::that(&file) {
+                self.show_warning(format!("Failed to open report {}: {}", file.display(), error));
+            }
+        }
+    }
+
+    fn open_local_document(&mut self, relative_path: &str) {
+        let Some(path) = self.resolve_workspace_path(relative_path) else {
+            self.show_warning(format!("Could not find {} in the workspace.", relative_path));
+            return;
+        };
+
+        if let Err(error) = open::that(&path) {
+            self.show_warning(format!("Failed to open {}: {}", path.display(), error));
+        }
+    }
+
+    fn resolve_workspace_path(&self, relative_path: &str) -> Option<PathBuf> {
+        [PathBuf::from(relative_path), PathBuf::from("..").join(relative_path)]
+            .into_iter()
+            .find(|path| path.exists())
     }
     
     fn open_file_location(&self, path: &str) {
@@ -2085,8 +2424,18 @@ impl UneffGUI {
                     .ok();
             }
         }
-        
-        #[cfg(unix)]
+
+        #[cfg(target_os = "macos")]
+        {
+            if let Some(parent) = std::path::Path::new(path).parent() {
+                std::process::Command::new("open")
+                    .arg(parent)
+                    .spawn()
+                    .ok();
+            }
+        }
+
+        #[cfg(all(unix, not(target_os = "macos")))]
         {
             if let Some(parent) = std::path::Path::new(path).parent() {
                 std::process::Command::new("xdg-open")
@@ -2103,6 +2452,7 @@ impl UneffGUI {
     }
     
     fn show_warning(&mut self, message: String) {
+        self.pending_action = None;
         self.current_warning = Some(message);
     }
 
@@ -2116,6 +2466,10 @@ impl UneffGUI {
                     if done {
                         self.scan_is_running = false;
                         self.reload_duplicates();
+                        if self.export_when_scan_finishes {
+                            self.export_when_scan_finishes = false;
+                            self.export_latest_results();
+                        }
                     }
                 }
                 GuiMessage::NodeDiscovered(id, hostname) => {
@@ -2135,7 +2489,22 @@ impl UneffGUI {
                     }
                 }
                 GuiMessage::ShowWarning(warning) => {
-                    self.current_warning = Some(warning);
+                    self.show_warning(warning);
+                }
+                GuiMessage::SearchCompleted { query, results } => {
+                    self.search_in_progress = false;
+                    if self.search_query.trim().eq_ignore_ascii_case(&query) {
+                        self.search_results = results;
+                    }
+                }
+                GuiMessage::ActionFinished { success, message } => {
+                    self.action_in_progress = false;
+                    self.pending_action = None;
+                    if success {
+                        self.reload_duplicates();
+                        self.clear_selection_after_action();
+                    }
+                    self.current_warning = Some(message);
                 }
                 GuiMessage::NetworkNodesUpdated(new_nodes) => {
                     for node in new_nodes {
@@ -2161,19 +2530,25 @@ impl UneffGUI {
     fn reload_duplicates(&mut self) {
         if let Some(ref app) = self.app {
             let db = app.database();
-            match db.get_duplicate_groups() {
+            let Some(latest_scan_id) = app.latest_scan_id().ok().flatten() else {
+                self.duplicate_groups.clear();
+                return;
+            };
+
+            match db.get_duplicate_groups_for_scan(&latest_scan_id) {
                 Ok(groups) => {
                     self.duplicate_groups = groups.into_iter().map(|g| {
-                        let files = db.get_files_by_hash(&g.sha256_hash).unwrap_or_default();
+                        let files = db.get_duplicate_files_for_group(g.id).unwrap_or_default();
                         DuplicateGroup {
                             id: g.id.to_string(),
+                            scan_id: g.scan_id,
                             hash: g.sha256_hash,
                             size: g.size_bytes as u64,
                             files: files.into_iter().map(|f| DuplicateFile {
                                 id: f.id.map(|i| i.to_string()).unwrap_or_default(),
                                 path: f.file_path,
                                 node_id: f.node_id,
-                                drive_id: f.scan_id,
+                                scan_id: f.scan_id,
                                 modified_time: f.modified_time as u64,
                             }).collect(),
                             wasted_space: g.total_wasted_bytes as u64,
@@ -2187,9 +2562,149 @@ impl UneffGUI {
     }
 }
 
-impl App for UneffGUI {
+fn parse_numeric_id(value: &str) -> Option<i64> {
+    value.parse::<i64>().ok()
+}
+
+fn search_paths(
+    query: String,
+    roots: Vec<String>,
+    duplicate_paths: HashSet<String>,
+) -> Vec<SearchResult> {
+    let local_host = hostname::get()
+        .map(|host| host.to_string_lossy().to_string())
+        .unwrap_or_else(|_| "localhost".to_string());
+    let mut results = Vec::new();
+
+    for root in roots {
+        for entry in WalkDir::new(root)
+            .max_depth(12)
+            .follow_links(false)
+            .into_iter()
+            .filter_map(|entry| entry.ok())
+            .filter(|entry| entry.file_type().is_file())
+        {
+            let path_string = entry.path().display().to_string();
+            let name_string = entry.file_name().to_string_lossy().to_lowercase();
+            if !name_string.contains(&query) && !path_string.to_lowercase().contains(&query) {
+                continue;
+            }
+
+            let metadata = entry.metadata().ok();
+            let size = metadata.as_ref().map(|meta| meta.len()).unwrap_or(0);
+            let modified_time = metadata
+                .as_ref()
+                .and_then(|meta| meta.modified().ok())
+                .and_then(|time| time.duration_since(std::time::UNIX_EPOCH).ok())
+                .map(|duration| duration.as_secs())
+                .unwrap_or(0);
+
+            results.push(SearchResult {
+                path: path_string.clone(),
+                name: entry.file_name().to_string_lossy().to_string(),
+                size,
+                modified_time,
+                is_duplicate: duplicate_paths.contains(&path_string),
+                host: local_host.clone(),
+            });
+
+            if results.len() >= 50_000 {
+                break;
+            }
+        }
+
+        if results.len() >= 50_000 {
+            break;
+        }
+    }
+
+    results.sort_by(|left, right| {
+        right
+            .is_duplicate
+            .cmp(&left.is_duplicate)
+            .then(left.name.to_lowercase().cmp(&right.name.to_lowercase()))
+    });
+    results
+}
+
+fn run_pending_action(app: &Arc<UnmessSecretFunctions>, action: PendingAction) -> (bool, String) {
+    match action {
+        PendingAction::DeleteFiles { targets } => run_file_action(targets, |target| {
+            app.delete_file(target.group_id, target.file_id)
+        }, "deleted"),
+        PendingAction::QuarantineFiles { targets } => run_file_action(targets, |target| {
+            app.quarantine_file(target.group_id, target.file_id)
+        }, "quarantined"),
+        PendingAction::DeduplicateFiles {
+            group_id,
+            keep_file_id,
+            duplicate_file_ids,
+        } => {
+            let mut completed = 0usize;
+            let mut failures = Vec::new();
+            for duplicate_file_id in duplicate_file_ids {
+                match app.dedup_file(group_id, keep_file_id, duplicate_file_id) {
+                    Ok(_) => completed += 1,
+                    Err(error) => failures.push(error.to_string()),
+                }
+            }
+
+            if failures.is_empty() {
+                (true, format!("Deduplicated {} file(s) to the chosen KEEP copy.", completed))
+            } else if completed > 0 {
+                (
+                    true,
+                    format!(
+                        "Deduplicated {} file(s), but {} failed: {}",
+                        completed,
+                        failures.len(),
+                        failures.join("; ")
+                    ),
+                )
+            } else {
+                (
+                    false,
+                    format!("Deduplication failed: {}", failures.join("; ")),
+                )
+            }
+        }
+    }
+}
+
+fn run_file_action<F>(targets: Vec<FileTarget>, mut action: F, verb: &str) -> (bool, String)
+where
+    F: FnMut(FileTarget) -> anyhow::Result<String>,
+{
+    let mut completed = 0usize;
+    let mut failures = Vec::new();
+    for target in targets {
+        match action(target) {
+            Ok(_) => completed += 1,
+            Err(error) => failures.push(error.to_string()),
+        }
+    }
+
+    if failures.is_empty() {
+        (true, format!("Successfully {} {} file(s).", verb, completed))
+    } else if completed > 0 {
+        (
+            true,
+            format!(
+                "Successfully {} {} file(s), but {} failed: {}",
+                verb,
+                completed,
+                failures.len(),
+                failures.join("; ")
+            ),
+        )
+    } else {
+        (false, format!("No files were {}: {}", verb, failures.join("; ")))
+    }
+}
+
+impl App for UnmessGUI {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // Apply Windows 7 Aero styling to the real context
+        // Apply the native matrix-green styling to the real context.
         self.windows_7_aero_style(ctx);
         
         // Load branded header logo once (plain logo — no QR codes)
@@ -2241,6 +2756,10 @@ impl App for UneffGUI {
         
         // Process background messages
         self.process_messages();
+
+        if let Some(text) = self.pending_clipboard_text.take() {
+            ctx.output_mut(|output| output.copied_text = text);
+        }
 
         if self.network_nodes.is_empty() && self.app.is_some() {
             self.discover_network_nodes();
@@ -2376,7 +2895,6 @@ impl App for UneffGUI {
                         if close_r.hovered() { Color32::WHITE } else { Color32::from_rgb(255, 100, 100) });
                     if close_r.clicked() {
                         ctx.send_viewport_cmd(egui::ViewportCommand::Close);
-                        std::process::exit(0);
                     }
 
                     ui.add_space(right_pad);
@@ -2400,7 +2918,7 @@ impl App for UneffGUI {
         // ── Branded header image (distinct file) ──────────────────────────────────
         let header_h = self
             .background_texture_size
-            .map(|[w, h]| ((screen_rect.width() * (h as f32 / w as f32)).clamp(36.0, 54.0)))
+            .map(|[w, h]| (screen_rect.width() * (h as f32 / w as f32)).clamp(36.0, 54.0))
             .unwrap_or(48.0);
 
         egui::TopBottomPanel::top("logo_header_panel")
@@ -2538,13 +3056,13 @@ pub fn run_gui(config: Arc<Config>) -> Result<()> {
         ..Default::default()
     };
 
-    let (mut gui, message_tx) = UneffGUI::new(config.clone());
+    let (mut gui, message_tx) = UnmessGUI::new(config.clone());
 
     // Initialize the program core (database, scanner, platform detection).
     // block_in_place lets us await async init from within the tokio runtime.
     match tokio::task::block_in_place(|| {
         tokio::runtime::Handle::current()
-            .block_on(UneffSecretFunctions::new(config, Some(message_tx), None))
+            .block_on(UnmessSecretFunctions::new(config, Some(message_tx), None))
     }) {
         Ok(core) => {
             info!("Program core initialized — ready to scan");

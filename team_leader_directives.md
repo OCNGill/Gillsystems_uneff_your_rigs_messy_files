@@ -378,7 +378,7 @@ This is your moment to create something **truly EPIC** - a system that brings ba
 
 **Deliverables**:
 - Background image always correctly proportioned — never stretched or mis-anchored
-- `background_texture_size` field added to `UneffGUI` struct and `new()`
+- `background_texture_size` field added to `UnmessGUI` struct and `new()`
 - Aero glass panels: outer panels use `rgba(0, 15, 5, 200)` (very dark green-tinted glass), border strokes `rgba(0, 200, 50, 130)` (green Aero glow)
 - Background tinted with `Color32::from_rgba_unmultiplied(160, 255, 185, 230)` for subtle Matrix green cast
 

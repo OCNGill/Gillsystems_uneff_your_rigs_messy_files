@@ -15,7 +15,7 @@
 //! ## Configuration
 //! - Selected drives with full read/write permissions
 //! - Multiple share points (one per drive or combined)
-//! - Share name: "uneff-rigs-{HOSTNAME}-{DRIVE}" (e.g., "uneff-rigs-SERVER01-C", "uneff-rigs-NODE-home")
+//! - Share name: "unmess-rigs-{HOSTNAME}-{DRIVE}" (e.g., "unmess-rigs-SERVER01-C", "unmess-rigs-NODE-home")
 //! - Hostname ensures multi-node clusters don't collide (Node A's C: vs Node B's C: are separate)
 //! - Access: Localhost-only by default (secure)
 //! - Launched in separate window, keeping launcher alive
@@ -23,7 +23,7 @@
 use anyhow::{Context, Result};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use tracing::{info, warn};
+use tracing::info;
 
 /// Drive selection for SMB sharing
 #[derive(Debug, Clone)]
@@ -36,7 +36,7 @@ pub struct DriveSelection {
 
 /// SMB server configuration and management
 pub struct SMBServer {
-    /// Share name (e.g., "uneff-rigs-C")
+    /// Share name (e.g., "unmess-rigs-C")
     share_name: String,
     /// Local filesystem path to share
     share_path: PathBuf,
@@ -61,8 +61,8 @@ impl SMBServer {
     }
 
     /// Generate unique share name for this node
-    /// Format: "uneff-rigs-{HOSTNAME}-{DRIVE_IDENTIFIER}"
-    /// Examples: "uneff-rigs-SERVER01-C", "uneff-rigs-workstation-home"
+    /// Format: "unmess-rigs-{HOSTNAME}-{DRIVE_IDENTIFIER}"
+    /// Examples: "unmess-rigs-SERVER01-C", "unmess-rigs-workstation-home"
     pub fn generate_unique_share_name(drive: &str) -> Result<String> {
         let hostname = std::env::var("HOSTNAME")
             .or_else(|_| std::env::var("COMPUTERNAME")) // Windows fallback
@@ -75,7 +75,7 @@ impl SMBServer {
             .collect::<String>()
             .to_lowercase();
         
-        let share_name = format!("uneff-rigs-{}-{}", hostname, drive_id);
+        let share_name = format!("unmess-rigs-{}-{}", hostname, drive_id);
         
         // SMB share names must be <= 80 chars
         if share_name.len() > 80 {
@@ -179,7 +179,7 @@ impl SMBServer {
         let samba_config = self.generate_samba_config(&path_str);
 
         // Write temporary samba config
-        let config_path = PathBuf::from("/tmp/uneff-samba.conf");
+        let config_path = PathBuf::from("/tmp/unmess-samba.conf");
         std::fs::write(&config_path, samba_config)
             .context("Failed to write Samba config")?;
 
@@ -300,7 +300,7 @@ impl SMBServer {
         format!(
             r#"[global]
     workgroup = WORKGROUP
-    server string = Uneff Your Rigs SMB Server
+    server string = Unmess Your Rigs SMB Server
     security = user
     map to guest = bad user
     log file = /tmp/samba.log
@@ -443,7 +443,7 @@ mod tests {
     fn test_generate_unique_share_name() {
         // Should include hostname and drive
         let name = SMBServer::generate_unique_share_name("C:").unwrap();
-        assert!(name.starts_with("uneff-rigs-"));
+        assert!(name.starts_with("unmess-rigs-"));
         assert!(name.contains("c")); // drive letter lowercased
         
         // Should handle Unix paths
@@ -455,8 +455,8 @@ mod tests {
     #[test]
     fn test_smb_connection_string_localhost() {
         let server = SMBServer::new(
-            "uneff-rigs".to_string(),
-            PathBuf::from("/tmp/uneff"),
+            "unmess-rigs".to_string(),
+            PathBuf::from("/tmp/unmess"),
             true,
             vec!["C:".to_string()],
         );
@@ -466,13 +466,13 @@ mod tests {
     #[test]
     fn test_samba_config_generation() {
         let server = SMBServer::new(
-            "uneff-rigs-node01-c".to_string(),
-            PathBuf::from("/tmp/uneff"),
+            "unmess-rigs-node01-c".to_string(),
+            PathBuf::from("/tmp/unmess"),
             true,
             vec!["C:".to_string()],
         );
-        let config = server.generate_samba_config("/tmp/uneff");
-        assert!(config.contains("[uneff-rigs-node01-c]"));
+        let config = server.generate_samba_config("/tmp/unmess");
+        assert!(config.contains("[unmess-rigs-node01-c]"));
         assert!(config.contains("127.0.0.1"));
     }
 }
