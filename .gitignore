@@ -52,3 +52,9 @@ logs/
 
 # ── Scan exports (contain local filesystem paths - never commit) ──
 scan_logs/
+
+# ── Release binaries (ship via GitHub Releases, never commit) ──
+# These embed DWARF debug paths that leak the local Windows username.
+gillsystems-*-linux-x64
+gillsystems-*-windows-x64*
+archive/gillsystems-*
