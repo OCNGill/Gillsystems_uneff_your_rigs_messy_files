@@ -1,5 +1,4 @@
-cargo :    Compiling gillsystems-unmess-your-rigs-messy-files v0.5.1 (C:\Users\Gillsystems 
-Laptop\source\repos\OCNGill\Gillsystems_unmess_your_rigs_messy_files\rust-source)
+cargo :    Compiling gillsystems-unmess-your-rigs-messy-files v0.5.1 (C:/Users/<user>/source/repos/OCNGill/Gillsystems_unmess_your_rigs_messy_files/rust-source)
 At line:1 char:51
 + ... iteTime = Get-Date; cargo build --release 2> build_errors.txt; Write- ...
 +                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

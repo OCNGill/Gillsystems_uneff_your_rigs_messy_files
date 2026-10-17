@@ -49,3 +49,6 @@ logs/
 *.cert
 .env
 .env.local
+
+# ── Scan exports (contain local filesystem paths - never commit) ──
+scan_logs/

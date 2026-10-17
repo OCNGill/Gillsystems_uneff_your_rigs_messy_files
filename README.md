@@ -1,10 +1,38 @@
-# Gillsystems_unmess_your_rigs_messy_files
+<p align="center">
+  <img src="https://raw.githubusercontent.com/OCNGill/Gillsystems-AMD-Radeon-llama-cpp-Update-AI-Stack/main/Gillsystems_logo_stuff/Gill%20Systems%20Logo.png" alt="Gill Systems Logo" width="800">
+</p>
 
-Gillsystems_unmess_your_rigs_messy_files is a local-first Rust application for finding duplicate files, reviewing the results in a native egui desktop UI, and applying real remediation actions such as quarantine, delete, and filesystem-aware deduplication.
+# **Gillsystems_unmess_your_rigs_messy_files**
 
-The current build is version 0.5.1. Version authority lives in `version.py` and is propagated into the Rust build as `APP_VERSION`.
+> *Find the duplicates, keep the copy that matters, and un-mess your rig — local-first, no cloud, no guessing.*
 
-## What It Actually Does
+[![Release](https://img.shields.io/badge/Release-v0.5.1-brightgreen)](version.py)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-lightgrey)](.)
+[![Rust](https://img.shields.io/badge/Rust-cargo-orange?logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![UI](https://img.shields.io/badge/UI-egui%20desktop-blue)](rust-source/)
+[![Storage](https://img.shields.io/badge/storage-SQLite-003B57?logo=sqlite&logoColor=white)](https://sqlite.org)
+[![PayPal](https://img.shields.io/badge/PayPal-Donate-009cde?logo=paypal&logoColor=white)](https://paypal.me/gillsystems)
+
+**Gillsystems_unmess_your_rigs_messy_files** is a local-first Rust application for finding duplicate files, reviewing the results in a native egui desktop UI, and applying real remediation actions such as quarantine, delete, and filesystem-aware deduplication.
+
+**Current build:** version 0.5.1. Version authority lives in `version.py` and is propagated into the Rust build as `APP_VERSION`.
+
+## **Table of Contents**
+
+- [What It Actually Does](#what-it-actually-does)
+- [What It Does Not Claim](#what-it-does-not-claim)
+- [Current Layout](#current-layout)
+- [Running From Source](#running-from-source)
+- [Validation](#validation)
+- [Remediation Model](#remediation-model)
+- [Configuration Notes](#configuration-notes)
+- [Limitations](#limitations)
+- [Documentation](#documentation)
+- [Support / Donate](#support--donate)
+
+---
+
+## **What It Actually Does**
 
 - Scans configured local paths and stores results in SQLite.
 - Detects duplicates by content hash and keeps duplicate groups scoped to the scan that found them.
@@ -13,21 +41,21 @@ The current build is version 0.5.1. Version authority lives in `version.py` and 
 - Exports scan reports to `scan_logs/` as both Markdown and JSON.
 - Runs file search in the background so the UI stays responsive.
 
-## What It Does Not Claim
+## **What It Does Not Claim**
 
 - It is not a delivered multi-node duplicate-management product.
 - The gRPC service and networking code exist, but they should be treated as scaffolding rather than a finished distributed feature set.
 - The desktop look is a custom matrix-green egui theme, not true Windows 7 Aero glass.
 
-## Current Layout
+## **Current Layout**
 
 - `rust-source/`: Rust application source, build script, protobuf definitions, and tests.
 - `config.toml`: Runtime configuration file.
-- `scan_logs/`: Exported scan reports.
+- `scan_logs/`: Exported scan reports, generated locally at runtime and intentionally not committed.
 - `docs/`: Design notes and supporting project documents.
 - `version.py`: Version authority.
 
-## Running From Source
+## **Running From Source**
 
 ```bash
 cd rust-source
@@ -41,7 +69,7 @@ cargo run -- --gui-only
 cargo run -- --service
 ```
 
-## Validation
+## **Validation**
 
 The codebase currently validates with:
 
@@ -51,7 +79,7 @@ cargo check
 cargo test
 ```
 
-## Remediation Model
+## **Remediation Model**
 
 The UI now wires to the real remediation engine.
 
@@ -61,7 +89,7 @@ The UI now wires to the real remediation engine.
 
 All successful actions are written back to SQLite and removed from active duplicate groups.
 
-## Configuration Notes
+## **Configuration Notes**
 
 The app reads `config.toml`.
 
@@ -73,18 +101,30 @@ Important sections:
 - `remediation.quarantine_path`: Where quarantined files are moved.
 - `remediation.verify_before_delete`: Enables hash verification before deletion.
 
-## Limitations
+## **Limitations**
 
 - Duplicate history is scan-scoped, so the UI shows the latest completed scan rather than an aggregate of all scans.
 - Search is intentionally limited in depth and result count to keep the interface responsive.
 - Exported reports describe the latest completed scan unless a specific scan is requested programmatically.
 
-## Documentation
+## **Documentation**
 
 - `user_guide.md`: End-user workflow and UI behavior.
 - `architecture_design.md`: High-level project architecture notes.
 - `task_ledger.md`: Ongoing work tracking.
 
-## Support
+## **Support / Donate**
 
-If you find the project useful, support links and QR codes remain in `assets/`.
+If you find the project useful, supporting Gillsystems keeps the tools coming:
+
+**Donate:**
+
+- [![PayPal](https://img.shields.io/badge/PayPal-Donate-009cde?logo=paypal&logoColor=white)](https://paypal.me/gillsystems) https://paypal.me/gillsystems
+
+Support links and QR codes also remain in `assets/`.
+
+---
+
+<p align="center">
+  <b>Gillsystems</b> — local-first tooling, sovereign compute.
+</p>
